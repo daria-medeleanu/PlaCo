@@ -6,14 +6,72 @@
 body {
 	font-family: Inter;
 }
-ul {
-	list-style: none;
-}
 a {
 	text-decoration: none;
-	color: inherit;
+	color: white;
 	cursor: pointer;
 }
+header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 10;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	color: #fff;
+    background-color: #14213d;
+}
+
+header .nav-left {
+	display: flex;
+	.logo-pic{
+		display:flex;
+		.logo{
+			width: 50px;
+			height:50px;
+			margin: 10px;
+		}
+	}
+	
+}
+header .nav-right {
+	display:flex;
+}
+header .nav-left .nav-btn-left{
+	display:flex;	
+	align-items: center;
+	padding:20px;
+	font-weight: bold;
+	border-right: 3px solid #fca311 ;
+}
+
+header .nav-right .nav-btn-right{
+	display:flex;
+    align-items: center;
+    padding:20px;
+    font-weight: bold;
+    border-left: 3px solid #fca311 ;
+}
+
+/* @media (max-width: 10	00px) {
+	header {
+		padding: 20px 50px;
+	}
+}
+@media (max-width: 700px) {
+	header {
+		flex-direction: column;
+	}
+	header h2 {
+		margin-bottom: 15px;
+        z-index:10;
+	}
+	header .nav li {
+		margin: 0 7px;
+	}
+} */
 section {
 	display: flex;
 	flex-direction: column;
@@ -30,68 +88,7 @@ section {
 		padding: 125px 30px;
 	}
 }
-header {
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 10;
-	width: 100%;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	color: #fff;
-    background-color: #14213d;
-}
-header a {
-	text-transform: capitalize;
-	font-weight: 900;
-    z-index: 10;
-    
-}
-header .logo{
-    width: 50px;
-    height:50px;
-    margin: 10px;
-}
-/* header h2 {
-	/* text-transform: uppercase; */
-    /* font-family: Inter; */
-    /* font-weight: bold; */
-    /* z-index:10; */
-/* } */ 
-header .nav {
-	display: flex;
-}
-header .nav .nav-btn{
-    display:flex;
-    align-items: center;
-    padding:20px;
-    font-weight: bold;
-    border-right: 3px solid #fca311 ;
-}
-header .nav li {
-	margin: 0 15px;
-}
-header .nav li:first-child {
-	margin-left: 0;
-}
-@media (max-width: 1000px) {
-	header {
-		padding: 20px 50px;
-	}
-}
-@media (max-width: 700px) {
-	header {
-		flex-direction: column;
-	}
-	header h2 {
-		margin-bottom: 15px;
-        z-index:10;
-	}
-	header .nav li {
-		margin: 0 7px;
-	}
-}
+
 .box {
 	position: relative;
 	justify-content: center;
