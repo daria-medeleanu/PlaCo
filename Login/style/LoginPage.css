@@ -1,0 +1,26 @@
+body{
+    background-color: #14213d;
+    font-family: Inter; 
+}
+a{
+    color: white;
+    text-decoration: none;
+}
+.logo{
+    padding-left: 20px;
+}
+.logo-pic{
+    display: flex;
+    align-items:center;
+    .logo-image{
+        width: 40px;
+        height: 40px;
+        margin: 10;
+    }
+    .writing{
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        font-weight: bold;
+    }
+}
