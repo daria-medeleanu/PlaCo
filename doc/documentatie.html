@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <title>Documentation</title>
+    <link rel="stylesheet" href="documentatie.css" />
+    <link rel="icon" type="image/x-icon" href="./images/logo.png" />
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="Documentation of the Platform for constructing application."
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+  <body style="background-image: none">
+    <article>
+      <header>
+        <div class="banner">
+          <img
+            src="./images/scholarly-html.png"
+            width="227"
+            height="50"
+            alt="Scholarly HTML logo"
+          />
+        </div>
+        <h1>Platform for Constructing</h1>
+      </header>
+
+      <div role="contentinfo">
+        <section typeof="sa:AuthorsList">
+          <h2>Authors</h2>
+
+          <ul>
+            <li typeof="sa:ContributorRole" property="schema:author">
+              <span typeof="schema:Person">
+                <meta property="schema:givenName" content="Daria" />
+                <meta property="schema:familyName" content="Medeleanu" />
+                <span property="schema:name">Medeleanu Daria</span
+                >
+              </span>
+
+              <ul>
+                <li
+                  property="schema:roleContactPoint"
+                  typeof="schema:ContactPoint"
+                >
+                  <a href="medeleanudaria14@gmail.com" property="schema:email">medeleanudaria14@gmail.com</medeleanudaria14></a
+                  >
+                </li>
+              </ul>
+            </li>
+
+            <li typeof="sa:ContributorRole" property="schema:author">
+              <span typeof="schema:Person">
+                <meta property="schema:givenName" content="Bianca" />
+                <meta property="schema:familyName" content="Vulpescu" />
+                <span property="schema:name">Vulpescu Bianca</span
+                >
+              </span>
+
+              <ul>
+                <li
+                  property="schema:roleContactPoint"
+                  typeof="schema:ContactPoint"
+                >
+                  <a href="biancagvulpescu@gmail.com" property="schema:email">biancagvulpescu@gmail.com</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+      </div>
+      <section>
+        <h3>1. Introduction</h3>
+
+        <section>
+          <h4>1.1 Purpose</h4>
+          <p>
+            The purpose of this document is to present a description of the web
+            application Platform for Constructing.
+          </p>
+          <p>
+            It will explain the purpose and features of the application, the
+            interface of the software, what it will do and the constraints under
+            which it must operate.
+          </p>
+          <p>
+            This document is intended for any potential users of the software.
+          </p>
+        </section>
+        <section>
+          <h4>1.2 Intended Audience and Reading Suggestions</h4>
+
+          <p>
+            This document is intended for any user that might wish to use the
+            Fruits On The Web web application.
+          </p>
+        </section>
+        <section>
+          <h4>1.3 Product Scope</h4>
+
+          <p>
+            Platform for Constructing has been developed with the intended purpose of connecting construction professionals with potential clients.
+          </p>
+        </section>
+      </section>
+     
+      <section>
+        <h3>2.Overall Description</h3>
+        <section>
+          <h3>2.1 Product Description</h3>
+          <p>
+           PlaCo (Platform for Constructing) is a web application designed to connect construction professionals with potential clients.
+          </p>
+          <p>
+           For each construction firm, essential information such as the company name and contact details will be stored.  The platform will showcase portfolios of completed projects, allowing clients to view images of previous works.
+           Clients can upload technical projects, work estimates, or descriptions of their requirements to receive quotations for the desired tasks. If a client requires multiple firms with different specializations, they can select the desired firm for each operation individually. 
+           Clients can review the total costs and rate the contracted firms or add comments (positive/negative). The firms will be able to give as well rates and comments on the client's profile. Ratings and comments will be moderated through an administrative account.
+          </p>
+           PlaCo aims to streamline the process of connecting construction professionals with clients efficiently.
+          </p>
+        </section>
+        <section>
+          <h4>2.2 Product Functions</h4>
+          <p>
+            The pages within the application are:
+          </p>
+          <p>Home Page: contains general information about the application including Statistics and Reviews from users. </p>
+          <ul>
+            <li>Login button: redirects to the Login page</li>
+            <li>How it works: redirects to the How it works page</li>
+            <li>Hire a freelancer button: redirects to the Sign up page and creates a profile for a Client </li>
+            <li>Start freelancing button: redirects to the Sign up page and creates a profile for a Freelancer(firm) </li>
+          </ul>
+          <p>Login Page</p>
+          <ul>
+            <li>Username input: accepts the username of the user</li>
+            <li>Password input: accepts the password of the user</li>
+            <li>Forgot your password button: redirects to the Restore password page</li>
+            <li>Login button: finalizes the login action, logging the user in, if the credentials are correct, and then redirects them to the Discover Freelancers page or Search for jobs page (depending on the profile type).</li>
+            <li>Sign up button: redirects to the Sign Up page</li>
+          </ul>
+          <p>Sign up Page</p>
+          <ul>
+            <li>First name input: accepts the first name of the user</li>
+            <li>Last name input: accepts the last name of the user</li>
+            <li>Email input: accepts the email of the user</li>
+            <li>Password input: accepts the password of the user</li>
+            <li>Sign up as freelancer button: finalizes the sign up acction and creates a freelancer profile for the user</li>
+            <li>Sign up as client button: finalizes the sign up acction and creates a client profile for the user</li>
+            <li>Login button: redirects to the Login page</li>
+          </ul>
+          <p>How it works Page</p>
+          <ul>
+            <li>PlaCo button: redirects to the Home Page</li>
+            <li>How to Hire a Freelancer button: displays the text that contains information about how to use this application as a Client</li>
+            <li>How to Start your Freelancing button: displays the text that contains information about how to use this application as a Freelancer (firm)</li>
+            <li>Login button: redirects to the Login page</li>
+          </ul>
+          <p>Discover Freelancers Page: displays previews of Freelancers' profiles</p>
+          <ul>
+            <li>Post a new Project button: redirects to the Post a new Project page</li>
+            <li>Profile button: pulls out a menu containing the Client Profile, Active Projects, Finished Projects and Settings pages, and the Log Out button </li>
+            <li>Filters menu: contains buttons that filter the search </li>
+            <li>Search Freelancer input: accepts ...</li>
+          </ul>
+          <p>Search for jobs Page: displays previews of Active Projects posted by Clients</p>
+          <ul>
+            <li>Profile button: pulls out a menu containing the Freelancer Profile, Portfolio and Settings pages, and the Log Out button </li>
+            <li>Filters menu: contains buttons that filter the search </li>
+            <li>Search a job input: accepts ...</li>
+          </ul>
+          <p>Client Profile Page: displays information about the user (profile picture, name, Phone number, Email address, Address, Joining date), tags for the client's professional areas and Reviews.</p>
+          <ul>
+            <li>Discover Freelancers button: redirects to the Discover Freelancers page</li>
+            <li>Post a new Project button: redirects to the Post a new Project page</li>
+            <li>Profile button: pulls out a menu containing the Client Profile, Active Projects, Finished Projects and Settings pages, and the Log Out button </li>
+            <li>See Active Projects button: redirects to the Active Projects page</li>
+            <li>See Finished Projects button: redirects to the Finished Projects page</li>
+            <li>Edit Profile button: ..</li>
+          </ul>
+          <p>Freelancer Profile Page: displays information about the user (profile picture, name, Phone number, Email address, Address, Joining date), tags for the freelancer's professional areas and Reviews.</p>
+          <ul>
+            <li>Search for jobs button: redirects to the Search for jobs page</li>
+            <li>Profile button: pulls out a menu containing the Freelancer Profile, Portfolio and Settings pages, and the Log Out button </li>
+            <li>See Portfolio button: redirects to the Portfolio page</li>
+            <li>Edit Profile button: ...</li>
+          </ul>
+          <p>Settings Page</p>
+          <ul>
+            <li></li>
+          </ul>
+          <p>Active Projects Page: displays previews for all the Client's active projects</p>
+          <ul>
+            <li>Discover Freelancers button: redirects to the Discover Freelancers page</li>
+            <li>Post a new Project button: redirects to the Post a new Project page</li>
+            <li>Profile button: pulls out a menu containing the Client Profile, Active Projects, Finished Projects and Settings pages, and the Log Out button </li>
+            <li>Plus button: redirects to the Post a new Project Page</li>
+          </ul>
+          <p>Finished Projects Page: displays previews for all the Client's finished projects</p>
+          <ul>
+            <li>Discover Freelancers button: redirects to the Discover Freelancers page</li>
+            <li>Post a new Project button: redirects to the Post a new Project page</li>
+            <li>Profile button: pulls out a menu containing the Client Profile, Active Projects, Finished Projects and Settings pages, and the Log Out button </li>
+          </ul>
+          <p>Post a new Project Page</p>
+          <ul>
+            <li>Discover Freelancers button: redirects to the Discover Freelancers page</li>
+            <li>Profile button: pulls out a menu containing the Client Profile, Active Projects, Finished Projects and Settings pages, and the Log Out button </li>
+            <li>Title input: accepts the title of the Project</li>
+            <li>Project Description input: accepts the description of the Project</li>
+            <li>Upload file button: allows the user to upload files</li>
+            <li>Skills required input: accepts tags that describe the skills required for the project</li>
+            <li>Add button: saves the "Skills required input" text and displays it at "Skills selected" section</li>
+           // <li>Money</li>
+            <li>Choose Project type :</li>
+            <li>Post Project button: saves the new Project and adds it in the Active Projects page</li>
+          </ul>
+          <p>Portfolio Page: displays previews for the Freelancer's personal work and finished projects</p>
+          <ul>
+            <li>Search for jobs button: redirects to the Search for jobs page</li>
+            <li>Profile button: pulls out a menu containing the Freelancer Profile, Portfolio and Settings pages, and the Log Out button </li>
+            <li>Plus button: redirects to the Add Item to Portfolio Page</li>
+          </ul>
+          <p>Add Item to Portfolio Page</p>
+          <ul>
+            <li>Search for jobs button: redirects to the Search for jobs page</li>
+            <li>Profile button: pulls out a menu containing the Freelancer Profile, Portfolio and Settings pages, and the Log Out button </li>
+            <li>Title input: accepts the title of the portfolio item</li>
+            <li>Portfolio Item Description input: accepts the description of the portfolio item</li>
+            <li>Upload file button: allows the user to upload files</li>
+            <li>Skills input: accepts tags that describe the Portfolio Item</li>
+            <li>Add button: saves the "Skills input" text and displays it at "Skills selected" section</li>
+            <li>Save button: saves the new Portfolio Item and adds it in the Portfolio page</li>
+          </ul>
+
+        </section>
+      </section>
+    </article>
+  </body>
+</html>
