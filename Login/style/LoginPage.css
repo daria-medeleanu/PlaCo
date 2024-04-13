@@ -9,6 +9,10 @@ a{
 .logo{
     padding-left: 20px;
 }
+.logo-content{
+    display:flex;
+    align-items:center;
+}
 .logo-pic{
     display: flex;
     align-items:center;
