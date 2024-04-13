@@ -28,6 +28,11 @@ header .logo{
     height:50px;
     margin: 10px;
 }
+header .logo{
+    width: 50px;
+    height:50px;
+    margin: 10px;
+}
 header .nav-left {
 	display: flex;
 	padding-left: 20px;
@@ -55,7 +60,7 @@ header .nav-right {
 .menu-btn-right label{
     display: flex;
     align-items:center;
-    position:relative; /**/
+    position:relative; 
     padding: 10px;
     font-weight: bold;
     background-color: #e5e5e5;
@@ -75,7 +80,7 @@ input[type="checkbox"]:checked ~ .menu {
     top: 100%;
     background-color: #e5e5e5;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    margin-left:-10px;
+    margin-left:-25px;
     margin-top: -10px; 
     z-index: 11; 
   }
@@ -116,21 +121,118 @@ input[type="checkbox"]:checked ~ .menu {
 }
 section {
 	display: flex;
-	flex-direction: column;
 	float: left;
-	padding: 110px 40px;
+	padding: 110px 40px 30px 40px;
 }
 
 @media (max-width: 1000px) {
 	section {
-		padding: 100px 50px;
+		padding: 100px 50px 30px 50px;
 	}
 }
 @media (max-width: 600px) {
 	section {
-		padding: 125px 30px;
+		padding: 125px 30px 35px 30px;
+	}
+}
+.profile-info{
+	width: 100%;
+	position: relative;
+	background-color: #fca311;
+}
+.profile-info .profile-picture {
+	
+	flex-direction: column;
+	position: absolute;
+	width:200px;
+    padding-right: 20px;
+	img {
+		width: 100%;
+	}
+}
+.profile-info .info-text{
+	
+	flex-direction: column;
+	margin-left: 250px;
+	p {
+		font-family: Inter;
+		margin-bottom: 10px;
+		font-size: 18px;
+		color:#14213d;
+	}
+	h2 {
+		font-family: Inter;
+		margin-bottom: 10px;
+		font-size: 25px;
+		color:#fff;
+	}
+}
+.box{
+	padding-top: 0px;
+	padding-bottom: 50px;
+	width: 100%;
+	position: relative;
+	background-color: #fca311;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.box .btn-see-projects{
+	display: flex;
+	flex-direction: row;
+	width:50%;
+	justify-content: space-between;
+	
+	.boxBtn {
+		padding: 15px 40px;
+		background: #14213d;
+		font-family: Inter;
+		font-weight: bold;
+		a{
+			color: #fff;
+			font-size:20px;
+			font-style: bold;
+		}
+	}
+}
+.box .btn-edit-profile{
+	display: flex;
+	flex-direction: row;
+	.boxBtn {
+		padding: 15px 15px;
+		background: #14213d;
+		font-family: Inter;
+		font-weight: bold;
+		a{
+			color: #fff;
+			font-size:20px;
+			font-style: bold;
+		}
 	}
 }
 
-
-
+.review{
+	padding-top:30px;
+	background-color: #fff;
+	width:100%;
+	display:flex;
+	flex-direction: column;
+	text-align: justify;
+	h2{
+		padding-bottom: 20px; 
+		font-family: Inter;
+		font-size: 25px;
+		color:#14213d
+	}
+	h3{
+		padding-top:10px;
+		padding-bottom: 5px; 
+		font-family: Inter;
+		font-size: 16px;
+		color:#fca311;
+	}
+	p{
+		padding-bottom: 5px;
+		color: #14213d;
+	}
+}
