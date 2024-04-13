@@ -75,12 +75,16 @@ label {
     cursor: pointer;
     transition: all .5s;
 }
-.login-btn:hover {
+.sign-up-btn{
+    width: auto;
+}
+.login-btn:hover, .sign-up-btn:hover {
     background: white;
     /* color: #000; */
 } 
 
-input[type="text"], input[type="password"] {
+
+input[type="text"], input[type="password"], input[type="email"] {
     /* padding: 12px;  */
     padding-top: 12px;
     padding-bottom: 12px;
@@ -92,13 +96,13 @@ input[type="text"], input[type="password"] {
     max-width: 400px;
 }
 input[type="text"]::placeholder,
-input[type="password"]::placeholder {
+input[type="password"]::placeholder, input[type="email"]::placeholder {
     color: #14213d; 
     font-style: italic;
     text-align:center;
 }
 input[type="text"]:focus,
-input[type="password"]:focus {
+input[type="password"]:focus, input[type="email"] {
     outline-color: #fca311; 
 }
 
@@ -109,5 +113,17 @@ input[type="password"]:focus {
     font-size: 12px;
 
 }
-
+.sign-up-menu{
+    display: flex;
+    flex-direction: inline;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 400px;
+}
+.message-forg-pass{
+    color:#fca311;
+    width:100%;
+    margin-bottom: 20px;
+    text-align:center;
+}
 
