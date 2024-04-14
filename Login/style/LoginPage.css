@@ -126,4 +126,18 @@ input[type="password"]:focus, input[type="email"] {
     margin-bottom: 20px;
     text-align:center;
 }
-
+@media screen and (max-width: 600px){
+    input[type="text"], input[type="password"], input[type="email"]{
+        max-width:100%;
+    }       
+    .login-container{
+        width:100%;
+    }
+    .login-btn{
+        max-width:100%;
+    }
+    .sign-up-menu{
+        flex-direction:column;
+        max-width:100%;
+    }
+}

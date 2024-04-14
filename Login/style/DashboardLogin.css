@@ -11,20 +11,19 @@ a {
 	color: white;
 	cursor: pointer;
 }
-header {
+.header {
 	position: fixed;
 	top: 0;
 	left: 0;
 	z-index: 10;
 	width: 100%;
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
 	color: #fff;
     background-color: #14213d;
 }
 
-header .nav-left {
+.header .nav-left {
 	display: flex;
 	padding-left: 20px;
 	.logo-pic{
@@ -37,11 +36,13 @@ header .nav-left {
 	}
 	
 }
-header .nav-right {
+.nav-right {
 	display:flex;
 	padding-right: 20px;
+	justify-content: space-between;
+	width: 100%;
 }
-header .nav-left .nav-btn-left{
+.nav-btn-left{
 	display:flex;	
 	align-items: center;
 	padding:20px;
@@ -49,7 +50,7 @@ header .nav-left .nav-btn-left{
 	border-right: 3px solid #fca311 ;
 }
 
-header .nav-right .nav-btn-right{
+.nav-btn-right{
 	display:flex;
     align-items: center;
     padding:10px;
@@ -58,44 +59,69 @@ header .nav-right .nav-btn-right{
 	color: #14213d;
 	margin-right: 10px;
 }
-
-@media (max-width: 100px) {
-	/* header {
-		padding: 20px 50px;
-	} */
+.login-btn-wrapper{
+	display:flex;
+	align-items: center;
 }
+.icon{
+	display:none;
+	color: white;
+	margin-right: 10px;
+	padding:10px;
+}
+@media screen and (max-width: 600px){
+	.nav-btn-right {
+		display: none;
+	}
+	.btn-dissapear{
+		display:none;
+	}
+	.icon {
+		display: block;
+	}
+	.header{
+		justify-content: space-between;
+	}
+	.nav-btn-left{
+		border:none;
+	}
+	.login-btn-wrapper{
+		padding-left:20px;
+	}
 
-@media (max-width: 414px) {
-	
-	header .nav-left  {
+	.nav-right.collapsed {
+		display: flex;
 		flex-direction: column;
-		.nav-btn-left{
-			border: transparent;
+		position: absolute;
+		top: 60px; 
+		right: 0;
+		background-color: #14213d;
+		width: 100%;
+		padding: 10px;
+		.btn-dissapear{
+			display:flex;
+		}
+		.nav-btn-right{
+			display:flex;
 		}
 	}
-	header  {
-		flex-direction: column;
-		
-	}
-	
 }
+
 section {
 	display: flex;
 	flex-direction: column;
 	float: left;
 	padding: 110px 40px;
+	padding-bottom: 20px;
+	
 }
 
-@media (max-width: 1000px) {
+/* @media (max-width: 1000px) {
 	section {
 		padding: 100px 50px;
 	}
-}
-@media (max-width: 600px) {
-	section {
-		padding: 125px 30px;
-	}
-}
+} */
+
 
 .box {
 	position: relative;
@@ -140,8 +166,8 @@ section {
 	width: 50%;
 }
 .info {
-	background-color:#fca311; /* Adding yellow background color */
-	padding: 20px 40px; /* Adding padding for better spacing */
+	background-color:#fca311; 
+	padding: 20px 40px; 
 	color: white;
 	text-align: justify;
 	h2{
@@ -150,4 +176,22 @@ section {
 	p{
 		padding-bottom: 20px;
 	}
+}
+@media screen and (max-width: 600px) {
+	section {
+		padding: 125px 30px;
+		padding-bottom: 20px;
+	}
+	.box h3{
+		width: 100%;
+	}
+	.box .btn-cr-acc-menu{
+		flex-direction: column;
+		width: 100%;
+	}
+	.boxBtn{
+		margin-bottom:20px;
+	}
+
+
 }
