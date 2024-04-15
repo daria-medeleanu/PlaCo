@@ -13,7 +13,7 @@ a{
     display:flex;
     align-items:center;
 }
-.logo-pic{
+/* .logo-pic{
     display: flex;
     align-items:center;
     .logo-image{
@@ -28,6 +28,24 @@ a{
         padding: 20px;
         font-weight: bold;
     }
+} */
+.logo-pic {
+    display: flex;
+    align-items: center;
+}
+
+.logo-pic .logo-image {
+    width: 40px;
+    height: 40px;
+    margin: 10px;
+}
+
+.logo-pic .writing {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-weight: bold;
 }
 
 .title{
@@ -115,7 +133,7 @@ input[type="password"]:focus, input[type="email"] {
 }
 .sign-up-menu{
     display: flex;
-    flex-direction: inline;
+    flex-direction: row;
     justify-content: space-between;
     width: 100%;
     max-width: 400px;

@@ -4,6 +4,7 @@
 	box-sizing: border-box;
 }
 body {
+    background-color: #e5e5e5;
 	font-family: Inter;
 }
 a {
@@ -11,25 +12,19 @@ a {
 	color: White;
 	cursor: pointer;
 }
-header {
+.header {
 	position: fixed;
 	top: 0;
 	left: 0;
 	z-index: 10;
 	width: 100%;
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
 	color: #fff;
     background-color: #14213d;
 }
-header .logo{
-    width: 50px;
-    height:50px;
-    margin: 10px;
-}
 
-header .nav-left {
+.nav-left {
 	display: flex;
 	padding-left: 20px;
 	.logo-pic{
@@ -40,75 +35,149 @@ header .nav-left {
 			margin: 10px;
 		}
 	}
-    
+	
 }
-header .nav-left .nav-btn-left{
+
+.nav-btn-left{
 	display:flex;	
 	align-items: center;
 	padding:20px;
 	font-weight: bold;
 	border-right: 3px solid #fca311 ;
 }
-header .nav-right {
+
+.nav-right .nav-btn-left:hover{
+	background-color: #fca311;
+}
+
+.nav-right {
 	display:flex;
 	padding-right: 20px;
+	justify-content: space-between;
+	width: 100%;
 }
-.menu-btn-right label{
-    display: flex;
-    align-items:center;
-    position:relative; 
-    padding: 10px;
+
+.nav-btn-right{
+	display:flex;
+    align-items: center;
+    padding:10px;
     font-weight: bold;
-    background-color: #e5e5e5;
-    color: #14213d;
-    margin-right: 10px;
-    cursor: pointer;
+	background-color: #e5e5e5;
+	color: #14213d;
+	margin-right: 10px;
 }
+
+.options-nav-bar{
+	display:flex;
+	flex-direction: row;
+}
+.profile-btn-wrapper{
+	display:flex;
+	align-items: center;
+}
+
 input[type="checkbox"] {
-    display: none;
+	display: none;
 }
 input[type="checkbox"]:checked ~ .menu {
-    display: block;
+	display: block;
 }
-  .menu {
-    display: none;
-    position: absolute; 
-    top: 100%;
-    background-color: #e5e5e5;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    margin-left:-25px;
-    margin-top: -10px; 
-    z-index: 11; 
-  }
-  
-  .menu button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    border: none;
-    background-color: transparent;
-    text-align: center;
-    color: #14213d;
-    border-bottom: 3px solid #fca311 ;
-  }
-  .menu button:hover {
-    background-color: #ddd;
-  }
+.menu-btn-right{
+	display:flex;
+	align-items: center;
+}
 
-@media (max-width: 414px) {
+.menu-btn-right label{
+	display:flex;
+    align-items: center;
+    padding:10px;
+    font-weight: bold;
+	background-color: #e5e5e5;
+	color: #14213d;
+	margin-right: 10px;
+	cursor:pointer;
+}
+
+.menu {
+	display: none;
+	position: absolute; 
+	top: 100%;
+	background-color: #e5e5e5;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	margin-left:-35px;
+	margin-top: -10px; 
+	z-index: 11; 
+}	
+  
+.menu button {
+	display: block;
+	width: 100%;
+	padding: 10px;
+	border: none;
+	background-color: transparent;
+	text-align: center;
+	color: #14213d;
+	border-bottom: 3px solid #fca311 ;
+	font-family: Inter;
+	font-weight: bold;
+	cursor:pointer;
+}
+
+.menu button:hover {
+	background-color: #ddd;
+}
+
+
+.icon{
+	display:none;
+	color: white;
+	margin-right: 10px;
+	padding:10px;
+}
 	
-	header .nav-left  {
+@media screen and (max-width: 600px){
+	.nav-right {
+		display: none;
+	}
+	.btn-dissapear{
+		display:none;
+	}
+	.icon {
+		display: block;
+	}
+	.header{
+		justify-content: space-between;
+	}
+	.nav-btn-left{
+		border:none;
+	}
+	.menu-btn-right{
+		padding-left:20px;
+	}
+	.menu{
+		margin-left:-10px;
+	}
+	.nav-right.collapsed {
+		display: flex;
 		flex-direction: column;
-		.nav-btn-left{
-			border: transparent;
+		position: absolute;
+		top: 60px; 
+		right: 0;
+		background-color: #14213d;
+		width: 100%;
+		padding: 10px;
+		.btn-dissapear{
+			display:flex;
+		}
+		.nav-btn-right{
+			display:flex;
 		}
 	}
-	header  {
+	.options-nav-bar{
 		flex-direction: column;
-		
 	}
-	
 }
+
 section {
 	display: flex;
     justify-content: space-between;
@@ -235,6 +304,7 @@ section {
     max-width: 100%;
     padding: 5px;
     border: 1px solid #14213d;
+    width:100%;
 }
 
 .apply-btn {
@@ -267,14 +337,14 @@ section {
         flex-direction: column;
     }
 }
-.projects-list {
+.freelancers-list {
     display: flex;
     flex-direction: column;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     grid-gap: 20px;
 }
 
-.projects-list .project-box {
+.freelancers-list .freelancer-box {
     display:flex;
     flex-direction: row;
     background-color: #fff;
@@ -282,7 +352,7 @@ section {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 @media (max-width: 600px) {
-.projects-list .project-box {
+.freelancers-list .freelancer-box {
     display:flex;
     align-items: center;
     flex-direction: column;
@@ -291,21 +361,47 @@ section {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 }
+.freelancer-box img{
+    align-content: left;
+    max-width: 30%;
+    margin-right:20px;
+}
+@media (max-width: 1000px)
+{
+    .freelancer-box img{
+        align-content:center;
+        margin-top: 15px;
+        max-width: 100px;
+        max-height: 100px;
+        margin-right: 20px;
+    }
+}
+@media (max-width: 600px)
+{
+    .freelancer-box img{
+        align-content:center;
+        margin-top: 0px;
+        margin-bottom: 5px;
+        max-width: 100px;
+        max-height: 100px;
+        margin-right: 0px;
+    }
+}
 
-.project-text-input h2{
+.freelancer-text-input h2{
 padding-bottom: 15px;
 color:#14213d;
 }
 @media (max-width: 1000px)
 {
-    .project-text-input h2{
+    .freelancer-text-input h2{
         font-size: 16px;
         padding-bottom: 5px;
         color:#14213d;
     }
 }
 @media (max-width: 600px){
-    .project-text-input h2{
+    .freelancer-text-input h2{
         font-size: 16px;
         padding-bottom: 5px;
         color:#14213d;
@@ -407,6 +503,54 @@ color:#14213d;
         margin-right: 10px;;
     }
 }
-.project-text-input p{
+.freelancer-text-input p{
 
+}
+.freelancer-box .freelancer-hire-button{
+    display: flex;
+	.boxBtn {
+		padding: 15px 15px;
+		background: #14213d;
+		font-family: Inter;
+		font-weight: bold;
+		a{
+			color: #fca311;
+			font-size:20px;
+			font-style: bold;
+		}
+	}
+    .boxBtn:hover{box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);}
+}
+@media (max-width: 1000px){
+    .freelancer-box .freelancer-hire-button{
+        .boxBtn {
+            padding: 5px 5px;
+            background: #14213d;
+            font-family: Inter;
+            font-weight: bold;
+            a{
+                color: #fca311;
+                font-size:12px;
+                font-style: bold;
+            }
+        }
+    }
+}
+@media (max-width: 600px){
+    .freelancer-box .freelancer-hire-button{
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        .boxBtn {
+            padding: 5px 5px;
+            background: #14213d;
+            font-family: Inter;
+            font-weight: bold;
+            a{
+                color: #fca311;
+                font-size:12px;
+                font-style: bold;
+            }
+        }
+    }
 }

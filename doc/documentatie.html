@@ -78,24 +78,17 @@
         <section>
           <h4>1.1 Purpose</h4>
           <p>
-            The purpose of this document is to present a description of the web
-            application Platform for Constructing.
+            This document aims to provide an overview of the web application Platform for Constructing.
           </p>
           <p>
-            It will explain the purpose and features of the application, the
-            interface of the software, what it will do and the constraints under
-            which it must operate.
-          </p>
-          <p>
-            This document is intended for any potential users of the software.
+            It will detail the application's objectives, functionalities, user interface and  constraints under which it operates. 
           </p>
         </section>
         <section>
           <h4>1.2 Intended Audience and Reading Suggestions</h4>
 
           <p>
-            This document is intended for any user that might wish to use the
-            Fruits On The Web web application.
+            This document is designed for any user who may have an interest in utilizing the Platform for Constructing web application.
           </p>
         </section>
         <section>
@@ -119,6 +112,7 @@
            Clients can upload technical projects, work estimates, or descriptions of their requirements to receive quotations for the desired tasks. If a client requires multiple firms with different specializations, they can select the desired firm for each operation individually. 
            Clients can review the total costs and rate the contracted firms or add comments (positive/negative). The firms will be able to give as well rates and comments on the client's profile. Ratings and comments will be moderated through an administrative account.
           </p>
+          <p>
            PlaCo aims to streamline the process of connecting construction professionals with clients efficiently.
           </p>
         </section>
@@ -140,6 +134,7 @@
             <li>Password input: accepts the password of the user</li>
             <li>Forgot your password button: redirects to the Restore password page</li>
             <li>Login button: finalizes the login action, logging the user in, if the credentials are correct, and then redirects them to the Discover Freelancers page or Search for jobs page (depending on the profile type).</li>
+            <li>Remember me checkbox: stores in a cookie the credentials so that the next time a user want to access the website it will automatically complete the login process.</li>
             <li>Sign up button: redirects to the Sign Up page</li>
           </ul>
           <p>Sign up Page</p>
@@ -148,13 +143,20 @@
             <li>Last name input: accepts the last name of the user</li>
             <li>Email input: accepts the email of the user</li>
             <li>Password input: accepts the password of the user</li>
-            <li>Sign up as freelancer button: finalizes the sign up acction and creates a freelancer profile for the user</li>
-            <li>Sign up as client button: finalizes the sign up acction and creates a client profile for the user</li>
+            <li>Sign up as freelancer button: finalizes the sign up action and creates a freelancer profile for the user</li>
+            <li>Sign up as client button: finalizes the sign up action and creates a client profile for the user</li>
             <li>Login button: redirects to the Login page</li>
+          </ul>
+          <p>Forgot your password Page</p>
+          <ul>
+            <li>Email input: accepts the email of a valid user so that it can send an email where the user can recover the password.</li>
+            <li>Reset your password button: finalizez the recovering password process.</li>
+            <li>Back button: redirects the user to the Login page</li>
           </ul>
           <p>How it works Page</p>
           <ul>
             <li>PlaCo button: redirects to the Home Page</li>
+            <li>How it works button: redirects to the current page</li>
             <li>How to Hire a Freelancer button: displays the text that contains information about how to use this application as a Client</li>
             <li>How to Start your Freelancing button: displays the text that contains information about how to use this application as a Freelancer (firm)</li>
             <li>Login button: redirects to the Login page</li>
@@ -163,34 +165,38 @@
           <ul>
             <li>Post a new Project button: redirects to the Post a new Project page</li>
             <li>Profile button: pulls out a menu containing the Client Profile, Active Projects, Finished Projects and Settings pages, and the Log Out button </li>
-            <li>Filters menu: contains buttons that filter the search </li>
-            <li>Search Freelancer input: accepts ...</li>
+            <li>Filters menu: contains buttons that filter the search by country, city and skills</li>
+            <li>Search Freelancer input: accepts names of Freelancers (firms) that are registered within the app</li>
+            <li>Apply Button: Filters the list of Freelancers taking into consideration the constraints</li>
           </ul>
           <p>Search for jobs Page: displays previews of Active Projects posted by Clients</p>
           <ul>
             <li>Profile button: pulls out a menu containing the Freelancer Profile, Portfolio and Settings pages, and the Log Out button </li>
-            <li>Filters menu: contains buttons that filter the search </li>
-            <li>Search a job input: accepts ...</li>
+            <li>Filters menu: contains buttons that filter the search by country, city and skills</li>
+            <li>Search a job input: accepts names of projects that are registered on the platform</li>
+            <li>Apply Button: Filters the list of Projects taking into consideration the constraints</li>
           </ul>
-          <p>Client Profile Page: displays information about the user (profile picture, name, Phone number, Email address, Address, Joining date), tags for the client's professional areas and Reviews.</p>
+          <p>Client Profile Page: displays information about the user (profile picture, name, phone number, email address, address, joining date), tags for the client's professional areas and reviews.</p>
           <ul>
             <li>Discover Freelancers button: redirects to the Discover Freelancers page</li>
             <li>Post a new Project button: redirects to the Post a new Project page</li>
             <li>Profile button: pulls out a menu containing the Client Profile, Active Projects, Finished Projects and Settings pages, and the Log Out button </li>
             <li>See Active Projects button: redirects to the Active Projects page</li>
             <li>See Finished Projects button: redirects to the Finished Projects page</li>
-            <li>Edit Profile button: ..</li>
+            <li>Edit Profile button: redirects to the Edit Profile page for clients</li>
           </ul>
           <p>Freelancer Profile Page: displays information about the user (profile picture, name, Phone number, Email address, Address, Joining date), tags for the freelancer's professional areas and Reviews.</p>
           <ul>
             <li>Search for jobs button: redirects to the Search for jobs page</li>
             <li>Profile button: pulls out a menu containing the Freelancer Profile, Portfolio and Settings pages, and the Log Out button </li>
             <li>See Portfolio button: redirects to the Portfolio page</li>
-            <li>Edit Profile button: ...</li>
+            <li>Edit Profile button: redirects to the Edit Profile page for Freelancers (firms)</li>
           </ul>
           <p>Settings Page</p>
           <ul>
-            <li></li>
+            <li>Change password button: shows popup where user has to reenter their old password and then set the new password</li>
+            <li>Chande theme: toggle between light and dark mode</li>
+            <li>See your statistics button: shows underneath the button engaging between user and the other users</li>
           </ul>
           <p>Active Projects Page: displays previews for all the Client's active projects</p>
           <ul>
@@ -214,8 +220,9 @@
             <li>Upload file button: allows the user to upload files</li>
             <li>Skills required input: accepts tags that describe the skills required for the project</li>
             <li>Add button: saves the "Skills required input" text and displays it at "Skills selected" section</li>
-           // <li>Money</li>
-            <li>Choose Project type :</li>
+            <li>Currency dropdown: allows the user to select from dropdown the currency of the estimated budget</li>
+            <li>Size of the project menu: allows the user to select the size of the project according to how much they estimate it will value</li>
+            <li>Menu Popup: Simple Project, Very Small Project, Small Project, Medium Project, Large Project, Very Large Project, Huge Project</li>
             <li>Post Project button: saves the new Project and adds it in the Active Projects page</li>
           </ul>
           <p>Portfolio Page: displays previews for the Freelancer's personal work and finished projects</p>
@@ -235,9 +242,306 @@
             <li>Add button: saves the "Skills input" text and displays it at "Skills selected" section</li>
             <li>Save button: saves the new Portfolio Item and adds it in the Portfolio page</li>
           </ul>
-
+          <section>
+            <h4>2.3 Operating Environment</h4>
+            <p>
+              The Platform for Constructing application can be used on any device with a connection to the Internet and a browser installed.
+            </p>
+          </section>
+          <section>
+            <h4>2.4 Design and Implementation Constraints</h4>
+            <p>
+              The application uses HTML, CSS and JavaScript for the user interface.
+            </p>
+          </section> 
         </section>
-      </section>
+        <section>
+          <h3>3. External Interface Requirements</h3>
+  
+          <section>
+            <h4>3.1 User Interfaces</h4>
+  
+            <div>
+              <figure typeof="sa:image">
+                <figcaption>Home Page</figcaption>
+                <img
+                  src="./images/dashboard1.png"
+                  alt="Home Page Screenshot"
+                  width="800"
+                />
+                <img
+                  src="./images/dashboard2.png"
+                  alt="Home Page Screenshot"
+                  width="800"
+                />
+              </figure>
+              <figure typeof="sa:image">
+                <figcaption>Login Page</figcaption>
+                <img
+                  src="./images/login.png"
+                  alt="Home Page Screenshot"
+                  width="800"
+                />
+              </figure>
+              <figure typeof="sa:image">
+                <figcaption>SignUp Page</figcaption>
+                <img
+                  src="./images/signup.png"
+                  alt="Home Page Screenshot"
+                  width="800"
+                />
+              </figure>
+              <figure typeof="sa:image">
+                <figcaption>Forgot your password Page</figcaption>
+                <img
+                  src="./images/forgotpass.png"
+                  alt="Home Page Screenshot"
+                  width="800"
+                />
+              </figure>
+              <figure typeof="sa:image">
+                <figcaption>How it works Page</figcaption>
+                <img
+                  src="./images/howitworks1.png"
+                  alt="Home Page Screenshot"
+                  width="800"
+                />
+                <img
+                  src="./images/howitworks2.png"
+                  alt="Home Page Screenshot"
+                  width="800"
+                />
+              </figure>
+              <figure typeof="sa:image">
+                <figcaption>Client profile Page</figcaption>
+                <img
+                  src="./images/clientprofile.png"
+                  alt="Home Page Screenshot"
+                  width="800"
+                />
+              </figure>
+              <figure typeof="sa:image">
+                <figcaption>Freelancer profile Page</figcaption>
+                <img
+                  src="./images/freelancerprofile.png"
+                  alt="Home Page Screenshot"
+                  width="800"
+                />
+              </figure>
+              <figure typeof="sa:image">
+                <figcaption>Discover Freelancers Page</figcaption>
+                <img
+                  src="./images/discoverfreelancers.png"
+                  alt="Home Page Screenshot"
+                  width="800"
+                />
+              </figure>
+              <figure typeof="sa:image">
+                <figcaption>Search For Jobs Page</figcaption>
+                <img
+                  src="./images/searchforjobs.png"
+                  alt="Home Page Screenshot"
+                  width="800"
+                />
+              </figure>
+              <figure typeof="sa:image">
+                <figcaption>Settings Page</figcaption>
+                <img
+                  src="./images/settings.png"
+                  alt="Home Page Screenshot"
+                  width="800"
+                />
+              </figure>
+              <figure typeof="sa:image">
+                <figcaption>Active Projects Page</figcaption>
+                <img
+                  src="./images/activeprojects.png"
+                  alt="Home Page Screenshot"
+                  width="800"
+                />
+              </figure>
+              <figure typeof="sa:image">
+                <figcaption>Finished Projects Page</figcaption>
+                <img
+                  src="./images/finishedprojects.png"
+                  alt="Home Page Screenshot"
+                  width="800"
+                />
+              </figure>
+              <figure typeof="sa:image">
+                <figcaption>Post a new Project Page</figcaption>
+                <img
+                  src="./images/postnewproject.png"
+                  alt="Home Page Screenshot"
+                  width="800"
+                />
+              </figure>
+              <figure typeof="sa:image">
+                <figcaption>Portfolio Page</figcaption>
+                <img
+                  src="./images/portfolio.png"
+                  alt="Home Page Screenshot"
+                  width="800"
+                />
+              </figure>
+              <figure typeof="sa:image">
+                <figcaption>Add Item to Portfolio Page</figcaption>
+                <img
+                  src="./images/additemtoport.png"
+                  alt="Home Page Screenshot"
+                  width="800"
+                />
+              </figure>
+            </div>
+          </section>
+          
+          <section>
+            <h4>3.2 Software Interfaces</h4>
+
+            <p>
+              To use this web application the user should have a stable Internet connection and access to a web browser. 
+            </p>
+          </section>
+  
+          <section>
+            <h4>3.3 Communications Interfaces</h4>
+  
+            <p>
+              PlaCo requires an Internet connection.
+            </p>
+          </section>
+
+          <section>
+            <h3>4. System Features</h3>
+            
+            <section>
+              <h4>4.1 See General Information</h4>
+    
+              <p>
+                Users can create an account, login, see statistics about the application and see reviews of the customers. 
+              </p>
+            </section>
+            <section>
+              <h4>4.2 Login</h4>
+    
+              <p>
+                Users can login completing the following fields:  Username, Password. Also an user can opt to store its credentials, can go to the recovery password page, or go to the signup page.
+              </p>
+            </section>
+    
+            <section>
+              <h4>4.3 Signup</h4>
+    
+              <p>
+                Users can signup completing the first name, last name, email and password fields, choosing the account type they need. If the account already exists they can go to the login page.
+              </p>
+            </section>
+            <section>
+              <h4>4.4 Recover password</h4>
+    
+              <p>
+                Users can recover their password completing the email that is associated to the account.
+              </p>
+            </section>
+            <section>
+              <h4>4.5 See how the platform works</h4>
+    
+              <p>
+                Users can see some general guidelines on how to use this application, according to the type of account they want to have (client or freelancer).
+              </p>
+            </section>
+            <section>
+              <h4>4.6 Client -> Discover freelancers</h4>
+    
+              <p>
+                Clients can see the list of freelancers registered in the app, and they can filter the results by certain criteria: country, city, skills. They can also search for freelancers using their name. From this page they can post a new project, or go to their profile, see active projects, see finished projects, logout, or see settings. 
+              </p>
+            </section>
+            <section>
+              <h4>4.7 Freelancers -> See jobs</h4>
+    
+              <p>
+                Freelancers can see the list of jobs registered in the app, and they can filter the results by certain criteria: country, city, skills. They can also search for jobs using the name of the job they want. From this page they can go to their profile, see portfolio, logout, or see settings. 
+              </p>
+            </section>
+            <section>
+              <h4>4.8 See profile</h4>
+    
+              <p>
+                Clients and freelancers can see the profile information they introduces as well as active projects, finished projects, reviews in the case of clients and portfolio in the case of freelancers. From this page, both users can go to a separate page where they can edit their profiles. 
+              </p>
+            </section>
+            <section>
+              <h4>4.9 Edit profile</h4>
+    
+              <p>
+                Clients and freelancers can change the information added when creating their profiles or add some additional information.
+              </p>
+            </section>
+            <section>
+              <h4>4.10 Post new project</h4>
+    
+              <p>
+                Clients can add a new project completing the title, project description, uploding files, adding tags, adding an estimated budget.
+              </p>
+            </section>
+            <section>
+              <h4>4.11 Add to portfolio</h4>
+    
+              <p>
+                Freelancers can add to their portfolio a project completing the title, project description, uploding files, adding tags. 
+              </p>
+            </section>
+            <section>
+              <h4>4.12 See active/finished projects</h4>
+    
+              <p>
+                  Clients and freelancers can see the active and finished projects that the clients proposed. 
+              </p>
+            </section>
+            <section>
+              <h4>4.13 See portfolio</h4>
+    
+              <p>
+                  Clients and freelancers can see the portfolio of freelancers. 
+              </p>
+            </section>
+            <section>
+              <h4>4.14 Change settings</h4>
+    
+              <p>
+                  Clients and freelancers can change the settings of their profiles (change password, change theme or see statistics). 
+              </p>
+            </section>
+            
+          </section>
+          <section>
+            <h3>5. Use of Technologies: Motivation</h3>
+            <h4>5.1 CSS</h4>
+            <p>
+              To make the app as easy to use as possible for everyone who either is a possible customer, or a constructions expert, we chose CSS in our project.
+            </p>
+            <ul>
+              <li>
+                Colors: we primarily chose 3 colors that get the user in the atmosphere of a constructions site: construction helmet, colors of tools, colors of concrete. 
+              </li>
+    
+              <li>
+                Fonts: We chose the font 'Inter' because we found it visually appealing for our type of users who read carefully the description of projects.  
+              </li>
+    
+              <li>
+                Layout: We mostly displayed the information in columns so that the information could be easily read. 
+              </li>
+    
+              <li>
+                Responsiveness: We wanted the application to be accesible for any type of resolution, taking into consideration that nowadays a vast majority of people use their phone for business. 
+              </li>
+            </ul>
+            
+          
+          </section>
+    
     </article>
   </body>
 </html>

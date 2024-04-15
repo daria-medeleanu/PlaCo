@@ -7,29 +7,60 @@
     <link rel="stylesheet" href="search_for_jobs.css"> 
     <link rel="shortcut icon" type="image/x-icon" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-</head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-    <header>
+
+    <div class="header">
         <div class="nav-left">
-            <a class="logo-pic" href="#"><img src="logo.png"  class="logo"  alt="Logo"></a>
-            <div class="nav-btn-left">PlaCo</div>
-            <a href="#" class="nav-btn-left">Search for Jobs</a>
+            <a class="logo-pic" href="../../Login/DashboardLogin.html">
+                <img src="./logo.png" class="logo" alt="Logo">
+                <div class="nav-btn-left">PlaCo</div>
+            </a>
         </div>
         <div class="nav-right">
-            <div class="menu-btn-right">
+            <div class="options-nav-bar">
+                <a href="../search_for_jobs/search_for_jobs.html" class="nav-btn-left">Search for jobs</a>
+            </div>
+            <div class="menu-btn-right btn-dissapear">
                 <input type="checkbox" id="profile-toggle">
-                <label for="profile-toggle">Profile</label>
+                <label for="profile-toggle" >Profile</label>
                 <div class="menu" id="profile-menu">
-                    <button onclick="window.location.href='#'">My Profile</button>
-                    <button onclick="window.location.href='#'">My Portfolio</button>
-                    <button onclick="window.location.href='#'">Log Out</button>
-                    <button onclick="window.location.href='#'">Settings</button>
+                    <button onclick="window.location.href='../freelancer_profile/freelancer_profile.html'">My Profile</button>
+                    <button onclick="window.location.href='../freelancer_profile.html/my_portfolio.html'">My Portfolio</button>
+                    <button onclick="window.location.href='../../Login/DashboardLogin.html'">Log Out</button>
+                    <button onclick="window.location.href='../settings.html'">Settings</button>
                 </div>
             </div>
-          </div>
-          
-    </header>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            var navRight = document.querySelector('.nav-right');
+            navRight.classList.toggle('collapsed');
+        }    
+    
+        document.addEventListener('click', function(event) {
+            var profileToggle = document.getElementById('profile-toggle');
+            var profileMenu = document.getElementById('profile-menu');
+            var target = event.target;
+            
+            if (!target.closest('.menu-btn-right')) {
+                profileMenu.style.display = 'none';
+                profileToggle.checked = false;
+            }
+        });
+
+        document.getElementById('profile-toggle').addEventListener('click', function(event) {
+            var profileMenu = document.getElementById('profile-menu');
+            profileMenu.style.display = this.checked ? 'block' : 'none';
+            event.stopPropagation();
+        });
+    </script>
     <section>
         <div class="sidebar">
             <form class="search-container">
@@ -48,8 +79,8 @@
                     </select>
                 </div>
                 <div class="filter">
-                    <label for="country">City:</label>
-                    <select id="country">
+                    <label for="city">City:</label>
+                    <select id="city">
                         <option value="all">All</option>
                         <option value="iasi">Iasi</option>
                         <option value="timisoara">Timisoara</option>
