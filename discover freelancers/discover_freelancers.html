@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="discover_freelancers.css"> 
+    <link rel="shortcut icon" type="image/x-icon" href="logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+</head>
+<body>
+    <header>
+        <div class="nav-left">
+            <a class="logo-pic" href="#"><img src="logo.png"  class="logo"  alt="Logo"></a>
+            <div class="nav-btn-left">PlaCo</div>
+            <a href="#" class="nav-btn-left">Discover Freelancers</a>
+            <a href="#" class="nav-btn-left">Post a new Project</a>
+        </div>
+        <div class="nav-right">
+            <div class="menu-btn-right">
+                <input type="checkbox" id="profile-toggle">
+                <label for="profile-toggle">Profile</label>
+                <div class="menu" id="profile-menu">
+                    <button onclick="window.location.href='my_profile.html'">My Profile</button>
+                    <button onclick="window.location.href='#'">Active Projects</button>
+                    <button onclick="window.location.href='#'">Finished Projects</button>
+                    <button onclick="window.location.href='#'">Log Out</button>
+                    <button onclick="window.location.href='#'">Settings</button>
+                </div>
+            </div>
+          </div>
+          
+    </header>
+    <section>
+        <div class="sidebar">
+            <form class="search-container">
+                <input type="text" placeholder="Search...">
+                <button type="submit">
+                    <img src="./search2.png" alt="Search">
+                </button>
+            </form>
+            <div class="filters-box">
+                <h2>Filters</h2>
+                <div class="filter">
+                    <label for="country">Country:</label>
+                    <select id="country">
+                        <option value="all">All</option>
+                        <option value="romania">Romania</option>
+                    </select>
+                </div>
+                <div class="filter">
+                    <label for="country">City:</label>
+                    <select id="country">
+                        <option value="all">All</option>
+                        <option value="iasi">Iasi</option>
+                        <option value="timisoara">Timisoara</option>
+                        <option value="vaslui">Vaslui</option>
+                    </select>
+                </div>
+                <div class="filter">
+                    <label for="skills">Skills:</label>
+                    <input type="text" id="skills" placeholder="Enter skills">
+                </div>
+                <button class="apply-btn">Apply</button>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="freelancers-list">
+                <div class="freelancer-box">
+                    <img src="./profile pic.png"></img>
+                    <div class="freelancer-text-input">
+                        <h2>NumeFreelancer</h2>
+                        <div class="text-container">
+                           <div class="title"><h3>Proffesional areas: </h3></div>
+                            <div class="content-tags">
+                                <p>light instalation</p>
+                                <p>window repair</p>
+                            </div>
+                        </div>
+                        <div class="text-container">
+                            <div class="title"><h3>Address: </h3></div>
+                             <div class="content"><p>blabla</p></div>
+                         </div>
+                        <div class="freelancer-hire-button">
+                            <div class="boxBtn"><a href="#" >Send Hire Request</a> </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="freelancer-box">
+                    <img src="./profile pic.png"></img>
+                    <div class="freelancer-text-input">
+                        <h2>NumeFreelancer</h2>
+                        <div class="text-container">
+                           <div class="title"><h3>Proffesional areas: </h3></div>
+                            <div class="content-tags">
+                                <p>wall painter</p>
+                                <p>floor instalation</p>
+                                <p>electrician</p>
+                                <p>electrician</p>
+                            </div>
+                        </div>
+                        <div class="text-container">
+                            <div class="title"><h3>Address: </h3></div>
+                             <div class="content"><p>blabla</p></div>
+                         </div>
+                        <div class="freelancer-hire-button">
+                            <div class="boxBtn"><a href="#" >Send Hire Request</a> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

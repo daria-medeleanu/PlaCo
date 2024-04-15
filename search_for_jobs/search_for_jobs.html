@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="search_for_jobs.css"> 
+    <link rel="shortcut icon" type="image/x-icon" href="logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+</head>
+<body>
+    <header>
+        <div class="nav-left">
+            <a class="logo-pic" href="#"><img src="logo.png"  class="logo"  alt="Logo"></a>
+            <div class="nav-btn-left">PlaCo</div>
+            <a href="#" class="nav-btn-left">Search for Jobs</a>
+        </div>
+        <div class="nav-right">
+            <div class="menu-btn-right">
+                <input type="checkbox" id="profile-toggle">
+                <label for="profile-toggle">Profile</label>
+                <div class="menu" id="profile-menu">
+                    <button onclick="window.location.href='#'">My Profile</button>
+                    <button onclick="window.location.href='#'">My Portfolio</button>
+                    <button onclick="window.location.href='#'">Log Out</button>
+                    <button onclick="window.location.href='#'">Settings</button>
+                </div>
+            </div>
+          </div>
+          
+    </header>
+    <section>
+        <div class="sidebar">
+            <form class="search-container">
+                <input type="text" placeholder="Search...">
+                <button type="submit">
+                    <img src="./search2.png" alt="Search">
+                </button>
+            </form>
+            <div class="filters-box">
+                <h2>Filters</h2>
+                <div class="filter">
+                    <label for="country">Country:</label>
+                    <select id="country">
+                        <option value="all">All</option>
+                        <option value="romania">Romania</option>
+                    </select>
+                </div>
+                <div class="filter">
+                    <label for="country">City:</label>
+                    <select id="country">
+                        <option value="all">All</option>
+                        <option value="iasi">Iasi</option>
+                        <option value="timisoara">Timisoara</option>
+                        <option value="vaslui">Vaslui</option>
+                    </select>
+                </div>
+                <div class="filter">
+                    <label for="skills">Skills:</label>
+                    <input type="text" id="skills" placeholder="Enter skills">
+                </div>
+                <button class="apply-btn">Apply</button>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="projects-list">
+                <a href="#" class="project-box">
+                    <div class="project-text-input">
+                        <h2>Project name</h2>
+                        <div class="text-container">
+                           <div class="title"><h3>Proffesional areas: </h3></div>
+                            <div class="content-tags">
+                                <p>light instalation</p>
+                                <p>window repair</p>
+                            </div>
+                        </div>
+                        <div class="text-container">
+                            <div class="title"><h3>Address: </h3></div>
+                             <div class="content"><p>blabla</p></div>
+                         </div>
+                         <div class="text-container">
+                            <div class="title"><h3>Description </h3></div>
+                             <div class="content">
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                 Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                                  It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                                </p>
+                            </div>
+                         </div>
+                    </div>
+                </a>
+                <a href="#" class="project-box">
+                    <div class="project-box">
+                        <div class="project-text-input">
+                            <h2>Project name</h2>
+                            <div class="text-container">
+                            <div class="title"><h3>Proffesional areas: </h3></div>
+                                <div class="content-tags">
+                                    <p>wall painter</p>
+                                    <p>floor instalation</p>
+                                    <p>electrician</p>
+                                    <p>electrician</p>
+                                </div>
+                            </div>
+                            <div class="text-container">
+                                <div class="title"><h3>Address: </h3></div>
+                                <div class="content">
+                                    <p>blabla</p>
+                                </div>
+                            </div>
+                            <div class="text-container">
+                                <div class="title"><h3>Description </h3></div>
+                                 <div class="content">
+                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                     Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                                      It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                                    </p>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+    
+   
+</body>
+</html>
