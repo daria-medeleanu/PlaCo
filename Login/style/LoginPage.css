@@ -1,0 +1,143 @@
+body{
+    background-color: #14213d;
+    font-family: Inter; 
+}
+a{
+    color: white;
+    text-decoration: none;
+}
+.logo{
+    padding-left: 20px;
+}
+.logo-content{
+    display:flex;
+    align-items:center;
+}
+.logo-pic{
+    display: flex;
+    align-items:center;
+    .logo-image{
+        width: 40px;
+        height: 40px;
+        margin: 10;
+    }
+    .writing{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        font-weight: bold;
+    }
+}
+
+.title{
+    display: flex;
+    justify-content: center;
+    color: #fca311;
+}
+.wrapper{
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+}
+
+
+label {
+    display: block; 
+    margin-top: 10px;
+    margin-bottom: 10px; 
+}
+
+.wrapper-link{
+    color:#fca311;
+    margin-top:10px;
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+.login-btn{
+    margin-top:10px;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 400px;
+    background-color:#fca311;
+    border:none;
+    padding: 12px;
+    font-family: Inter;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all .5s;
+}
+.sign-up-btn{
+    width: auto;
+}
+.login-btn:hover, .sign-up-btn:hover {
+    background: white;
+    /* color: #000; */
+} 
+
+
+input[type="text"], input[type="password"], input[type="email"] {
+    /* padding: 12px;  */
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-bottom: 20px; 
+    background-color: #e5e5e5;   
+    border: none; 
+    font-family: Inter; 
+    width: 100%;
+    max-width: 400px;
+}
+input[type="text"]::placeholder,
+input[type="password"]::placeholder, input[type="email"]::placeholder {
+    color: #14213d; 
+    font-style: italic;
+    text-align:center;
+}
+input[type="text"]:focus,
+input[type="password"]:focus, input[type="email"] {
+    outline-color: #fca311; 
+}
+
+.remember-me{
+    display:flex;
+    flex-direction: row;
+    color:white;
+    font-size: 12px;
+
+}
+.sign-up-menu{
+    display: flex;
+    flex-direction: inline;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 400px;
+}
+.message-forg-pass{
+    color:#fca311;
+    width:100%;
+    margin-bottom: 20px;
+    text-align:center;
+}
+@media screen and (max-width: 600px){
+    input[type="text"], input[type="password"], input[type="email"]{
+        max-width:100%;
+    }       
+    .login-container{
+        width:100%;
+    }
+    .login-btn{
+        max-width:100%;
+    }
+    .sign-up-menu{
+        flex-direction:column;
+        max-width:100%;
+    }
+}

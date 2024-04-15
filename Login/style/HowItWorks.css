@@ -1,0 +1,101 @@
+body{
+    background-color:#14213d;
+}
+.header{
+    border-bottom: 3px solid #fca311
+}
+.nav-btn-left{
+    border-right: none ;
+}
+.sections-wrapper{
+    /* flex-direction:row; */
+    /* padding: 110px 140px; */
+    margin-bottom: 80px;
+}
+.content-wrapper{
+    /* margin-top: 120px; */
+    padding: 90px 120px;
+
+}
+.section{
+    display:flex;
+    padding-top:15px;
+    padding-bottom:15px;
+    padding-right: 15px;
+    flex-direction: row;
+}
+.number-wrapper{
+    display:flex;
+    /* align-items:center; */
+}
+.img-steps{
+    width: 100px;
+    height: 100px;
+}
+.steps-info{
+    display:flex;
+    align-items:center;
+    color:white;
+    text-align: justify;
+}
+.section:hover {
+    /* background-color: #1e3362; */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.how-to-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 20px; 
+}
+.how-to-btn-1{
+    padding: 20px 20px;
+    /* margin: 0 10px;  */
+    background-color: #fca311;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align:center;
+}
+.how-to-btn-2{
+    padding: 20px 20px;
+    /* margin: 0 10px;  */
+    background-color: #fca311;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align:center;
+}
+
+.how-to-info{
+    background-color:#fca311;
+    padding:40px;
+    color: white;
+    text-align: justify;
+    border: 5px solid #ddbf8d;
+}
+
+
+@media screen and (max-width: 600px) {
+	/* .sections-wrapper {
+		padding: 100px 10px;
+		padding-bottom: 100px;
+    } */
+    .content-wrapper{
+        padding:60px;
+    }
+    /* .first-section{
+        padding: 125px 30px;
+        padding-bottom: 20px;
+    } */
+    .img-steps{
+        width: 70px;
+        height: 70px;
+    }
+    .how-to-buttons{
+        display:block;
+    }
+    
+}
