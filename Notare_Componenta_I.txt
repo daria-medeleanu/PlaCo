@@ -1,0 +1,15 @@
+Ce mi-a placut:
+Pagina are un design placut, inchegat...
+Paginile sunt valide (cu exceptia scholarliului ala ?!) si am vazut si ceva responsive pe acolo...
+Schilarly-ul este complet, explica 
+
+
+Ce ar mai fi trebuit sa fie (sau ce nu mi-a placut):
+- nu am reusit sa ajung prin toate paginile decat cautandu-le prin directoarele voastre - de exemplu nu stiu unde SE AJUNGE LA PAGINA client_profile 
+- toate paginile au peste tot numai Lorem Ipsumuri - daca eu le-am folosit la laboator este ca sa scriu ceva. Asta nu inseamna ca voi nu treubie sa faceti interfetele ca si cum ar fi real proiectul.... pentru ca nu imi dau seama ce ati  vrut sa faceti acolo, altfel...
+- mai trebuiau ceva pagini pentru o nota mai mare (eu cand am zis la lab "macar 5 pagini", inseamna pentru nota 5
+
+
+
+-----------
+Concluzii: nota 8
