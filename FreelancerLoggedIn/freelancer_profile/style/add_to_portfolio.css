@@ -179,3 +179,146 @@ input[type="checkbox"]:checked ~ .menu {
 		flex-direction: column;
 	}
 }
+.container {
+	display:flex;
+	flex-direction: column;
+	padding-top: 100px;
+	padding-left: 40px;
+	padding-right: 40px;
+	background-color: #F5F5F5;
+}
+.container h1 {
+	margin-bottom: 20px;
+	color: #fca311;
+}
+@media screen and (max-width: 600px)
+{
+	.container h1 {
+		font-size: 26px;
+	}
+}
+label {
+	display: flex;
+	margin-bottom: 5px;
+	font-weight: bold;
+	color:#0f1a3b;
+}
+input[type="file"] {
+	display: none;
+}
+.upload-label {
+	justify-content: center;
+	max-width: 30%;
+	padding: 20px 20px;
+	background-color: #14213d;
+	color: #fca311;
+	cursor: pointer;
+	font-weight: bold;
+}
+@media screen and (max-width: 600px)
+{
+	.upload-label {
+		max-width: 100%;
+	}
+
+}
+input[type="text"],
+textarea,
+select {
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+	resize: none;
+}
+
+button[type="submit"] {
+	width: 30%;
+	padding: 20px 20px;
+	background-color: #14213d;
+	color: #fca311;
+	border: none;
+	font-size: 18px;
+	font-weight: bold;
+	cursor: pointer;
+}
+@media screen and (max-width: 600px)
+{
+	button[type="submit"] {
+		width: 100%;
+	}
+
+}
+button[type="submit"]:hover {
+	background-color: #0f1a3b;
+} 
+.uploaded-files {
+	margin-top: 20px;
+	display:flex;
+}
+.uploaded-file {
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+	margin-right: 30px;
+}
+.uploaded-file img {
+	width: 150px;
+	height: 170px;
+	margin-right: 5px;
+	border: 1px solid #ccc;
+}
+.delete-button {
+	background-color: #0f1a3b;
+	color: white;
+	border: none;
+	padding: 5px 8px;
+	font-size: 14px;
+	cursor: pointer;
+}
+.tags-container {
+    display: flex;
+    align-items: center;
+	max-width: max-content;
+	
+}
+@media screen and (max-width: 600px)
+{
+	.tags-container {
+		max-width: 100%;
+	}
+}
+
+#addTag {
+    padding: 8px 16px;
+    background-color: #14213d;
+    color: #fca311;
+    border: none;
+    cursor: pointer;
+	margin-bottom: 20px;
+	margin-left: 5px;
+}
+
+.selected-tags {
+    margin-bottom: 20px;
+}
+
+.selected-tags div {
+    background-color: #0f1a3b;
+    color: #fff;
+    padding: 5px 10px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    display: inline-block;
+	font-size:14px;
+}
+
+.selected-tags div button {
+    background-color: #0f1a3b;
+    color: #fca311;
+    border: none;
+    padding: 3px 0px 3px 3px;
+	margin-left: 5px;
+    font-size: 15px;
+    cursor: pointer;
+}

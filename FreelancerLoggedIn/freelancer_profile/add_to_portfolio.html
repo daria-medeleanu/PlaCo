@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
+    <title>Add to Portfolio</title>
     <link rel="stylesheet" href="./style/add_to_portfolio.css"> 
     <link rel="shortcut icon" type="image/x-icon" href="./img/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
@@ -60,6 +60,112 @@
             event.stopPropagation();
         });
     </script>
-   
+    <div class="container">
+        <h1>Portfolio Item Upload</h1>
+        <form id="portfolioForm" action="your_server_side_script" method="post" enctype="multipart/form-data">
+            
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+            
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="6" required></textarea>
+
+            <input type="file" id="file" name="file" multiple style="display: none;">
+            <label for="file" class="upload-label">+ Upload Files</label>
+            <div class="uploaded-files" id="uploadedFiles"></div>
+
+            <label for="tags">Select Tags:</label>
+            <div class="tags-container">
+                <input type="text" id="tagsInput" list="tagList" placeholder="Enter or select tag">
+                <datalist id="tagList">
+                    <option>Tag 1</option>
+                    <option>Tag 2</option>
+                    <option>Tag 3</option>
+                    <option>Tag 4</option>
+                </datalist>
+                <button id="addTag">Add</button>
+            </div>
+            <div class="selected-tags" id="selectedTags"></div>
+            
+            <button type="submit">Save</button>
+        </form>
+    </div>
+
+    <script>
+       document.getElementById('file').addEventListener('change', function(event) {
+        const files = event.target.files;
+        const uploadedFilesDiv = document.getElementById('uploadedFiles');
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const fileReader = new FileReader();
+            fileReader.onload = function(e) {
+                const fileUrl = e.target.result;
+                const uploadedFileDiv = document.createElement('div');
+                uploadedFileDiv.classList.add('uploaded-file');
+
+                const image = document.createElement('img');
+                image.src = fileUrl;
+                image.alt = file.name;
+
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('delete-button');
+                deleteButton.innerHTML = 'X';
+                deleteButton.onclick = function() {
+                    uploadedFileDiv.remove(); // Remove the uploaded file container
+                };
+
+                uploadedFileDiv.appendChild(image);
+                uploadedFileDiv.appendChild(deleteButton);
+                uploadedFilesDiv.appendChild(uploadedFileDiv);
+            };
+            fileReader.readAsDataURL(file);
+        }
+        // Clear the file input value after processing files to allow selecting the same file again
+        event.target.value = '';
+    });
+
+    document.querySelector('.upload-label').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the default behavior of the label click event
+        document.getElementById('file').click();
+    });
+    </script>
+
+    <script> //tags
+        document.getElementById('addTag').addEventListener('click', function() {
+        event.preventDefault(); //ca sa nu mai apara required-ul de la title input
+        const tagsInput = document.getElementById('tagsInput');
+        const selectedTagsDiv = document.getElementById('selectedTags');
+        
+        let selectedTagName = tagsInput.value.trim();
+        if (selectedTagName === '') return; // fara empty tags
+
+        // Check if the entered tag already exists among the predefined tags
+        const tagExists = document.querySelector(`#tagList option[value="${selectedTagName}"]`);
+        
+        if (!tagExists) {
+            // Create a new option to select the entered tag in the future
+            const newTagOption = document.createElement('option');
+            newTagOption.value = selectedTagName;
+            document.getElementById('tagList').appendChild(newTagOption);
+        }
+
+        // Create the selected tag element
+        const selectedTagDiv = document.createElement('div');
+        selectedTagDiv.textContent = selectedTagName;
+
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'X';
+        removeButton.classList.add('remove-tag');
+        removeButton.addEventListener('click', function() {
+            selectedTagDiv.remove();
+            removeButton.remove();
+        });
+
+        selectedTagDiv.appendChild(removeButton);
+        selectedTagsDiv.appendChild(selectedTagDiv);
+        // Clear the input field
+        tagsInput.value = '';
+    });
+    </script>
 </body>
 </html>
