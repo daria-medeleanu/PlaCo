@@ -133,7 +133,10 @@
             document.getElementById('changePassword').style.display = 'none';
             document.getElementById('statistics').style.display = 'block';
         }
-
+        //prima data deschide edit profile ca sectiune default pt settings
+        window.onload = function() {
+        showEditProfile();
+        };
         //tags
         document.getElementById('addTag').addEventListener('click', function() {
         event.preventDefault(); //ca sa nu mai apara required-ul de la title input
