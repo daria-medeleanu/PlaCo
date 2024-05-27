@@ -206,6 +206,27 @@ body {
 .right-panel {
     flex:2;
     padding: 20px;
+	margin-right:10px;
+	margin-left: 10px;
+}
+@media screen and (max-width: 600px){
+	.container {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		margin-top: 60px;
+		background-color: #F5F5F5;
+	}
+	.left-panel h1{
+		text-align: center;
+	}
+	.left-panel {
+		border-right: none;
+	}
+	.right-panel {
+		flex:2;
+		padding: 20px;
+	}
 }
 .right-panel h2 {
 	margin-bottom: 20px;
@@ -225,7 +246,7 @@ body {
 .button:hover {
     background-color: #14213d;
 }
-.button-save {
+.button-submit {
     width: 30%;
     padding: 10px 10px;
     margin-bottom: 30px;
@@ -237,8 +258,14 @@ body {
 	font-weight: bold;
     cursor: pointer;
 }
-.button-save:hover {
+.button-submit:hover {
     background-color: #14213d;
+}
+@media screen and (max-width: 600px)
+{
+	.button-submit {
+		width: 50%;
+	}
 }
 .form-input {
     margin-bottom: 20px;
@@ -267,7 +294,13 @@ body {
     cursor: pointer;
 	margin-left: 15px;
 }
-
+@media screen and (max-width: 400px)
+{
+	#addTag {
+		padding: 10px 10px;
+		margin-left: 0px;
+	}
+}
 .selected-tags {
     margin-bottom: 20px;
 }
@@ -320,7 +353,21 @@ body {
     border: none;
     cursor: pointer;
 }
-
+@media screen and (max-width: 400px){
+	.profile-picture-container {
+		display:flex;
+		flex-direction: column;
+	}
+	.upload-profile-picture-button {
+	margin-left: 0px;
+	margin-top:10px;
+	}
+}
 .upload-profile-picture-button:hover {
     background-color: #14213d;
+}
+.change-password{
+}
+.statistics{
+	
 }
