@@ -13,7 +13,7 @@
     <div class="header">
         <div class="nav-left">
             <a class="logo-pic" href="../../Login/DashboardLogin.html">
-                <img src="img/logo.png" class="logo" alt="Logo">
+                <img src="logo.png" class="logo" alt="Logo">
                 <div class="nav-btn-left">PlaCo</div>
             </a>
         </div>
@@ -70,15 +70,33 @@
             <button class="button" onclick="showStatistics()">See Your Statistics</button>
         </div>
         <div class="right-panel">
-            <div id="editProfile" style="display: none;">
+            <div id="editProfile">
                 <h2>Edit Profile</h2>
+                <div class="profile-picture-container">
+                    <img src="profile_icon.png" alt="Profile Picture" id="profilePicture">
+                    <input type="file" id="profilePictureInput" accept="image/*">
+                    <label for="profilePictureInput" class="upload-profile-picture-button">Upload New Picture</label>
+                </div>
                 <input type="text" class="form-input" placeholder="Name">
                 <input type="text" class="form-input" placeholder="Phone number">
                 <input type="text" class="form-input" placeholder="Email address">
                 <input type="text" class="form-input" placeholder="Address">
                 
                 <h2>Professional areas:</h2>
-                <button class="button">Save Changes</button>
+                <div class="tags-container">
+                    <input type="text" id="tagsInput" list="tagList" placeholder="Enter or select tag">
+                    <datalist id="tagList">
+                        <option value="Tag 1"></option>
+                        <option value="Tag 2"></option>
+                        <option value="Tag 3"></option>
+                        <option value="Tag 4"></option>
+                    </datalist>
+                    <button id="addTag">Add</button>
+                </div>
+
+                <div class="selected-tags" id="selectedTags"></div>
+                <button class="button-save">Save Changes</button>
+            
             </div>
             <div id="changePassword" style="display: none;">
                 <h2>Change Password</h2>
@@ -116,6 +134,54 @@
             document.getElementById('changePassword').style.display = 'none';
             document.getElementById('statistics').style.display = 'block';
         }
+
+        //tags
+        document.getElementById('addTag').addEventListener('click', function() {
+        event.preventDefault(); //ca sa nu mai apara required-ul de la title input
+        const tagsInput = document.getElementById('tagsInput');
+        const selectedTagsDiv = document.getElementById('selectedTags');
+        
+        let selectedTagName = tagsInput.value.trim();
+        if (selectedTagName === '') return; // fara empty tags
+
+        // Check if the entered tag already exists among the predefined tags
+        const tagExists = document.querySelector(`#tagList option[value="${selectedTagName}"]`);
+        
+        if (!tagExists) {
+            // Create a new option to select the entered tag in the future
+            const newTagOption = document.createElement('option');
+            newTagOption.value = selectedTagName;
+            document.getElementById('tagList').appendChild(newTagOption);
+        }
+
+        // Create the selected tag element
+        const selectedTagDiv = document.createElement('div');
+        selectedTagDiv.textContent = selectedTagName;
+
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'X';
+        removeButton.classList.add('remove-tag');
+        removeButton.addEventListener('click', function() {
+            selectedTagDiv.remove();
+            removeButton.remove();
+        });
+
+        selectedTagDiv.appendChild(removeButton);
+        selectedTagsDiv.appendChild(selectedTagDiv);
+        // Clear the input field
+        tagsInput.value = '';
+    });
+
+    // Profile picture upload
+    document.getElementById('profilePictureInput').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById('profilePicture').src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+    });
+
     </script>
 </body>
 </html>
