@@ -11,6 +11,7 @@ a {
 	color: White;
 	cursor: pointer;
 }
+
 .header {
 	position: fixed;
 	top: 0;
@@ -104,7 +105,7 @@ input[type="checkbox"]:checked ~ .menu {
 	top: 100%;
 	background-color: #e5e5e5;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-	margin-left:-15px;
+	margin-left:-35px;
 	margin-top: -10px; 
 	z-index: 11; 
 }	
@@ -134,6 +135,7 @@ input[type="checkbox"]:checked ~ .menu {
 	margin-right: 10px;
 	padding:10px;
 }
+	
 @media screen and (max-width: 600px){
 	.nav-right {
 		display: none;
@@ -179,6 +181,7 @@ input[type="checkbox"]:checked ~ .menu {
 		flex-direction: column;
 	}
 }
+
 .container {
 	display:flex;
 	flex-direction: column;
@@ -321,4 +324,25 @@ button[type="submit"]:hover {
 	margin-left: 5px;
     font-size: 15px;
     cursor: pointer;
+}
+
+.budget-container{
+    display: flex;
+    align-items: center;
+	max-width: 60%;
+    justify-content: space-between;
+}
+.budget-container input[type="text"]{
+	padding: 10px;
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+	resize: none;
+}
+#CurrencyInput{
+    max-width: 40%;
+    padding: 10px;
+	margin-bottom: 20px;
+    margin-right: 20px;
+	border: 1px solid #ccc;
+	resize: none;
 }
