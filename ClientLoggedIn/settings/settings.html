@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
-    <link rel="stylesheet" href="style/client_profile.css"> 
-    <link rel="shortcut icon" type="image/x-icon" href="img/logo.png">
+    <title>Settings</title>
+    <link rel="stylesheet" href="settings.css"> 
+    <link rel="shortcut icon" type="image/x-icon" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-
     <div class="header">
         <div class="nav-left">
             <a class="logo-pic" href="../../Login/DashboardLogin.html">
@@ -39,7 +38,6 @@
             <i class="fa fa-bars"></i>
         </a>
     </div>
-
     <script>
         function toggleMenu() {
             var navRight = document.querySelector('.nav-right');
@@ -64,35 +62,60 @@
         });
     </script>
 
-    <section class="profile-info">
-        <div class="profile-picture">
-        <img src="./img/profile-icon.png" alt="Add Profile Picture">
+    <div class="container">
+        <div class="left-panel">
+            <h1>Settings</h1>
+            <button class="button" onclick="showEditProfile()">Edit Profile</button>
+            <button class="button" onclick="showChangePassword()">Change Password</button>
+            <button class="button" onclick="showStatistics()">See Your Statistics</button>
         </div>
-        <div class="info-text">
-            <h2>Professional areas:</h2>
-            <p>Name:</p>
-            <p>Phone number:</p>
-            <p>Email address:</p>
-            <p>Address:</p>
-            <p>Joining date:</p>
+        <div class="right-panel">
+            <div id="editProfile" style="display: none;">
+                <h2>Edit Profile</h2>
+                <input type="text" class="form-input" placeholder="Name">
+                <input type="text" class="form-input" placeholder="Phone number">
+                <input type="text" class="form-input" placeholder="Email address">
+                <input type="text" class="form-input" placeholder="Address">
+                
+                <h2>Professional areas:</h2>
+                <button class="button">Save Changes</button>
+            </div>
+            <div id="changePassword" style="display: none;">
+                <h2>Change Password</h2>
+                <input type="password" class="form-input" placeholder="Current Password">
+                <input type="password" class="form-input" placeholder="New Password">
+                <input type="password" class="form-input" placeholder="Confirm New Password">
+                <button class="button">Change Password</button>
+            </div>
+            <div id="statistics" style="display: none;">
+                <h2>Your Statistics</h2>
+                <div class="statistics">
+                    Total Logins: 100<br>
+                    Profile Views: 50<br>
+                    Messages Received: 20
+                </div>
+            </div>
         </div>
-     </section>
-     <section class="box">
-        <div class="btn-see-projects">
-            <div class="boxBtn"><a href="active_projects.html" > See Active Projects</a> </div>
-            <div class="boxBtn"><a href="finished_projects.html"> See Finished Projects</a></div>
-        </div>
-        <div class="btn-edit-profile">
-            <div class="boxBtn"><a href="settings.html" >Edit Profile</a> </div>
-        </div>
-    </section>
-    <section class="review">
-        <h2>Reviews</h2>
-        <h3>user10</h3>
-        <p> 5 stele, calificat</p>
-        <h3>userAnaMaria</h3>
-        <p> mi-a stricat gresia din baie</p>
-    </section>
-   
+    </div>
+
+    <script>
+        function showEditProfile() {
+            document.getElementById('editProfile').style.display = 'block';
+            document.getElementById('changePassword').style.display = 'none';
+            document.getElementById('statistics').style.display = 'none';
+        }
+
+        function showChangePassword() {
+            document.getElementById('editProfile').style.display = 'none';
+            document.getElementById('changePassword').style.display = 'block';
+            document.getElementById('statistics').style.display = 'none';
+        }
+
+        function showStatistics() {
+            document.getElementById('editProfile').style.display = 'none';
+            document.getElementById('changePassword').style.display = 'none';
+            document.getElementById('statistics').style.display = 'block';
+        }
+    </script>
 </body>
 </html>

@@ -211,12 +211,18 @@ input[type="file"] {
 }
 .upload-label {
 	justify-content: center;
-	max-width: 30%;
+	max-width: 35%;
 	padding: 20px 20px;
 	background-color: #14213d;
 	color: #fca311;
 	cursor: pointer;
 	font-weight: bold;
+}
+@media screen and (max-width: 1000px)
+{
+    .upload-label {
+		max-width: 50%;
+	}
 }
 @media screen and (max-width: 600px)
 {
@@ -236,7 +242,7 @@ select {
 }
 
 button[type="submit"] {
-	width: 30%;
+	width: 35%;
 	padding: 20px 20px;
 	background-color: #14213d;
 	color: #fca311;
@@ -244,6 +250,13 @@ button[type="submit"] {
 	font-size: 18px;
 	font-weight: bold;
 	cursor: pointer;
+    margin-top:20px;
+}
+@media screen and (max-width: 1000px)
+{
+    button[type="submit"] {
+		width: 50%;
+	}
 }
 @media screen and (max-width: 600px)
 {
@@ -329,7 +342,7 @@ button[type="submit"]:hover {
 .budget-container{
     display: flex;
     align-items: center;
-	max-width: 60%;
+	max-width: 35%;
     justify-content: space-between;
 }
 .budget-container input[type="text"]{
@@ -339,10 +352,22 @@ button[type="submit"]:hover {
 	resize: none;
 }
 #CurrencyInput{
-    max-width: 40%;
+    max-width: 30%;
     padding: 10px;
 	margin-bottom: 20px;
     margin-right: 20px;
 	border: 1px solid #ccc;
 	resize: none;
+}
+@media screen and (max-width: 1000px)
+{
+    .budget-container{
+        max-width: 50%;
+    }
+}
+@media screen and (max-width: 600px)
+{
+    .budget-container{
+        max-width: 100%;
+    }
 }
