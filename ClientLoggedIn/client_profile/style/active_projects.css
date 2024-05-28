@@ -1,0 +1,287 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+body {
+	font-family: Inter;
+    background-color: #e5e5e5;
+}
+a {
+	text-decoration: none;
+	color: White;
+	cursor: pointer;
+}
+
+.header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 10;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	color: #fff;
+    background-color: #14213d;
+}
+
+.nav-left {
+    display: flex;
+    padding-left: 20px;
+}
+
+.nav-left .logo-pic {
+    display: flex;
+}
+
+.nav-left .logo-pic .logo {
+    width: 40px;
+    height: 40px;
+    margin: 10px;
+}
+
+.nav-btn-left{
+	display:flex;	
+	align-items: center;
+	padding:20px;
+	font-weight: bold;
+	border-right: 3px solid #fca311 ;
+}
+
+.nav-right .nav-btn-left:hover{
+	background-color: #fca311;
+}
+
+.nav-right {
+	display:flex;
+	padding-right: 20px;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.nav-btn-right{
+	display:flex;
+    align-items: center;
+    padding:10px;
+    font-weight: bold;
+	background-color: #e5e5e5;
+	color: #14213d;
+	margin-right: 10px;
+}
+
+.options-nav-bar{
+	display:flex;
+	flex-direction: row;
+}
+.profile-btn-wrapper{
+	display:flex;
+	align-items: center;
+}
+
+input[type="checkbox"] {
+	display: none;
+}
+input[type="checkbox"]:checked ~ .menu {
+	display: block;
+}
+.menu-btn-right{
+	display:flex;
+	align-items: center;
+}
+
+.menu-btn-right label{
+	display:flex;
+    align-items: center;
+    padding:10px;
+    font-weight: bold;
+	background-color: #e5e5e5;
+	color: #14213d;
+	margin-right: 10px;
+	cursor:pointer;
+}
+
+.menu {
+	display: none;
+	position: absolute; 
+	top: 100%;
+	background-color: #e5e5e5;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	margin-left:-35px;
+	margin-top: -10px; 
+	z-index: 11; 
+}	
+  
+.menu button {
+	display: block;
+	width: 100%;
+	padding: 10px;
+	border: none;
+	background-color: transparent;
+	text-align: center;
+	color: #14213d;
+	border-bottom: 3px solid #fca311 ;
+	font-family: Inter;
+	font-weight: bold;
+	cursor:pointer;
+}
+
+.menu button:hover {
+	background-color: #ddd;
+}
+
+
+.icon{
+	display:none;
+	color: white;
+	margin-right: 10px;
+	padding:10px;
+}
+	
+@media screen and (max-width: 600px){
+	.nav-right {
+		display: none;
+	}
+	.btn-dissapear{
+		display:none;
+	}
+	.icon {
+		display: block;
+	}
+	.header{
+		justify-content: space-between;
+	}
+	.nav-btn-left{
+		border:none;
+	}
+	.menu-btn-right{
+		padding-left:20px;
+	}
+	.menu{
+		margin-left:-10px;
+	}
+
+	.nav-right.collapsed {
+		display: flex;
+		flex-direction: column;
+		position: absolute;
+		top: 60px;
+		right: 0;
+		background-color: #14213d;
+		width: 100%;
+		padding: 10px;
+	}
+	
+	.nav-right.collapsed .btn-dissapear {
+		display: flex;
+	}
+	
+	.nav-right.collapsed .nav-btn-right {
+		display: flex;
+	}
+	.options-nav-bar{
+		flex-direction: column;
+	}
+}
+
+.project-container {
+    padding-top: 80px;
+    padding-left: 20px;
+    padding-right:20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.project {
+    width: calc(30% - 20px); 
+    position: relative;
+    cursor: pointer;
+    margin-top:20px;
+    margin-bottom: 20px;
+    margin-right:20px;
+    margin-left:20px;
+}
+
+.project-image {
+    width: 100%;
+    height: 250px;
+}
+
+.project-title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #14213d;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    opacity: 0; 
+    transition: opacity 0s ease;
+}
+
+.project:hover .project-title {
+    opacity: 1; 
+}
+
+.add-project {
+    width: calc(30% - 20px); 
+    height: 250px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-right:20px;
+    margin-left:20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #fca311;
+    text-decoration: none;
+    color: #14213d;
+}
+
+.add-symbol {
+    font-size: 36px;
+}
+
+.add-text {
+    margin-left: 10px;
+    font-weight: bold;
+}
+@media screen and (max-width: 700px){
+    .project-container{
+        padding-left: 0px;
+        padding-right:0px;
+    }
+    .project {
+        width: calc(40%);
+        margin-right:10px;
+        margin-left:10px;
+    } 
+    .add-project {
+        width: calc(40%); 
+        height: 200px;
+        margin-right:10px;
+        margin-left:10px;
+    }
+    .project-image {
+        width: 100%;
+        height: 200px;
+    }
+}
+@media screen and (max-width: 400px){
+    .project {
+        width: calc(100%);
+        margin-right:30px;
+        margin-left:30px;
+    } 
+    .project-image {
+        height: 180px;
+    }
+    .add-project {
+        width: calc(100%); 
+        height: 180px;
+        margin-right:30px;
+        margin-left:30px;
+    }
+}
+
