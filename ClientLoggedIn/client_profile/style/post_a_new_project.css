@@ -365,9 +365,25 @@ button[type="submit"]:hover {
         max-width: 50%;
     }
 }
+@media screen and (max-width: 800px)
+{
+	.budget-container{
+        max-width: 100%;
+    }
+	#CurrencyInput{
+		
+		max-width: 35%;
+	}
+}
 @media screen and (max-width: 600px)
 {
     .budget-container{
+		align-items: baseline;
+		flex-direction: column;
         max-width: 100%;
     }
+	#CurrencyInput{
+		margin-top: 10px;
+		max-width: 50%;
+	}
 }

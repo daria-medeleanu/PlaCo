@@ -201,7 +201,7 @@ section {
 	section {
         display: flex;
         flex-direction: column;
-		padding: 125px 30px 35px 30px;
+		padding: 80px 30px 35px 30px;
 	}
 }
 .sidebar
@@ -213,10 +213,11 @@ section {
 @media (max-width: 1000px) {
     .sidebar
     {
-        width:40%;
+        width:70%;
         display:flex;
         flex-direction: column;
     }
+    
 }
 @media (max-width: 600px){
     .sidebar
@@ -224,6 +225,7 @@ section {
         width:100%;
         display:flex;
         flex-direction: column;
+        align-items: center;
     }
 }
 
@@ -253,6 +255,11 @@ section {
     display: flex;
     flex-direction: row;
     max-width:80%;
+}
+@media (max-width: 400px){
+    .search-container {
+        max-width:100%;
+    }
 }
 .search-container input[type=text] {
     padding: 5px;
