@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
+    <link rel="stylesheet" href="../header/header.css"> 
     <link rel="stylesheet" href="discover_freelancers.css"> 
     <link rel="shortcut icon" type="image/x-icon" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
@@ -31,7 +32,7 @@
                     <button onclick="window.location.href='../client_profile/active_projects.html'">Active Projects</button>
                     <button onclick="window.location.href='../client_profile/finished_projects.html'">Finished Projects</button>
                     <button onclick="window.location.href='../../Login/DashboardLogin.html'">Log Out</button>
-                    <button onclick="window.location.href='../settings.html'">Settings</button>
+                    <button onclick="window.location.href='../settings/settings.html'">Settings</button>
                 </div>
             </div>
         </div>
@@ -98,7 +99,7 @@
         </div>
         <div class="main-content">
             <div class="freelancers-list">
-                <div class="freelancer-box">
+                <div onclick="myhref('../../FreelancerLoggedIn/freelancer_profile/freelancer_profile.html');"  class="freelancer-box">
                     <img src="../client_profile/img/profile-icon.png" alt="img" />
                     <div class="freelancer-text-input">
                         <h2>NumeFreelancer</h2>
@@ -118,7 +119,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="freelancer-box">
+                <div onclick="myhref('../../FreelancerLoggedIn/freelancer_profile/freelancer_profile.html');" class="freelancer-box">
                     <img src="../client_profile/img/profile-icon.png" alt="img"/>
                     <div class="freelancer-text-input">
                         <h2>NumeFreelancer</h2>
@@ -143,5 +144,9 @@
             </div>
         </div>
     </section>
+    <script type="text/javascript">
+        function myhref(web){
+          window.location.href = web;}
+    </script>
 </body>
 </html>
