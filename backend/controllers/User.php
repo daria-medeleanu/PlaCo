@@ -15,33 +15,41 @@
 
             //init data 
             $data = [
-                'fname' => trim($_POST['fname']),
-                'lname' => trim($_POST['lname']),
+                'prenume' => trim($_POST['prenume']),
+                'nume' => trim($_POST['nume']),
                 'email' => trim($_POST['email']),
-                'psw' => trim($_POST['psw']),
-                'psw-conf' => trim($_POST['psw-conf'])
+                'password_hash' => trim($_POST['password_hash']),
+                // 'psw-conf' => trim($_POST['psw-conf']),
+                'user_type' => "client"
             ];
 
+
             //validare inputuri 
-            if(empty($data['fname']) || empty($data['lname']) || empty($data['email']) || empty($data['psw']) || empty($data['psw-conf'])){
+            if(empty($data['prenume']) || empty($data['nume']) || empty($data['email']) || empty($data['password_hash']) || empty(trim($_POST['psw-conf'])) ){
                 flash("register", "Please fill out all inputs");
                 redirect("../../frontend/Login/SignUp.php");
             }
 
-            // if(!preg_match("/^[a-zA-Z0-9]*$/", $data['usersUid'])){
-            //     flash("register", "Invalid username");
-            //     redirect("../signup.php");
-            // }
+            if(!preg_match("/^[a-zA-Z]*$/", $data['prenume'])){
+                flash("register", "Invalid first name. Don't use special characters or numbers!");
+                redirect("../../frontend/Login/SignUp.php");
+            } 
 
-            // if(!filter_var($data['usersEmail'], FILTER_VALIDATE_EMAIL)){
-            //     flash("register", "Invalid email");
-            //     redirect("../signup.php");
-            // }
+            if(!preg_match("/^[a-zA-Z]*$/", $data['nume'])){
+                flash("register", "Invalid last name. Don't use special characters or numbers!");
+                redirect("../../frontend/Login/SignUp.php");
+            } 
 
-            if(strlen($data['psw']) < 6){
+          
+            if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)){
+                flash("register", "Invalid email");
+                redirect("../../frontend/Login/SignUp.php");
+            }
+
+            if(strlen($data['password_hash']) < 6){
                 flash("register", "Invalid password");
                 redirect("../../frontend/Login/SignUp.php"); 
-            } else if($data['psw'] !== $data['psw-conf']){
+            } else if($data['password_hash'] !== trim($_POST['psw-conf'])){
                 flash("register", "Passwords don't match");
                 redirect("../../frontend/Login/SignUp.php");
             }

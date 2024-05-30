@@ -32,10 +32,10 @@
         <div class="wrapper"> 
             <div class="login-container">
                 <input type="hidden" name="type" value="register">
-                <input type="text" name="fname" placeholder="Enter first name" required> 
-                <input type="text" name="lname" placeholder="Enter last name" required>    
+                <input type="text" name="prenume" placeholder="Enter first name" required> 
+                <input type="text" name="nume" placeholder="Enter last name" required>    
                 <input type="email" name="email" placeholder="Enter email example: mary@gmail.com" required>     
-                <input type="password" name="psw" placeholder="Enter password" required>
+                <input type="password" name="password_hash" placeholder="Enter password" required>
                 <input type="password" name="psw-conf" placeholder="Confirm your password" required>
                 <div class="sign-up-menu">
                     <button class="login-btn sign-up-btn" type="submit" >Sign Up as Freelancer</button>            

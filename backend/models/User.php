@@ -10,23 +10,23 @@
         }
 
         public function register($data){
-            console_log('blabla');
-        }
-        //     $this->db->query('INSERT INTO users (usersName, usersEmail, usersUid, usersPwd) 
-        //     VALUES (:name, :email, :Uid, :password)');
-        //     //bind values
-        //     $this->db->bind(':name', $data['usersName']);
-        //     $this->db->bind(':email', $data['usersEmail']);
-        //     $this->db->bind(':Uid', $data['usersUid']);
-        //     $this->db->bind(':password', $data['usersPwd']);
+            // console_log('blabla');
+            $this->db->query('INSERT INTO users (nume, prenume, email, password_hash, user_type) 
+            VALUES (:nume, :prenume, :email, :password_hash, :user_type)');
+            //bind values
+            $this->db->bind(':nume', $data['nume']);
+            $this->db->bind(':prenume', $data['prenume']);
+            $this->db->bind(':email', $data['email']);
+            $this->db->bind(':password_hash', $data['password_hash']);
+            $this->db->bind(':user_type', $data['user_type']);
     
-        //     //execute
-        //     if($this->db->execute()){
-        //         return true;
-        //     }else{
-        //         return false;
-        //     }
-        // }
+            //execute
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
 
     }
 
