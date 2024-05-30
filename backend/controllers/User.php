@@ -54,6 +54,10 @@
                 redirect("../../frontend/Login/SignUp.php");
             }
 
+            if($this->userModel->findUserByEmail($data['email'])){
+                flash("register", "Email already used");
+                redirect("../../frontend/Login/SignUp.php");
+            }
             // all tests have passed
             if($this->userModel->register($data)){
                 redirect("../../frontend/Login/LoginPage.php");

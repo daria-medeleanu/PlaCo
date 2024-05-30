@@ -8,7 +8,12 @@
         public function __construct(){
             $this->db = new Database;
         }
-
+        public function findUserByEmail($email) {
+            $this->db->query('SELECT * FROM users WHERE email = :email');
+            $this->db->bind(':email', $email);
+            $row = $this->db->single();
+            return $row ? true : false;
+        }
         public function register($data){
             // console_log('blabla');
             $this->db->query('INSERT INTO users (nume, prenume, email, password_hash, user_type) 
