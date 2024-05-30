@@ -13,6 +13,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 
 </head>
+<script>
+        function setUserType(userType) {
+            document.getElementById('user_type').value = userType;
+        }
+    </script>
 <body>
     <div class="logo">
         <div class="logo-content">
@@ -32,14 +37,15 @@
         <div class="wrapper"> 
             <div class="login-container">
                 <input type="hidden" name="type" value="register">
+                <input type="hidden" name="user_type" id="user_type" value="">
                 <input type="text" name="prenume" placeholder="Enter first name" required> 
                 <input type="text" name="nume" placeholder="Enter last name" required>    
                 <input type="email" name="email" placeholder="Enter email example: mary@gmail.com" required>     
                 <input type="password" name="password_hash" placeholder="Enter password" required>
                 <input type="password" name="psw-conf" placeholder="Confirm your password" required>
                 <div class="sign-up-menu">
-                    <button class="login-btn sign-up-btn" type="submit" >Sign Up as Freelancer</button>            
-                    <button class="login-btn sign-up-btn" type="submit" >Sign Up as Client</button>            
+                    <button class="login-btn sign-up-btn" type="submit" onclick="setUserType('freelancer')">Sign Up as Freelancer</button>            
+                    <button class="login-btn sign-up-btn" type="submit" onclick="setUserType('client')">Sign Up as Client</button>            
                 </div>
                 
                 <a class="wrapper-link" href="LoginPage.php">Log In</a>

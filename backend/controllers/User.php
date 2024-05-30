@@ -20,7 +20,7 @@
                 'email' => trim($_POST['email']),
                 'password_hash' => trim($_POST['password_hash']),
                 // 'psw-conf' => trim($_POST['psw-conf']),
-                'user_type' => "client"
+                'user_type' => trim($_POST['user_type'])
             ];
 
 
