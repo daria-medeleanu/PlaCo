@@ -9,8 +9,8 @@
 class Database {
     private $host = 'localhost';
     private $user = 'root';
-    private $pass = '123456';
-    private $dbname = 'login-system';
+    private $pass = '';
+    private $dbname = 'placo';
 
     //va fi obiectul pdo
     private $dbh;

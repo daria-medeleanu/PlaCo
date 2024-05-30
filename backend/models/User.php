@@ -1,5 +1,5 @@
 <?php 
-    require_once '../librarie/Database.php';
+    require_once '../libraries/Database.php';
 
     class User {
         private $db;
