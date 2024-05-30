@@ -58,6 +58,9 @@
                 flash("register", "Email already used");
                 redirect("../../frontend/Login/SignUp.php");
             }
+
+            $data['password_hash'] = password_hash($data['password_hash'], PASSWORD_DEFAULT);
+
             // all tests have passed
             if($this->userModel->register($data)){
                 redirect("../../frontend/Login/LoginPage.php");
