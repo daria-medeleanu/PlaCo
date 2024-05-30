@@ -1,4 +1,4 @@
-<? php 
+<?php 
     require_once '../models/User.php';
     require_once '../helpers/session_helper.php';
     
@@ -38,13 +38,32 @@
             //     redirect("../signup.php");
             // }
 
-            if(strlen($data['usersPwd']) < 6){
+            if(strlen($data['psw']) < 6){
                 flash("register", "Invalid password");
-                redirect("../../frontend/Login/SignUp.php"); }
-            // } else if($data['usersPwd'] !== $data['pwdRepeat']){
-            //     flash("register", "Passwords don't match");
-            //     redirect("../signup.php");
-            // }
+                redirect("../../frontend/Login/SignUp.php"); 
+            } else if($data['psw'] !== $data['psw-conf']){
+                flash("register", "Passwords don't match");
+                redirect("../../frontend/Login/SignUp.php");
+            }
 
+            // all tests have passed
+            if($this->userModel->register($data)){
+                redirect("../../frontend/Login/LoginPage.php");
+            }else{
+                die("Something went wrong");
+            }
+
+        }
+}
+    $init = new Users;
+
+    //Ensure that user is sending a post request
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        switch($_POST['type']){
+            case 'register':
+                $init->register();
+                break;
+            default:
+            redirect("./Signup.php");
         }
     }

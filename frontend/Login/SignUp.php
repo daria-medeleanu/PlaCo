@@ -28,7 +28,6 @@
     <div class="title">
         <h2>Sign Up</h2>
     </div>
-    <?php flash('register') ?>
     <form action="../../backend/controllers/User.php" method="post">
         <div class="wrapper"> 
             <div class="login-container">
@@ -44,9 +43,10 @@
                 </div>
                 
                 <a class="wrapper-link" href="LoginPage.php">Log In</a>
+                <?php flash('register') ?>
             </div>
         </div>
     </form>
-
+    
 </body>
 </html>
