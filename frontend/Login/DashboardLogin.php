@@ -12,7 +12,7 @@
 <body>
     <div class="header">
         <div class="nav-left">
-            <a class="logo-pic" href="DashboardLogin.html">
+            <a class="logo-pic" href="DashboardLogin.php">
                 <img src="logo.png" class="logo" alt="Logo">
                 <div class="nav-btn-left">PlaCo</div>
             </a>
@@ -20,7 +20,7 @@
         <div class="nav-right">
             <a href="HowItWorks.html" class="nav-btn-left btn-dissapear">How it works</a>
             <div class="login-btn-wrapper">
-                <a class="nav-btn-right" href="LoginPage.html">Login</a>
+                <a class="nav-btn-right" href="LoginPage.php">Login</a>
             </div>
         </div>
         <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">
@@ -35,8 +35,8 @@
             dolore eu fugiat nulla pariatur.
         </h3>
         <div class="btn-cr-acc-menu">
-            <div class="boxBtn"><a href="SignUp.html" > Hire a freelancer</a> </div>
-            <div class="boxBtn"><a href="SignUp.html"> Start Freelancing</a></div>
+            <div class="boxBtn"><a href="SignUp.php" > Hire a freelancer</a> </div>
+            <div class="boxBtn"><a href="SignUp.php"> Start Freelancing</a></div>
         </div>
 
     </section>

@@ -12,7 +12,7 @@
 <body>
     <div class="logo">
         <div class="logo-content">
-            <a class="logo-pic" href="DashboardLogin.html">
+            <a class="logo-pic" href="DashboardLogin.php">
                 <div class="logo-pic">
                     <img src="logo.png" class="logo-image" alt="Logo">
                 </div>
@@ -30,14 +30,14 @@
             <div class="login-container">
                 <input type="text" name="uname" placeholder="Enter username" required>    
                 <input type="password" name="psw" placeholder="Enter password" required>
-                <a class="wrapper-link" href="ForgotPass.html">Forgot your password?</a>
+                <a class="wrapper-link" href="ForgotPass.php">Forgot your password?</a>
                 <button class="login-btn" type="submit" >Login</button>            
                 <div class="remember-me">
                     <input type="checkbox" id="remember-checkbox" name="remember">
                     <label for="remember-checkbox" class="checkbox-label">Remember me</label>
                 </div>
                 
-                <a class="wrapper-link" href="SignUp.html">Sign Up</a>
+                <a class="wrapper-link" href="SignUp.php">Sign Up</a>
             </div>
         </div>
     </form>
