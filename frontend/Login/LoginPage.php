@@ -1,3 +1,6 @@
+<?php 
+    include_once '../../backend/helpers/session_helper.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,11 +28,12 @@
         <h2>Login</h2>
     </div>
         
-    <form action="/action_page.php" method="post">
+    <form action="../../backend/controllers/User.php" method="post">
         <div class="wrapper"> 
             <div class="login-container">
-                <input type="text" name="uname" placeholder="Enter username" required>    
-                <input type="password" name="psw" placeholder="Enter password" required>
+                <input type="hidden" name="type" value="login">
+                <input type="text" name="email" placeholder="Enter email" required>    
+                <input type="password" name="password" placeholder="Enter password" required>
                 <a class="wrapper-link" href="ForgotPass.php">Forgot your password?</a>
                 <button class="login-btn" type="submit" >Login</button>            
                 <div class="remember-me">
@@ -38,6 +42,7 @@
                 </div>
                 
                 <a class="wrapper-link" href="SignUp.php">Sign Up</a>
+                <?php flash('login') ?>
             </div>
         </div>
     </form>
