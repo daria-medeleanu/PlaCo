@@ -157,6 +157,28 @@
                     }
                 // redirect("../../frontend/FreelancerLoggedIn/freelancer_profile/freelancer_profile.php");
         }
+        public function deleteProfile(){
+            if(!isset($_SESSION)){
+                session_start();
+            }
+    
+            if(!isset($_SESSION['id'])){
+                header('Content-Type: application/json');
+                echo json_encode(['message' => 'Unauthorized']);
+                exit();
+            }
+    
+            $userId = $_SESSION['id'];
+            if($this->userModel->deleteProfile($userId)){
+                session_destroy();
+                header('Content-Type: application/json');
+                echo json_encode(['message' => 'Profile deleted successfully']);
+            } else {
+                http_response_code(500);
+                header('Content-Type: application/json');
+                echo json_encode(['message' => 'Failed to delete profile']);
+            }
+        }
 
 }
 
@@ -175,10 +197,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 } elseif ($_SERVER['REQUEST_METHOD'] == 'PUT') {
     $data = json_decode(file_get_contents("php://input"), true);
-    if ($data && $data['type'] === 'update_profile') {
+    // if ($data && $data['type'] === 'update_profile') {
         $init->updateProfile($data);
-    } else {
-        http_response_code(400);
-        echo json_encode(["message" => "Invalid request."]);
-    }
-}
+} elseif ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
+            $init->deleteProfile();
+}  
+// else {
+//         http_response_code(405);
+//         echo json_encode(["message" => "Invalid request."]);
+// }

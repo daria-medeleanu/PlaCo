@@ -123,6 +123,8 @@ if (!$userProfile) {
                 <div class="selected-tags" id="selectedTags"></div>
                 <!-- <button class="button-submit">Save Changes</button> -->
                 <button type="button" id="saveChangesButton" class="button-submit">Save Changes</button>
+                <button type="button" id="deleteProfile" class="button-submit">Delete Profile</button>
+
 
             
             </div>
@@ -170,6 +172,31 @@ if (!$userProfile) {
         });
         
     });
+    document.getElementById('deleteProfile').addEventListener('click', function() {
+    if (confirm('Are you sure you want to delete your profile? This action cannot be undone.')) {
+        fetch("../../../backend/controllers/User.php", {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === 'Profile deleted successfully') {
+                alert(data.message);
+                window.location.href = "../../Login/DashboardLogin.php";
+            } else {
+                console.error('Failed to delete profile:', data.message);
+                window.location.href = "../../Login/DashboardLogin.php";
+                // Handle failure here (e.g., show an error message to the user)
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+});
+
 </script>
     <script>
         function showEditProfile() {

@@ -75,6 +75,19 @@
             $this->db->bind(':id', $id);
             return $this->db->execute();
         }
+        public function deleteProfile($id) {
+            $this->db->query('DELETE FROM users WHERE id = :id');
+            $this->db->bind(':id', $id);
+    
+            if($this->db->execute()) {
+                // Optionally delete related user profile data
+                $this->db->query('DELETE FROM user_profile WHERE id = :id');
+                $this->db->bind(':id', $id);
+                return $this->db->execute();
+            } else {
+                return false;
+            }
+        }
 
     }
 
