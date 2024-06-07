@@ -93,7 +93,7 @@ if (!$userProfile) {
                     </div>
                     <input type="text" class="form-input" id="nameInput" placeholder="Name" value="<?php echo htmlspecialchars($userProfile->name); ?>">
                     <input type="text" class="form-input" id="phoneInput" placeholder="Phone number" value="<?php echo htmlspecialchars($userProfile->phone_number); ?>">
-                    <input type="text" class="form-input" id="emailInput" placeholder="Email address" value="<?php echo htmlspecialchars($userProfile->email); ?>">
+                    <input type="text" class="form-input" id="emailInput" placeholder="Email address" value="<?php echo htmlspecialchars($userProfile->email); ?>" readonly>
                     <input type="text" class="form-input" id="addressInput" placeholder="Address" value="<?php echo htmlspecialchars($userProfile->address); ?>">
                     
                     <h2>Professional areas:</h2>
