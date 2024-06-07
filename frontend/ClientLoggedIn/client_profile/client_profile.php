@@ -1,3 +1,16 @@
+<?php 
+    require_once '../../../backend/models/User.php';
+    require_once '../../../backend/helpers/session_helper.php';
+    require_once '../../../backend/controllers/User.php';
+
+    // session_start();
+    $usersController = new Users(); 
+    $userProfile = $usersController->displayProfile();
+
+    if (!$userProfile) {
+        die("Profile not found.");
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,8 +44,8 @@
                     <button onclick="window.location.href='#'">My Profile</button>
                     <button onclick="window.location.href='./active_projects.html'">Active Projects</button>
                     <button onclick="window.location.href='./finished_projects.html'">Finished Projects</button>
-                    <button onclick="window.location.href='../../Login/DashboardLogin.html'">Log Out</button>
-                    <button onclick="window.location.href='../settings/settings.html'">Settings</button>
+                    <button onclick="window.location.href='../../Login/DashboardLogin.php'">Log Out</button>
+                    <button onclick="window.location.href='../settings/settings.php'">Settings</button>
                 </div>
             </div>
         </div>
@@ -71,11 +84,11 @@
         </div>
         <div class="info-text">
             <h2>Professional areas:</h2>
-            <p>Name:</p>
-            <p>Phone number:</p>
-            <p>Email address:</p>
-            <p>Address:</p>
-            <p>Joining date:</p>
+            <p>Name: <?php echo htmlspecialchars($userProfile->name); ?></p>
+            <p>Phone number: <?php echo htmlspecialchars ($userProfile->phone_number);?></p>
+            <p>Email address: <?php echo htmlspecialchars($userProfile->email);?></p>
+            <p>Address: <?php echo htmlspecialchars($userProfile->address);?></p>
+            <p>Joining date:<?php echo htmlspecialchars($userProfile->joining_date); ?></p>
         </div>
      </section>
      <section class="box">
@@ -84,7 +97,7 @@
             <div class="boxBtn"><a href="finished_projects.html"> See Finished Projects</a></div>
         </div>
         <div class="btn-edit-profile">
-            <div class="boxBtn"><a href="../settings/settings.html" >Edit Profile</a> </div>
+            <div class="boxBtn"><a href="../settings/settings.php" >Edit Profile</a> </div>
         </div>
     </section>
     <section class="review">

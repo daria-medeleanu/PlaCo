@@ -1,3 +1,16 @@
+<?php 
+    require_once '../../../backend/models/User.php';
+    require_once '../../../backend/helpers/session_helper.php';
+    require_once '../../../backend/controllers/User.php';
+
+    // session_start();
+    $usersController = new Users(); 
+    $userProfile = $usersController->displayProfile();
+
+    if (!$userProfile) {
+        die("Profile not found.");
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +26,7 @@
 <body>
     <div class="header">
         <div class="nav-left">
-            <a class="logo-pic" href="../../Login/DashboardLogin.html">
+            <a class="logo-pic" href="../../Login/DashboardLogin.php">
                 <img src="img/logo.png" class="logo" alt="Logo">
                 <div class="nav-btn-left">PlaCo</div>
             </a>
@@ -28,7 +41,7 @@
                 <div class="menu" id="profile-menu">
                     <button onclick="window.location.href='#'">My Profile</button>
                     <button onclick="window.location.href='./my_portfolio.html'">My Portfolio</button>
-                    <button onclick="window.location.href='../../Login/DashboardLogin.html'">Log Out</button>
+                    <button onclick="window.location.href='../../Login/DashboardLogin.php'">Log Out</button>
                     <button onclick="window.location.href='../settings/settings.html'">Settings</button>
                 </div>
             </div>
@@ -63,15 +76,15 @@
     </script>
     <section class="profile-info">
         <div class="profile-picture">
-        <img src="./img/profile-icon.png" alt="Add Profile Picture">
+            <img src="<?php echo $userProfile->profile_picture ? $userProfile->profile_picture : './img/profile-icon.png';?>" alt="Add Profile Picture">
         </div>
         <div class="info-text">
-        <h2>Professional areas:</h2>
-        <p>Name:</p>
-        <p>Phone number:</p>
-        <p>Email address:</p>
-        <p>Address</p>
-        <p>Joining date:</p>
+            <h2>Professional areas:</h2>
+            <p>Name: <?php echo htmlspecialchars($userProfile->name); ?></p>
+            <p>Phone number: <?php echo htmlspecialchars ($userProfile->phone_number);?></p>
+            <p>Email address: <?php echo htmlspecialchars($userProfile->email);?></p>
+            <p>Address: <?php echo htmlspecialchars($userProfile->address);?></p>
+            <p>Joining date:<?php echo htmlspecialchars($userProfile->joining_date); ?></p>
         </div>
     </section>
      <section class="box">
@@ -79,7 +92,7 @@
             <div class="boxBtn"><a href="../freelancer_profile/my_portfolio.html" > See Portfolio</a> </div>
         </div>
         <div class="btn-edit-profile">
-            <div class="boxBtn"><a href="../settings/settings.html" >Edit Profile</a> </div>
+            <div class="boxBtn"><a href="../settings/settings.php" >Edit Profile</a> </div>
         </div>
     </section>
     <section class="review">

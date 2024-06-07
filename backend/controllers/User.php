@@ -1,6 +1,6 @@
 <?php 
-    require_once '../models/User.php';
-    require_once '../helpers/session_helper.php';
+    require_once __DIR__ . '/../models/User.php';
+    require_once __DIR__ . '/../helpers/session_helper.php';
     
     class Users {
         private $userModel;
@@ -103,9 +103,9 @@
             $_SESSION['user_type'] = $loggedInUser->user_type;
             $_SESSION['email'] = $loggedInUser->email;
             if ($loggedInUser->user_type == 'client') {
-                redirect("../../frontend/ClientLoggedIn/client_profile.php");
+                redirect("../../frontend/ClientLoggedIn/client_profile/client_profile.php");
             } elseif ($loggedInUser->user_type == 'freelancer') {
-                redirect("../../frontend/FreelancerLoggedIn/freelancer_profile.php");
+                redirect("../../frontend/FreelancerLoggedIn/freelancer_profile/freelancer_profile.php");
             } else {
                 redirect("../../frontend/Login/LoginPage.php");
             }
@@ -117,20 +117,68 @@
             session_destroy();
             redirect("../../frontend/Login/LoginPage.php");
         }
+        public function displayProfile(){
+            if(!isset($_SESSION)){
+                session_start();
+            }
+            if(!isset($_SESSION['id'])){
+                redirect("../../frontend/Login/LoginPage.php");
+            }
+            $userProfile = $this->userModel->getUserProfileById($_SESSION['id']);
+            
+            if(!$userProfile){
+                die("aici Profile not found.");
+            }
+            return $userProfile;
+        }
+        public function updateProfile($data){
+            if(!isset($_SESSION)){
+                session_start();
+            }
+            if(!isset($_SESSION['id'])){
+                redirect("../../frontend/Login/LoginPage.php");
+            }
+            $userId = $_SESSION['id'];
+            $updatedData = [
+                'name' => trim($data['name']),
+                'phone_number' => trim($data['phone_number']),
+                'email' => trim($data['email']),
+                'address' => trim($data['address'])
+            ];
+            if($this->userModel->updateProfile($userId, $updatedData)){
+                header('Content-Type: application/json');
+                echo json_encode(['message' => 'Profile updated successfully']);
+                } else {
+                    http_response_code(500);
+                    header('Content-Type: application/json');
+                    echo json_encode(['message' => 'Failed to update profile']);
+                    // redirect("../../frontend/FreelancerLoggedIn/freelancer_profile/freelancer_profile.php");
+                    
+                    }
+                // redirect("../../frontend/FreelancerLoggedIn/freelancer_profile/freelancer_profile.php");
+        }
+
 }
 
     $init = new Users;
 
-    if($_SERVER['REQUEST_METHOD'] == 'POST'){
-        switch($_POST['type']){
-            case 'register':
-                $init->register();
-                break;
-            case 'login':
-                $init->login();
-                break;
-            default:
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    switch ($_POST['type']) {
+        case 'register':
+            $init->register();
+            break;
+        case 'login':
+            $init->login();
+            break;
+        default:
             redirect("./SignUp.php");
-        }
-        
     }
+} elseif ($_SERVER['REQUEST_METHOD'] == 'PUT') {
+    $data = json_decode(file_get_contents("php://input"), true);
+    if ($data && $data['type'] === 'update_profile') {
+        $init->updateProfile($data);
+    } else {
+        http_response_code(400);
+        echo json_encode(["message" => "Invalid request."]);
+    }
+}
