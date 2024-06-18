@@ -1,3 +1,16 @@
+<?php
+require_once '../../../backend/models/User.php';
+require_once '../../../backend/helpers/session_helper.php';
+require_once '../../../backend/controllers/User.php';
+
+// session_start();
+$usersController = new Users(); 
+$userProfile = $usersController->displayProfile();
+
+if (!$userProfile) {
+    die("Profile not found.");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +43,7 @@
                     <button onclick="window.location.href='../client_profile/client_profile.html'">My Profile</button>
                     <button onclick="window.location.href='../client_profile/active_projects.html'">Active Projects</button>
                     <button onclick="window.location.href='../client_profile/finished_projects.html'">Finished Projects</button>
-                    <button onclick="window.location.href='../../Login/DashboardLogin.html'">Log Out</button>
+                    <button onclick="window.location.href='../../Login/DashboardLogin.php'">Log Out</button>
                     <button onclick="window.location.href='#'">Settings</button>
                 </div>
             </div>
@@ -73,7 +86,7 @@
         <div class="right-panel">
             <div id="editProfile">
                 <h2>Edit Profile</h2>
-                <div class="profile-picture-container">
+                <!-- <div class="profile-picture-container">
                     <img src="profile-icon.png" alt="Profile Picture" id="profilePicture">
                     <input type="file" id="profilePictureInput" accept="image/*">
                     <label for="profilePictureInput" class="upload-profile-picture-button">Upload New Picture</label>
@@ -81,8 +94,20 @@
                 <input type="text" class="form-input" placeholder="Name">
                 <input type="text" class="form-input" placeholder="Phone number">
                 <input type="text" class="form-input" placeholder="Email address">
-                <input type="text" class="form-input" placeholder="Address">
-                
+                <input type="text" class="form-input" placeholder="Address"> -->
+                <form id="editProfileForm" enctype="multipart/form-data">
+                    <div class="profile-picture-container">
+                        <img src="profile-icon.png" alt="Profile Picture" id="profilePicture">
+                        <input type="file" id="profilePictureInput" accept="image/*" value="<?php echo htmlspecialchars($userProfile->profile_picture); ?>">
+                        <label for="profilePictureInput" class="upload-profile-picture-button">Upload New Picture</label>
+                    </div>
+                    <input type="text" class="form-input" id="nameInput" placeholder="Name" value="<?php echo htmlspecialchars($userProfile->name); ?>">
+                    <input type="text" class="form-input" id="phoneInput" placeholder="Phone number" value="<?php echo htmlspecialchars($userProfile->phone_number); ?>">
+                    <input type="text" class="form-input" id="emailInput" placeholder="Email address" value="<?php echo htmlspecialchars($userProfile->email); ?>">
+                    <input type="text" class="form-input" id="addressInput" placeholder="Address" value="<?php echo htmlspecialchars($userProfile->address); ?>">
+                    
+                   
+                </form>
                 <h2>Professional areas:</h2>
                 <div class="tags-container">
                     <input type="text" id="tagsInput" list="tagList" placeholder="Enter or select tag">
@@ -96,7 +121,11 @@
                 </div>
 
                 <div class="selected-tags" id="selectedTags"></div>
-                <button class="button-submit">Save Changes</button>
+                <!-- <button class="button-submit">Save Changes</button> -->
+                <button type="button" id="saveChangesButton" class="button-submit">Save Changes</button>
+                <button type="button" id="deleteProfile" class="button-submit">Delete Profile</button>
+
+
             
             </div>
             <div class="change-password" id="changePassword">
@@ -115,7 +144,60 @@
             </div>
         </div>
     </div>
+    <script>
+    document.getElementById('saveChangesButton').addEventListener('click', function() {
+        var data = {
+            type: 'update_profile',
+            name: document.getElementById('nameInput').value, 
+            phone_number: document.getElementById('phoneInput').value,
+            email: document.getElementById('emailInput').value,
+            address: document.getElementById('addressInput').value
+        };
+        fetch("../../../backend/controllers/User.php",{
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            return response.text();
+        })
+        .then(data => {
+            console.log(data);
+            window.location.href = "../client_profile/client_profile.php";
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+        
+    });
+    document.getElementById('deleteProfile').addEventListener('click', function() {
+    if (confirm('Are you sure you want to delete your profile? This action cannot be undone.')) {
+        fetch("../../../backend/controllers/User.php", {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === 'Profile deleted successfully') {
+                alert(data.message);
+                window.location.href = "../../Login/DashboardLogin.php";
+            } else {
+                console.error('Failed to delete profile:', data.message);
+                window.location.href = "../../Login/DashboardLogin.php";
+                // Handle failure here (e.g., show an error message to the user)
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+});
 
+</script>
     <script>
         function showEditProfile() {
             document.getElementById('editProfile').style.display = 'block';
