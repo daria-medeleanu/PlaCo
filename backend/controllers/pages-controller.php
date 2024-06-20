@@ -6,7 +6,7 @@ class PagesController {
        'HowItWorks'=> '/../../frontend/Login/HowItWorks.php',
        'ForgotPassword'=> '/../../frontend/Login/ForgotPass.php',
        'login'=> '/../../frontend/Login/LoginPage.php',
-       'register'=> '/../../frontend/SignUp.php',
+       'register'=> '/../../frontend/Login/SignUp.php',
        'add_to_portfolio'=> '/../../frontend/FreelancerLoggedIn/FreelancerProfile/add_to_portfolio.php',
        'freelancer_profile'=>'/../../frontend/FreelancerLoggedIn/FreelancerProfile/freelancer_profile.php',
        'my_portfolio'=>'/../../frontend/FreelancerLoggedIn/FreelancerProfile/my_portfolio.php',
