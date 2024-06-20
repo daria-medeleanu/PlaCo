@@ -27,43 +27,43 @@
             //validare inputuri 
             if(empty($data['prenume']) || empty($data['nume']) || empty($data['email']) || empty($data['password_hash']) || empty(trim($_POST['psw-conf'])) ){
                 flash("register", "Please fill out all inputs");
-                redirect("../../frontend/Login/SignUp.php");
+                redirect("register");
             }
 
             if(!preg_match("/^[a-zA-Z]*$/", $data['prenume'])){
                 flash("register", "Invalid first name. Don't use special characters or numbers!");
-                redirect("../../frontend/Login/SignUp.php");
+                redirect("register");
             } 
 
             if(!preg_match("/^[a-zA-Z]*$/", $data['nume'])){
                 flash("register", "Invalid last name. Don't use special characters or numbers!");
-                redirect("../../frontend/Login/SignUp.php");
+                redirect("register");
             } 
 
           
             if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)){
                 flash("register", "Invalid email");
-                redirect("../../frontend/Login/SignUp.php");
+                redirect("register");
             }
 
             if(strlen($data['password_hash']) < 6){
                 flash("register", "Invalid password");
-                redirect("../../frontend/Login/SignUp.php"); 
+                redirect("register"); 
             } else if($data['password_hash'] !== trim($_POST['psw-conf'])){
                 flash("register", "Passwords don't match");
-                redirect("../../frontend/Login/SignUp.php");
+                redirect("register");
             }
 
             if($this->userModel->findUserByEmail($data['email'])){
                 flash("register", "Email already used");
-                redirect("../../frontend/Login/SignUp.php");
+                redirect("register");
             }
 
             $data['password_hash'] = password_hash($data['password_hash'], PASSWORD_DEFAULT);
 
             // all tests have passed
             if($this->userModel->register($data)){
-                redirect("../../frontend/Login/LoginPage.php");
+                redirect("login");
             }else{
                 die("Something went wrong");
             }
@@ -80,7 +80,7 @@
     
             if(empty($data['email']) || empty($data['password'])){
                 flash("login", "Please fill out all inputs");
-                header("location: ../../frontend/Login/LoginPage.php");
+                header("location: login");
                 exit();
             }
                 //Check for user/email
@@ -91,11 +91,11 @@
                     $this->createUserSession($loggedInUser);
                 }else{
                     flash("login", "Password Incorrect");
-                    redirect("../../frontend/Login/LoginPage.php");
+                    redirect("login");
                 }
             }else{
                 flash("login", "No user found");
-                redirect("../../frontend/Login/LoginPage.php");
+                redirect("login");
             }
         }  
         public function createUserSession($loggedInUser){
@@ -103,11 +103,11 @@
             $_SESSION['user_type'] = $loggedInUser->user_type;
             $_SESSION['email'] = $loggedInUser->email;
             if ($loggedInUser->user_type == 'client') {
-                redirect("../../frontend/ClientLoggedIn/client_profile/client_profile.php");
+                redirect("client_profile");
             } elseif ($loggedInUser->user_type == 'freelancer') {
-                redirect("../../frontend/FreelancerLoggedIn/freelancer_profile/freelancer_profile.php");
+                redirect("freelancer_profile");
             } else {
-                redirect("../../frontend/Login/LoginPage.php");
+                redirect("login");
             }
         }  
         public function logout(){
@@ -115,14 +115,14 @@
             unset($_SESSION['user_type']);
             unset($_SESSION['email']);
             session_destroy();
-            redirect("../../frontend/Login/LoginPage.php");
+            redirect("login");
         }
         public function displayProfile(){
             if(!isset($_SESSION)){
                 session_start();
             }
             if(!isset($_SESSION['id'])){
-                redirect("../../frontend/Login/LoginPage.php");
+                redirect("home");
             }
             $userProfile = $this->userModel->getUserProfileById($_SESSION['id']);
             
@@ -136,7 +136,7 @@
                 session_start();
             }
             if(!isset($_SESSION['id'])){
-                redirect("../../frontend/Login/LoginPage.php");
+                redirect("login");
             }
             $userId = $_SESSION['id'];
             $updatedData = [
@@ -214,7 +214,7 @@
               //  redirect('../../frontend/ClientLoggedIn/client_profile/client_profile.php');
             } else {
                 flash('project_message', 'Something went wrong');
-                redirect('../../frontend/ClientLoggedIn/post_a_new_project.php');
+                redirect('post_a_project');
             }
         }
     }
@@ -233,7 +233,7 @@
                     $init->postProject();
                     break;
                 default:
-                    redirect("./SignUp.php");
+                    redirect("register");
                     break;
             }
         }

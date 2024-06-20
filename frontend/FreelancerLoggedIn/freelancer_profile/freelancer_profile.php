@@ -1,8 +1,9 @@
 <?php 
-    require_once '../../../backend/models/User.php';
-    require_once '../../../backend/helpers/session_helper.php';
-    require_once '../../../backend/controllers/User.php';
-
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/models/User.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/User.php';
+    
     // session_start();
     $usersController = new Users(); 
     $userProfile = $usersController->displayProfile();
@@ -17,32 +18,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
-    <link rel="stylesheet" href="../header/header.css"> 
-    <link rel="stylesheet" href="./style/freelancer_profile.css"> 
-    <link rel="shortcut icon" type="image/x-icon" href="./img/logo.png">
+    <link rel="stylesheet" href="/PlaCo/frontend/FreelancerLoggedIn/header/header.css"> 
+    <link rel="stylesheet" href="/PlaCo/frontend/FreelancerLoggedIn/freelancer_profile/style/freelancer_profile.css"> 
+    <link rel="shortcut icon" type="image/x-icon" href="/PlaCo/frontend/Login/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <div class="header">
         <div class="nav-left">
-            <a class="logo-pic" href="../../Login/DashboardLogin.php">
-                <img src="img/logo.png" class="logo" alt="Logo">
+            <a class="logo-pic" href="/home/home">
+                <img src="/PlaCo/frontend/Login/logo.png" class="logo" alt="Logo">
                 <div class="nav-btn-left">PlaCo</div>
             </a>
         </div>
         <div class="nav-right">
             <div class="options-nav-bar">
-                <a href="../search_for_jobs/search_for_jobs.html" class="nav-btn-left">Search for jobs</a>
+                <a href="/PlaCo/frontend/FreelancerLoggedIn/search_for_jobs/search_for_jobs.html" class="nav-btn-left">Search for jobs</a>
             </div>
             <div class="menu-btn-right btn-dissapear">
                 <input type="checkbox" id="profile-toggle">
                 <label for="profile-toggle" >Profile</label>
                 <div class="menu" id="profile-menu">
                     <button onclick="window.location.href='#'">My Profile</button>
-                    <button onclick="window.location.href='./my_portfolio.html'">My Portfolio</button>
-                    <button onclick="window.location.href='../../Login/DashboardLogin.php'">Log Out</button>
-                    <button onclick="window.location.href='../settings/settings.html'">Settings</button>
+                    <button onclick="window.location.href='my_portfolio'">My Portfolio</button>
+                    <button onclick="window.location.href='home'">Log Out</button>
+                    <button onclick="window.location.href='settings_freelancer'">Settings</button>
                 </div>
             </div>
         </div>
@@ -76,7 +77,7 @@
     </script>
     <section class="profile-info">
         <div class="profile-picture">
-            <img src="<?php echo $userProfile->profile_picture ? $userProfile->profile_picture : './img/profile-icon.png';?>" alt="Add Profile Picture">
+            <img src="<?php echo $userProfile->profile_picture ? $userProfile->profile_picture : '/PlaCo/frontend/FreelancerLoggedIn/freelancer_profile/img/profile-icon.png';?>" alt="Add Profile Picture">
         </div>
         <div class="info-text">
             <h2>Professional areas:</h2>
@@ -89,10 +90,10 @@
     </section>
      <section class="box">
         <div class="btn-see-projects">
-            <div class="boxBtn"><a href="../freelancer_profile/my_portfolio.html" > See Portfolio</a> </div>
+            <div class="boxBtn"><a href="my_portfolio" > See Portfolio</a> </div>
         </div>
         <div class="btn-edit-profile">
-            <div class="boxBtn"><a href="../settings/settings.php" >Edit Profile</a> </div>
+            <div class="boxBtn"><a href="settings_freelancer" >Edit Profile</a> </div>
         </div>
     </section>
     <section class="review">

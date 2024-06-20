@@ -34,7 +34,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
     <div class="title">
         <h2>Sign Up</h2>
     </div>
-    <form action="../../backend/controllers/User.php" method="post">
+    <form action="/PlaCo/backend/controllers/User.php" method="post">
         <div class="wrapper"> 
             <div class="login-container">
                 <input type="hidden" name="type" value="register">
@@ -49,7 +49,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                     <button class="login-btn sign-up-btn" type="submit" onclick="setUserType('client')">Sign Up as Client</button>            
                 </div>
                 
-                <a class="wrapper-link" href="/home/register">Log In</a>
+                <a class="wrapper-link" href="login">Log In</a>
                 <?php flash('register') ?>
             </div>
         </div>
