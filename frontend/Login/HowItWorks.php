@@ -1,6 +1,6 @@
 <?php 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/TW5/PlaCo/backend/helpers/session_helper.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/TW5/PlaCo/backend/controllers/pages-controller.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,23 +9,23 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/TW5/PlaCo/backend/controllers/pages-c
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>How it works</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/TW5/PlaCo/frontend/Login/style/DashboardLogin.css"> 
-    <link rel="shortcut icon" type="image/x-icon" href="/TW5/PlaCo/frontend/Login/logo.png">
+    <link rel="stylesheet" href="/PlaCo/frontend/Login/style/DashboardLogin.css"> 
+    <link rel="shortcut icon" type="image/x-icon" href="/PlaCo/frontend/Login/logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/TW5/PlaCo/frontend/Login/style/HowItWorks.css">
+    <link rel="stylesheet" href="/PlaCo/frontend/Login/style/HowItWorks.css">
 </head>
 <body>
     <div class="header">
         <div class="nav-left">
             <a class="logo-pic" href="DashboardLogin.php">
-                <img src="logo.png" class="logo" alt="Logo">
+                <img src="/PlaCo/frontend/Login/logo.png" class="logo" alt="Logo">
                 <div class="nav-btn-left">PlaCo</div>
             </a>
         </div>
         <div class="nav-right">
-            <a href="HowItWorks.html" class="nav-btn-left btn-dissapear">How it works</a>
+            <a href="?page=HowItWorks" class="nav-btn-left btn-dissapear">How it works</a>
             <div class="login-btn-wrapper">
-                <a class="nav-btn-right" href="LoginPage.php">Login</a>
+                <a class="nav-btn-right" href="?page=login">Login</a>
             </div>
         </div>
         <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">
@@ -37,7 +37,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/TW5/PlaCo/backend/controllers/pages-c
             <div class="section">
                 <!-- <section> -->
                     <div class="number-wrapper">
-                        <img src="img/1.png" class="img-steps" alt="img">
+                        <img src="/PlaCo/frontend/Login/img/1.png" class="img-steps" alt="img">
                     </div>
                     <div class="steps-info">The World Wide Fund for Nature (WWF) is an international organization working on issues regarding the conservation, research and restoration of the environment, formerly named the World Wildlife Fund. WWF was founded in 1961.</div>
                     <div style="display:none">1. The World Wide Fund for Nature (WWF) is an international organization working on issues regarding the conservation, research and restoration of the environment, formerly named the World Wildlife Fund. WWF was founded in 1961.</div>
@@ -46,7 +46,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/TW5/PlaCo/backend/controllers/pages-c
             <div class="section">
                 <!-- <section> -->
                     <div class="number-wrapper">
-                        <img src="img/2.png" class="img-steps" alt="img">
+                        <img src="/PlaCo/frontend/Login/img/2.png" class="img-steps" alt="img">
                     </div>
                     <div class="steps-info">The World Wide Fund for Nature (WWF) is an international organization working on issues regarding the conservation, research and restoration of the environment, formerly named the World Wildlife Fund. WWF was founded in 1961.</div>
                     <div style="display:none">1. The World Wide Fund for Nature (WWF) is an international organization working on issues regarding the conservation, research and restoration of the environment, formerly named the World Wildlife Fund. WWF was founded in 1961.</div>
@@ -54,42 +54,42 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/TW5/PlaCo/backend/controllers/pages-c
             </div>
             <div class="section">
                 <div class="number-wrapper">
-                    <img src="img/3.png" class="img-steps" alt="img">
+                    <img src="/PlaCo/frontend/Login/img/3.png" class="img-steps" alt="img">
                 </div>
                 <div class="steps-info">The World Wide Fund for Nature (WWF) is an international organization working on issues regarding the conservation, research and restoration of the environment, formerly named the World Wildlife Fund. WWF was founded in 1961.</div>
                 <div style="display:none">1. The World Wide Fund for Nature (WWF) is an international organization working on issues regarding the conservation, research and restoration of the environment, formerly named the World Wildlife Fund. WWF was founded in 1961.</div>
             </div>
             <div class="section">
                 <div class="number-wrapper">
-                    <img src="img/4.png" class="img-steps" alt="img">
+                    <img src="/PlaCo/frontend/Login/img/4.png" class="img-steps" alt="img">
                 </div>
                 <div class="steps-info">The World Wide Fund for Nature (WWF) is an international organization working on issues regarding the conservation, research and restoration of the environment, formerly named the World Wildlife Fund. WWF was founded in 1961.</div>
                 <div style="display:none">1. The World Wide Fund for Nature (WWF) is an international organization working on issues regarding the conservation, research and restoration of the environment, formerly named the World Wildlife Fund. WWF was founded in 1961.</div>
             </div>
             <div class="section">
                 <div class="number-wrapper">
-                    <img src="img/5.png" class="img-steps" alt="img">
+                    <img src="/PlaCo/frontend/Login/img/5.png" class="img-steps" alt="img">
                 </div>
                 <div class="steps-info">The World Wide Fund for Nature (WWF) is an international organization working on issues regarding the conservation, research and restoration of the environment, formerly named the World Wildlife Fund. WWF was founded in 1961.</div>
                 <div style="display:none">1. The World Wide Fund for Nature (WWF) is an international organization working on issues regarding the conservation, research and restoration of the environment, formerly named the World Wildlife Fund. WWF was founded in 1961.</div>
             </div>
             <div class="section">
                 <div class="number-wrapper">
-                    <img src="img/6.png" class="img-steps" alt="img">
+                    <img src="/PlaCo/frontend/Login/img/6.png" class="img-steps" alt="img">
                 </div>
                 <div class="steps-info">The World Wide Fund for Nature (WWF) is an international organization working on issues regarding the conservation, research and restoration of the environment, formerly named the World Wildlife Fund. WWF was founded in 1961.</div>
                 <div style="display:none">1. The World Wide Fund for Nature (WWF) is an international organization working on issues regarding the conservation, research and restoration of the environment, formerly named the World Wildlife Fund. WWF was founded in 1961.</div>
             </div>
             <div class="section">
                 <div class="number-wrapper">
-                    <img src="img/7.png" class="img-steps" alt="img">
+                    <img src="/PlaCo/frontend/Login/img/7.png" class="img-steps" alt="img">
                 </div>
                 <div class="steps-info">The World Wide Fund for Nature (WWF) is an international organization working on issues regarding the conservation, research and restoration of the environment, formerly named the World Wildlife Fund. WWF was founded in 1961.</div>
                 <div style="display:none">1. The World Wide Fund for Nature (WWF) is an international organization working on issues regarding the conservation, research and restoration of the environment, formerly named the World Wildlife Fund. WWF was founded in 1961.</div>
             </div>
             <div class="section">
                 <div class="number-wrapper">
-                    <img src="img/8.png" class="img-steps" alt="img">
+                    <img src="/PlaCo/frontend/Login/img/8.png" class="img-steps" alt="img">
                 </div>
                 <div class="steps-info">The World Wide Fund for Nature (WWF) is an international organization working on issues regarding the conservation, research and restoration of the environment, formerly named the World Wildlife Fund. WWF was founded in 1961.</div>
                 <div style="display:none">1. The World Wide Fund for Nature (WWF) is an international organization working on issues regarding the conservation, research and restoration of the environment, formerly named the World Wildlife Fund. WWF was founded in 1961.</div>
