@@ -1,3 +1,7 @@
+<?php 
+include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +16,7 @@
 <body>
     <div class="logo">
         <div class="logo-content">
-            <a class="logo-pic" href="DashboardLogin.php">
+            <a class="logo-pic" href="/home/home">
                 <div class="logo-pic">
                     <img src="logo.png" class="logo-image" alt="Logo">
                 </div>

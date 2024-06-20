@@ -17,15 +17,15 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
 <body>
     <div class="header">
         <div class="nav-left">
-            <a class="logo-pic" href="DashboardLogin.php">
+            <a class="logo-pic" href="/home/home">
                 <img src="/PlaCo/frontend/Login/logo.png" class="logo" alt="Logo">
                 <div class="nav-btn-left">PlaCo</div>
             </a>
         </div>
         <div class="nav-right">
-            <a href="?page=HowItWorks" class="nav-btn-left btn-dissapear">How it works</a>
+            <a href="/home/HowItWorks" class="nav-btn-left btn-dissapear">How it works</a>
             <div class="login-btn-wrapper">
-                <a class="nav-btn-right" href="?page=login">Login</a>
+                <a class="nav-btn-right" href="/home/login">Login</a>
             </div>
         </div>
         <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">

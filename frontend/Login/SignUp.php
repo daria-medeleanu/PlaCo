@@ -1,5 +1,6 @@
 <?php 
-    include_once '../../backend/helpers/session_helper.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
 ?>
 
 <!DOCTYPE html>
@@ -8,8 +9,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <link rel="stylesheet" href="style/LoginPage.css"> 
-    <link rel="shortcut icon" type="image/x-icon" href="logo.png">
+    <link rel="stylesheet" href="/PlaCo/frontend/Login/style/LoginPage.css"> 
+    <link rel="shortcut icon" type="image/x-icon" href="/PlaCo/frontend/Login/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 
 </head>
@@ -21,9 +22,9 @@
 <body>
     <div class="logo">
         <div class="logo-content">
-            <a class="logo-pic" href="DashboardLogin.php">
+            <a class="logo-pic" href="/home/home">
                 <div class="logo-pic">
-                    <img src="logo.png" class="logo-image" alt="Logo">
+                    <img src="/PlaCo/frontend/Login/logo.png" class="logo-image" alt="Logo">
                 </div>
                 <div class="writing">PlaCo</div>
             </a>
@@ -48,7 +49,7 @@
                     <button class="login-btn sign-up-btn" type="submit" onclick="setUserType('client')">Sign Up as Client</button>            
                 </div>
                 
-                <a class="wrapper-link" href="LoginPage.php">Log In</a>
+                <a class="wrapper-link" href="/home/register">Log In</a>
                 <?php flash('register') ?>
             </div>
         </div>
