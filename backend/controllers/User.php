@@ -283,9 +283,10 @@
         $init->deleteProfile();
     } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $action = isset($_GET['action']) ? $_GET['action'] : '';
-    
+        console_log($_GET['action']);
         switch ($action) {
             case 'fetchTags':
+               
                 $init->fetchTags();
                 break;
             default:

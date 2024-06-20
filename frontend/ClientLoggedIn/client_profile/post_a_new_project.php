@@ -156,7 +156,14 @@ require_once '../../../backend/controllers/User.php';
         event.preventDefault(); // Prevent the default behavior of the label click event
         document.getElementById('file').click();
     });
-    //pune tagurile din baza de date ca optiuni din care sa alegi
+
+    document.getElementById('tagsInput').addEventListener('focus', function() {
+    if (!this.dataset.fetched) {
+        fetchTags();
+        this.dataset.fetched = true; 
+    }
+});
+
     function fetchTags() {
         fetch('../../../backend/controllers/User.php?action=fetchTags', {
         method: 'GET', 
@@ -168,7 +175,6 @@ require_once '../../../backend/controllers/User.php';
             .then(tags => {
                 const tagList = document.getElementById('tagList');
                 tagList.innerHTML = ''; 
-
                 tags.forEach(tag => {
                     const option = document.createElement('option');
                     option.value = tag.tag_name;
@@ -177,7 +183,6 @@ require_once '../../../backend/controllers/User.php';
             })
             .catch(error => console.error('Error fetching tags:', error));
     }
-    fetchTags();
     //adding tags
         document.getElementById('addTag').addEventListener('click', function() {
         event.preventDefault(); //ca sa nu mai apara required-ul de la title input
