@@ -1,0 +1,261 @@
+<?php
+require_once '../../../backend/models/User.php';
+require_once '../../../backend/helpers/session_helper.php';
+require_once '../../../backend/controllers/User.php';
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a new Project</title>
+    <link rel="stylesheet" href="../header/header.css">
+    <link rel="stylesheet" href="./style/post_a_new_project.css"> 
+    <link rel="shortcut icon" type="image/x-icon" href="./img/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="header">
+        <div class="nav-left">
+            <a class="logo-pic" href="../../Login/DashboardLogin.html">
+                <img src="img/logo.png" class="logo" alt="Logo">
+                <div class="nav-btn-left">PlaCo</div>
+            </a>
+        </div>
+        <div class="nav-right">
+            <div class="options-nav-bar">
+                <a href="../discover_freelancers/discover_freelancers.html" class="nav-btn-left">Discover Freelancers</a>
+                <a href="./post_a_new_project.php" class="nav-btn-left">Post a new Project</a>
+            </div>
+            <div class="menu-btn-right btn-dissapear">
+                <input type="checkbox" id="profile-toggle">
+                <label for="profile-toggle" >Profile</label>
+                <div class="menu" id="profile-menu">
+                    <button onclick="window.location.href='./client_profile.php'">My Profile</button>
+                    <button onclick="window.location.href='./active_projects.html'">Active Projects</button>
+                    <button onclick="window.location.href='./finished_projects.html'">Finished Projects</button>
+                    <button onclick="window.location.href='../../Login/DashboardLogin.php'">Log Out</button>
+                    <button onclick="window.location.href='../settings/settings.php'">Settings</button>
+                </div>
+            </div>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            var navRight = document.querySelector('.nav-right');
+            navRight.classList.toggle('collapsed');
+        }    
+    
+        document.addEventListener('click', function(event) {
+            var profileToggle = document.getElementById('profile-toggle');
+            var profileMenu = document.getElementById('profile-menu');
+            var target = event.target;
+            
+            if (!target.closest('.menu-btn-right')) {
+                profileMenu.style.display = 'none';
+                profileToggle.checked = false;
+            }
+        });
+
+        document.getElementById('profile-toggle').addEventListener('click', function(event) {
+            var profileMenu = document.getElementById('profile-menu');
+            profileMenu.style.display = this.checked ? 'block' : 'none';
+            event.stopPropagation();
+        });
+    </script>
+    <div class="container">
+        <h1>Project Upload</h1>
+        <form id="portfolioForm" action="../../../backend/controllers/User.php" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="type" value="post_project">
+            
+            <label for="title">Title:</label>
+            <input type="text" id="titleInput" name="title" placeholder="Title" required>
+            
+            <label for="description">Project Description:</label>
+            <textarea id="descriptionInput" name="description" placeholder="Description" rows="6" required></textarea>
+
+            <input type="file" id="file" name="file[]" multiple style="display: none;">
+            <label for="file" class="upload-label">+ Upload Files</label>
+            <div class="uploaded-files" id="uploadedFiles"></div>
+
+            <label for="tags">Skills required (Tags):</label>
+            <div class="tags-container">
+                <input type="text" id="tagsInput" list="tagList" placeholder="Enter or select tag">
+                <datalist id="tagList">
+                </datalist>
+                <button type="button" id="addTag">Add</button>
+            </div>
+            <div class="selected-tags" id="selectedTags"></div>
+
+            <label for="budget">What is your estimated budget?</label>
+            <div class="budget-container">
+                <input type="text" id="CurrencyInput" list="CurrencyList" placeholder="Currency">
+                <datalist id="CurrencyList">
+                    <option value="EUR"></option>
+                    <option value="LEU"></option>
+                    <option value="USD"></option>
+                </datalist>
+
+                <input type="text" id="budgetInput" name="budget" list="budgetList" placeholder="Choose Project Type">
+                <datalist id="budgetList">
+                    <option value="Simple Project (10-300 EUR)"></option>
+                    <option value="Very Small Project (300-1000 EUR)"></option>
+                    <option value="Small Project (1000-3000 EUR)"></option>
+                    <option value="Medium Project (3000-8000 EUR)"></option>
+                    <option value="Large Project (8000-15.000 EUR)"></option>
+                    <option value="Very Large Project (15.000-35.000 EUR)"></option>
+                    <option value="Huge Project (35.000+ EUR)"></option>
+                </datalist>
+            </div>
+            
+            <button type="submit">Post Project</button>
+        </form>
+    </div>
+
+    <script>
+       document.getElementById('file').addEventListener('change', function(event) {
+        const files = event.target.files;
+        const uploadedFilesDiv = document.getElementById('uploadedFiles');
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            console.log('File selected:', file.name);
+            const fileReader = new FileReader();
+            fileReader.onload = function(e) {
+                const fileUrl = e.target.result;
+                const uploadedFileDiv = document.createElement('div');
+                uploadedFileDiv.classList.add('uploaded-file');
+
+                const image = document.createElement('img');
+                image.src = fileUrl;
+                image.alt = file.name;
+
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('delete-button');
+                deleteButton.innerHTML = 'X';
+                deleteButton.onclick = function() {
+                    uploadedFileDiv.remove(); // Remove the uploaded file container
+                };
+
+                uploadedFileDiv.appendChild(image);
+                uploadedFileDiv.appendChild(deleteButton);
+                uploadedFilesDiv.appendChild(uploadedFileDiv);
+            };
+            fileReader.readAsDataURL(file);
+        }
+        // Clear the file input value after processing files to allow selecting the same file again
+        event.target.value = '';
+    });
+
+    document.querySelector('.upload-label').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the default behavior of the label click event
+        document.getElementById('file').click();
+    });
+
+    document.getElementById('tagsInput').addEventListener('focus', function() {
+    if (!this.dataset.fetched) {
+        fetchTags();
+        this.dataset.fetched = true; 
+    }
+    });
+
+    function fetchTags() {
+        fetch('../../../backend/controllers/User.php?action=fetchTags', {
+        method: 'GET', 
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })   
+        .then(response => response.json())
+            .then(tags => {
+                const tagList = document.getElementById('tagList');
+                tagList.innerHTML = ''; 
+                tags.forEach(tag => {
+                    const option = document.createElement('option');
+                    option.value = tag.tag_name;
+                    tagList.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching tags:', error));
+    }
+    //adding tags
+        document.getElementById('addTag').addEventListener('click', function() {
+        event.preventDefault(); //ca sa nu mai apara required-ul de la title input
+        const tagsInput = document.getElementById('tagsInput');
+        const selectedTagsDiv = document.getElementById('selectedTags');
+        
+        let selectedTagName = tagsInput.value.trim();
+        if (selectedTagName === '') return; // fara empty tags
+
+        // Check if the entered tag already exists among the predefined tags
+        const tagExists = document.querySelector(`#tagList option[value="${selectedTagName}"]`);
+        
+        if (!tagExists) {
+            // Create a new option to select the entered tag in the future
+            const newTagOption = document.createElement('option');
+            newTagOption.value = selectedTagName;
+            document.getElementById('tagList').appendChild(newTagOption);
+        }
+
+        // Create the selected tag element
+        const selectedTagDiv = document.createElement('div');
+        selectedTagDiv.textContent = selectedTagName;
+
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'X';
+        removeButton.classList.add('remove-tag');
+        removeButton.addEventListener('click', function() {
+            selectedTagDiv.remove();
+            removeButton.remove();
+        });
+
+        selectedTagDiv.appendChild(removeButton);
+        selectedTagsDiv.appendChild(selectedTagDiv);
+        tagsInput.value = '';
+        //trimit noul tag adaugat spre backend ca sa-l puna in bd
+        fetch('../../../backend/controllers/User.php?action=addTag', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ tag_name: selectedTagName }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Tag added successfully:', data);
+        })
+        .catch(error => console.error('Error adding tag:', error));
+    });
+
+    //currency and budget
+        let selectedCurrency = '';
+        let selectedBudget = '';
+
+        // Function to set the selected option as the input value
+        function setInputValue(inputId, selectedOption) {
+            document.getElementById(inputId).value = selectedOption;
+        }
+
+        document.getElementById('CurrencyInput').addEventListener('focus', function() {
+            setInputValue('CurrencyInput', selectedCurrency);
+        });
+
+        document.getElementById('budgetInput').addEventListener('focus', function() {
+            setInputValue('budgetInput', selectedBudget);
+        });
+
+        document.getElementById('CurrencyInput').addEventListener('input', function() {
+            selectedCurrency = this.value; // Store the selected currency
+        });
+
+        document.getElementById('budgetInput').addEventListener('input', function() {
+            selectedBudget = this.value; // Store the selected budget
+        });
+    </script>
+</body>
+</html>
