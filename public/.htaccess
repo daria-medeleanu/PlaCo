@@ -1,0 +1,22 @@
+#turns on url rewrite engine
+RewriteEngine On
+
+#do not override http auth
+# RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# #rewrite base path
+# RewriteBase /
+
+# #do not override index.php
+# RewriteRule ^ index\.php$ -  [L]
+
+# #do not apply rewrite engine on existing files and folders
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+
+# #redirect everything else to the index file
+# RewriteRule . /index.php [L]
+RewriteBase /PlaCo/frontend
+RewriteCond %{REQUEST_FILENAME} !-f 
+RewriteCond %{REQUEST_FILENAME} !-d 
+RewriteRule ^(.+)$ index.php?url=$1 [L,QSA]
