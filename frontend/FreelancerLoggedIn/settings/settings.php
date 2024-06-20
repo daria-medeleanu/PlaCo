@@ -1,15 +1,15 @@
 <?php
-require_once '../../../backend/models/User.php';
-require_once '../../../backend/helpers/session_helper.php';
-require_once '../../../backend/controllers/User.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/User.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
 
 // session_start();
-$usersController = new Users(); 
-$userProfile = $usersController->displayProfile();
+// $usersController = new Users(); 
+// $userProfile = $usersController->displayProfile();
 
-if (!$userProfile) {
-    die("Profile not found.");
-}
+// if (!$userProfile) {
+//     die("Profile not found.");
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,31 +17,31 @@ if (!$userProfile) {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Settings</title>
-        <link rel="stylesheet" href="../header/header.css"> 
-        <link rel="stylesheet" href="settings.css"> 
-        <link rel="shortcut icon" type="image/x-icon" href="./logo.png">
+        <link rel="stylesheet" href="/PlaCo/frontend/FreelancerLoggedIn/header/header.css"> 
+        <link rel="stylesheet" href="/PlaCo/frontend/FreelancerLoggedIn/settings/settings.css"> 
+        <link rel="shortcut icon" type="image/x-icon" href="/PlaCo/frontend/FreelancerLoggedIn/settings/logo.png">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
 <body>
     <div class="header">
         <div class="nav-left">
-            <a class="logo-pic" href="../../Login/DashboardLogin.html">
-                <img src="./logo.png" class="logo" alt="Logo">
+            <a class="logo-pic" href="/home/home">
+                <img src="/PlaCo/frontend/FreelancerLoggedIn/settings/logo.png" class="logo" alt="Logo">
                 <div class="nav-btn-left">PlaCo</div>
             </a>
         </div>
         <div class="nav-right">
             <div class="options-nav-bar">
-                <a href="../search_for_jobs/search_for_jobs.html" class="nav-btn-left">Search for jobs</a>
+                <a href="/home/search_for_jobs" class="nav-btn-left">Search for jobs</a>
             </div>
             <div class="menu-btn-right btn-dissapear">
                 <input type="checkbox" id="profile-toggle">
                 <label for="profile-toggle" >Profile</label>
                 <div class="menu" id="profile-menu">
-                    <button onclick="window.location.href='../freelancer_profile/freelancer_profile.php'">My Profile</button>
-                    <button onclick="window.location.href='../freelancer_profile/my_portfolio.html'">My Portfolio</button>
-                    <button onclick="window.location.href='../../Login/DashboardLogin.php'">Log Out</button>
+                    <button onclick="window.location.href='/home/freelancer_profile'">My Profile</button>
+                    <button onclick="window.location.href='/home/my_portfolio'">My Portfolio</button>
+                    <button onclick="window.location.href='/home/home'">Log Out</button>
                     <button onclick="window.location.href='#'">Settings</button>
                 </div>
             </div>
@@ -87,14 +87,14 @@ if (!$userProfile) {
                 <h2>Edit Profile</h2>
                 <form id="editProfileForm" enctype="multipart/form-data">
                     <div class="profile-picture-container">
-                        <img src="profile-icon.png" alt="Profile Picture" id="profilePicture">
-                        <input type="file" id="profilePictureInput" accept="image/*" value="<?php echo htmlspecialchars($userProfile->profile_picture); ?>">
+                        <img src="/PlaCo/frontend/FreelancerLoggedIn/settings/profile-icon.png" alt="Profile Picture" id="profilePicture">
+                        <input type="file" id="profilePictureInput" accept="image/*" >
                         <label for="profilePictureInput" class="upload-profile-picture-button">Upload New Picture</label>
                     </div>
-                    <input type="text" class="form-input" id="nameInput" placeholder="Name" value="<?php echo htmlspecialchars($userProfile->name); ?>">
-                    <input type="text" class="form-input" id="phoneInput" placeholder="Phone number" value="<?php echo htmlspecialchars($userProfile->phone_number); ?>">
-                    <input type="text" class="form-input" id="emailInput" placeholder="Email address" value="<?php echo htmlspecialchars($userProfile->email); ?>" readonly>
-                    <input type="text" class="form-input" id="addressInput" placeholder="Address" value="<?php echo htmlspecialchars($userProfile->address); ?>">
+                    <input type="text" class="form-input" id="nameInput" placeholder="Name" >
+                    <input type="text" class="form-input" id="phoneInput" placeholder="Phone number" >
+                    <input type="text" class="form-input" id="emailInput" placeholder="Email address" readonly>
+                    <input type="text" class="form-input" id="addressInput" placeholder="Address" >
                     
                     <h2>Professional areas:</h2>
                     <div class="tags-container">
@@ -148,7 +148,7 @@ if (!$userProfile) {
         })
         .then(data => {
             console.log(data);
-            window.location.href = "../freelancer_profile/freelancer_profile.php";
+            window.location.href = "/home/freelancer_profile";
         })
         .catch(error => {
             console.error('Error:', error);
@@ -157,7 +157,7 @@ if (!$userProfile) {
     });
     document.getElementById('deleteProfile').addEventListener('click', function() {
     if (confirm('Are you sure you want to delete your profile? This action cannot be undone.')) {
-        fetch("../../../backend/controllers/User.php", {
+        fetch("/PlaCo/backend/controllers/User.php", {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json'
@@ -168,7 +168,7 @@ if (!$userProfile) {
             console.log('Server response', data);
             // if (data.message === 'Profile deleted successfully') {
                 // alert(data.message);
-                window.location.href = "../../Login/DashboardLogin.php";
+                window.location.href = "/home/home";
             // } 
                 //  else {
                     // console.error('Failed to delete profile:', data.message);
@@ -254,6 +254,33 @@ if (!$userProfile) {
         reader.readAsDataURL(file);
     });
 
+    </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Function to get user profile data
+        function getUserProfile() {
+            fetch('/PlaCo/index.php', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Populate form fields with data
+                document.getElementById('profilePicture').src = data.profile_picture;
+                document.getElementById('profilePictureInput').value = data.profile_picture;
+                document.getElementById('nameInput').value = data.name;
+                document.getElementById('phoneInput').value = data.phone_number;
+                document.getElementById('emailInput').value = data.email;
+                document.getElementById('addressInput').value = data.address;
+            })
+            .catch(error => console.error('Error fetching profile data:', error));
+        }
+
+        // Call the function to get user profile data when the page loads
+        getUserProfile();
+    });
     </script>
 </body>
 </html>

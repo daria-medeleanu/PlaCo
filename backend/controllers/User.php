@@ -27,43 +27,43 @@
             //validare inputuri 
             if(empty($data['prenume']) || empty($data['nume']) || empty($data['email']) || empty($data['password_hash']) || empty(trim($_POST['psw-conf'])) ){
                 flash("register", "Please fill out all inputs");
-                redirect("register");
+                redirect("/home/register");
             }
 
             if(!preg_match("/^[a-zA-Z]*$/", $data['prenume'])){
                 flash("register", "Invalid first name. Don't use special characters or numbers!");
-                redirect("register");
+                redirect("/home/register");
             } 
 
             if(!preg_match("/^[a-zA-Z]*$/", $data['nume'])){
                 flash("register", "Invalid last name. Don't use special characters or numbers!");
-                redirect("register");
+                redirect("/home/register");
             } 
 
           
             if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)){
                 flash("register", "Invalid email");
-                redirect("register");
+                redirect("/home/register");
             }
 
             if(strlen($data['password_hash']) < 6){
                 flash("register", "Invalid password");
-                redirect("register"); 
+                redirect("/home/register"); 
             } else if($data['password_hash'] !== trim($_POST['psw-conf'])){
                 flash("register", "Passwords don't match");
-                redirect("register");
+                redirect("/home/register");
             }
 
             if($this->userModel->findUserByEmail($data['email'])){
                 flash("register", "Email already used");
-                redirect("register");
+                redirect("/home/register");
             }
 
             $data['password_hash'] = password_hash($data['password_hash'], PASSWORD_DEFAULT);
 
             // all tests have passed
             if($this->userModel->register($data)){
-                redirect("login");
+                redirect("/home/login");
             }else{
                 die("Something went wrong");
             }
@@ -103,11 +103,11 @@
             $_SESSION['user_type'] = $loggedInUser->user_type;
             $_SESSION['email'] = $loggedInUser->email;
             if ($loggedInUser->user_type == 'client') {
-                redirect("client_profile");
+                redirect("/home/client_profile");
             } elseif ($loggedInUser->user_type == 'freelancer') {
-                redirect("freelancer_profile");
+                redirect("/home/freelancer_profile");
             } else {
-                redirect("login");
+                redirect("/home/login");
             }
         }  
         public function logout(){
@@ -115,14 +115,14 @@
             unset($_SESSION['user_type']);
             unset($_SESSION['email']);
             session_destroy();
-            redirect("login");
+            redirect("/home/login");
         }
         public function displayProfile(){
             if(!isset($_SESSION)){
                 session_start();
             }
             if(!isset($_SESSION['id'])){
-                redirect("home");
+                redirect("/home/home");
             }
             $userProfile = $this->userModel->getUserProfileById($_SESSION['id']);
             
@@ -214,7 +214,7 @@
               //  redirect('../../frontend/ClientLoggedIn/client_profile/client_profile.php');
             } else {
                 flash('project_message', 'Something went wrong');
-                redirect('post_a_project');
+                redirect('/home/post_a_project');
             }
         }
     }
@@ -233,7 +233,7 @@
                     $init->postProject();
                     break;
                 default:
-                    redirect("register");
+                    redirect("/home/register");
                     break;
             }
         }
@@ -247,6 +247,10 @@
         }
     } elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
         $init->deleteProfile();
+    } elseif($_SERVER['REQUEST_METHOD'] === 'GET'){
+        $userProfile = $init->displayProfile();
+        echo json_encode($userProfile);
+        // exit;
     } else {
         http_response_code(405);
         echo json_encode(["message" => "Method Not Allowed"]);

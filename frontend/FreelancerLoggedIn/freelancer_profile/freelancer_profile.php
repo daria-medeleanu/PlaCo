@@ -4,7 +4,7 @@
     include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/models/User.php';
     include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/User.php';
     
-    // session_start();
+    session_start();
     $usersController = new Users(); 
     $userProfile = $usersController->displayProfile();
 
@@ -41,9 +41,9 @@
                 <label for="profile-toggle" >Profile</label>
                 <div class="menu" id="profile-menu">
                     <button onclick="window.location.href='#'">My Profile</button>
-                    <button onclick="window.location.href='my_portfolio'">My Portfolio</button>
-                    <button onclick="window.location.href='home'">Log Out</button>
-                    <button onclick="window.location.href='settings_freelancer'">Settings</button>
+                    <button onclick="window.location.href='/home/my_portfolio'">My Portfolio</button>
+                    <button onclick="window.location.href='/home/home'">Log Out</button>
+                    <button onclick="window.location.href='/home/settings_freelancer'">Settings</button>
                 </div>
             </div>
         </div>
@@ -90,10 +90,10 @@
     </section>
      <section class="box">
         <div class="btn-see-projects">
-            <div class="boxBtn"><a href="my_portfolio" > See Portfolio</a> </div>
+            <div class="boxBtn"><a href="/home/my_portfolio" > See Portfolio</a> </div>
         </div>
         <div class="btn-edit-profile">
-            <div class="boxBtn"><a href="settings_freelancer" >Edit Profile</a> </div>
+            <div class="boxBtn"><a href="/home/settings_freelancer" >Edit Profile</a> </div>
         </div>
     </section>
     <section class="review">
