@@ -29,7 +29,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
         <h2>Login</h2>
     </div>
         
-    <form action="../../backend/controllers/User.php" method="post">
+    <form action="/PlaCo/backend/controllers/User.php" method="post">
         <div class="wrapper"> 
             <div class="login-container">
                 <input type="hidden" name="type" value="login">
@@ -42,7 +42,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                     <label for="remember-checkbox" class="checkbox-label">Remember me</label>
                 </div>
                 
-                <a class="wrapper-link" href="/home/register">Sign Up</a>
+                <a class="wrapper-link" href="register">Sign Up</a>
                 <?php flash('login') ?>
             </div>
         </div>
