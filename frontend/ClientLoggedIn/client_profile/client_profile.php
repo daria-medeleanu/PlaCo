@@ -1,8 +1,7 @@
 <?php 
-    require_once '../../../backend/models/User.php';
-    require_once '../../../backend/helpers/session_helper.php';
-    require_once '../../../backend/controllers/User.php';
-
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/models/User.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
     // session_start();
     $usersController = new Users(); 
     $userProfile = $usersController->displayProfile();
@@ -17,9 +16,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
-    <link rel="stylesheet" href="../header/header.css">
-    <link rel="stylesheet" href="style/client_profile.css">
-    <link rel="shortcut icon" type="image/x-icon" href="img/logo.png">
+    <link rel="stylesheet" href="/PlaCo/frontend/ClientLoggedIn/header/header.css">
+    <link rel="stylesheet" href="/PlaCo/frontend/ClientLoggedIn/client_profile/style/client_profile.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/PlaCo/frontend/ClientLoggedIn/client_profile/img/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -27,25 +26,25 @@
 
     <div class="header">
         <div class="nav-left">
-            <a class="logo-pic" href="../../Login/DashboardLogin.html">
-                <img src="img/logo.png" class="logo" alt="Logo">
+            <a class="logo-pic" href="/home/home">
+                <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/logo.png" class="logo" alt="Logo">
                 <div class="nav-btn-left">PlaCo</div>
             </a>
         </div>
         <div class="nav-right">
             <div class="options-nav-bar">
-                <a href="../discover_freelancers/discover_freelancers.html" class="nav-btn-left">Discover Freelancers</a>
-                <a href="./post_a_new_project.html" class="nav-btn-left">Post a new Project</a>
+                <a href="/home/discover_freelancers" class="nav-btn-left">Discover Freelancers</a>
+                <a href="/home/post_a_project" class="nav-btn-left">Post a new Project</a>
             </div>
             <div class="menu-btn-right btn-dissapear">
                 <input type="checkbox" id="profile-toggle">
                 <label for="profile-toggle" >Profile</label>
                 <div class="menu" id="profile-menu">
                     <button onclick="window.location.href='#'">My Profile</button>
-                    <button onclick="window.location.href='./active_projects.html'">Active Projects</button>
-                    <button onclick="window.location.href='./finished_projects.html'">Finished Projects</button>
-                    <button onclick="window.location.href='../../Login/DashboardLogin.php'">Log Out</button>
-                    <button onclick="window.location.href='../settings/settings.php'">Settings</button>
+                    <button onclick="window.location.href='/home/active_projects'">Active Projects</button>
+                    <button onclick="window.location.href='/home/finished_projects'">Finished Projects</button>
+                    <button onclick="window.location.href='/home/home'">Log Out</button>
+                    <button onclick="window.location.href='/home/settings_client'">Settings</button>
                 </div>
             </div>
         </div>
@@ -80,7 +79,7 @@
 
     <section class="profile-info">
         <div class="profile-picture">
-        <img src="./img/profile-icon.png" alt="Add Profile Picture">
+        <img src="/PlaCo/frontend/ClientLoggedIn/client_profile//img/profile-icon.png" alt="Add Profile Picture">
         </div>
         <div class="info-text">
             <h2>Professional areas:</h2>
@@ -93,11 +92,11 @@
      </section>
      <section class="box">
         <div class="btn-see-projects">
-            <div class="boxBtn"><a href="active_projects.html" > See Active Projects</a> </div>
-            <div class="boxBtn"><a href="finished_projects.html"> See Finished Projects</a></div>
+            <div class="boxBtn"><a href="/home/active_projects" > See Active Projects</a> </div>
+            <div class="boxBtn"><a href="/home/finished_projects"> See Finished Projects</a></div>
         </div>
         <div class="btn-edit-profile">
-            <div class="boxBtn"><a href="../settings/settings.php" >Edit Profile</a> </div>
+            <div class="boxBtn"><a href="/home/settings" >Edit Profile</a> </div>
         </div>
     </section>
     <section class="review">
