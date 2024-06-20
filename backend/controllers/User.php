@@ -179,30 +179,76 @@
                 echo json_encode(['message' => 'Failed to delete profile']);
             }
         }
-
-}
-
+        public function postProject() {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $files = [];
+            $uploadDir ='./uploads/';
+        
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            if (!empty($_FILES['file']['name'])) {
+                
+                foreach ($_FILES['file']['tmp_name'] as $key => $tmp_name) {
+                    $filename = basename($_FILES['file']['name'][$key]);
+                    $targetFile = $uploadDir . $filename;
+        
+                    if (move_uploaded_file($tmp_name, $targetFile)) {
+                        $files[] = $targetFile;
+                    } else {
+                        error_log("Failed to move uploaded file: " . $filename);
+                    }
+                }
+            }
+        
+            $data = [
+                'title' => trim($_POST['title']),
+                'description' => trim($_POST['description']),
+                'files' => implode(',', $files),
+                //'currency' => trim($_POST['currency']),
+                'owner_id' => $_SESSION['id']
+            ];
+            
+            if ($this->userModel->saveProject($data)) {
+                flash('project_message', 'Project posted successfully');
+              //  redirect('../../frontend/ClientLoggedIn/client_profile/client_profile.php');
+            } else {
+                flash('project_message', 'Something went wrong');
+                redirect('../../frontend/ClientLoggedIn/post_a_new_project.php');
+            }
+        }
+    }
     $init = new Users;
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    switch ($_POST['type']) {
-        case 'register':
-            $init->register();
-            break;
-        case 'login':
-            $init->login();
-            break;
-        default:
-            redirect("./SignUp.php");
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_POST['type'])) {
+            switch ($_POST['type']) {
+                case 'register':
+                    $init->register();
+                    break;
+                case 'login':
+                    $init->login();
+                    break;
+                case 'post_project':
+                    $init->postProject();
+                    break;
+                default:
+                    redirect("./SignUp.php");
+                    break;
+            }
+        }
+    } elseif ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+        $data = json_decode(file_get_contents("php://input"), true);
+        if ($data && isset($data['type']) && $data['type'] === 'update_profile') {
+            $init->updateProfile($data);
+        } else {
+            http_response_code(405);
+            echo json_encode(["message" => "Invalid request."]);
+        }
+    } elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+        $init->deleteProfile();
+    } else {
+        http_response_code(405);
+        echo json_encode(["message" => "Method Not Allowed"]);
     }
-} elseif ($_SERVER['REQUEST_METHOD'] == 'PUT') {
-    $data = json_decode(file_get_contents("php://input"), true);
-    // if ($data && $data['type'] === 'update_profile') {
-        $init->updateProfile($data);
-} elseif ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
-            $init->deleteProfile();
-}  
-// else {
-//         http_response_code(405);
-//         echo json_encode(["message" => "Invalid request."]);
-// }
+    
