@@ -1,3 +1,7 @@
+<?php 
+include_once $_SERVER['DOCUMENT_ROOT'] . '/TW5/PlaCo/backend/helpers/session_helper.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/TW5/PlaCo/backend/controllers/pages-controller.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,10 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>How it works</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style/DashboardLogin.css"> 
-    <link rel="shortcut icon" type="image/x-icon" href="logo.png">
+    <link rel="stylesheet" href="/TW5/PlaCo/frontend/Login/style/DashboardLogin.css"> 
+    <link rel="shortcut icon" type="image/x-icon" href="/TW5/PlaCo/frontend/Login/logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="style/HowItWorks.css">
+    <link rel="stylesheet" href="/TW5/PlaCo/frontend/Login/style/HowItWorks.css">
 </head>
 <body>
     <div class="header">

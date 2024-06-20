@@ -1,0 +1,16 @@
+#turns on url rewrite engine
+RewriteEngine On
+
+#do not override http auth
+# RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+
+# #redirect everything else to the index file
+# RewriteRule . /index.php [L]
+#RewriteBase /PlaCo/public
+#RewriteCond %{REQUEST_FILENAME} !-f 
+#RewriteCond %{REQUEST_FILENAME} !-d 
+#RewriteRule ^(.+)$ index.php?url=$1 [L,QSA]
+
+# Redirecționarea pentru paginile obișnuite
+RewriteRule ^home/([^/]*)$ /TW5/PlaCo/index.php?page=$1 [L]

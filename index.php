@@ -1,7 +1,13 @@
-<?php 
-    $uri = 'https://localhost/placo/PlaCo/public/home';
-    header('Location: ' . $uri);
-    exit;
-?>
+<?php
+require_once './backend/controllers/pages-controller.php';
 
-File not found
+// Creăm o instanță a controllerului și gestionăm cererea
+$controller = new PagesController();
+$view = new View();
+
+try {
+    $page = $controller->handleRequest();
+    $view->render($page);
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
