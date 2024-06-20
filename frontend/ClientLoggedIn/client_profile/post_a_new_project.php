@@ -1,3 +1,9 @@
+<?php
+require_once '../../../backend/models/User.php';
+require_once '../../../backend/helpers/session_helper.php';
+require_once '../../../backend/controllers/User.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,17 +27,17 @@
         <div class="nav-right">
             <div class="options-nav-bar">
                 <a href="../discover_freelancers/discover_freelancers.html" class="nav-btn-left">Discover Freelancers</a>
-                <a href="./post_a_new_project.html" class="nav-btn-left">Post a new Project</a>
+                <a href="./post_a_new_project.php" class="nav-btn-left">Post a new Project</a>
             </div>
             <div class="menu-btn-right btn-dissapear">
                 <input type="checkbox" id="profile-toggle">
                 <label for="profile-toggle" >Profile</label>
                 <div class="menu" id="profile-menu">
-                    <button onclick="window.location.href='./client_profile.html'">My Profile</button>
+                    <button onclick="window.location.href='./client_profile.php'">My Profile</button>
                     <button onclick="window.location.href='./active_projects.html'">Active Projects</button>
                     <button onclick="window.location.href='./finished_projects.html'">Finished Projects</button>
-                    <button onclick="window.location.href='../../Login/DashboardLogin.html'">Log Out</button>
-                    <button onclick="window.location.href='../settings/settings.html'">Settings</button>
+                    <button onclick="window.location.href='../../Login/DashboardLogin.php'">Log Out</button>
+                    <button onclick="window.location.href='../settings/settings.php'">Settings</button>
                 </div>
             </div>
         </div>
@@ -65,15 +71,16 @@
     </script>
     <div class="container">
         <h1>Project Upload</h1>
-        <form id="portfolioForm" action="your_server_side_script" method="post" enctype="multipart/form-data">
+        <form id="portfolioForm" action="../../../backend/controllers/User.php" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="type" value="post_project">
             
             <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required>
+            <input type="text" id="titleInput" name="title" placeholder="Title" required>
             
             <label for="description">Project Description:</label>
-            <textarea id="description" name="description" rows="6" required></textarea>
+            <textarea id="descriptionInput" name="description" placeholder="Description" rows="6" required></textarea>
 
-            <input type="file" id="file" name="file" multiple style="display: none;">
+            <input type="file" id="file" name="file[]" multiple style="display: none;">
             <label for="file" class="upload-label">+ Upload Files</label>
             <div class="uploaded-files" id="uploadedFiles"></div>
 
@@ -81,16 +88,12 @@
             <div class="tags-container">
                 <input type="text" id="tagsInput" list="tagList" placeholder="Enter or select tag">
                 <datalist id="tagList">
-                    <option value="Tag 1"></option>
-                    <option value="Tag 2"></option>
-                    <option value="Tag 3"></option>
-                    <option value="Tag 4"></option>
                 </datalist>
-                <button id="addTag">Add</button>
+                <button type="button" id="addTag">Add</button>
             </div>
             <div class="selected-tags" id="selectedTags"></div>
 
-            <label for="tags">What is your estimated budget?</label>
+            <label for="budget">What is your estimated budget?</label>
             <div class="budget-container">
                 <input type="text" id="CurrencyInput" list="CurrencyList" placeholder="Currency">
                 <datalist id="CurrencyList">
@@ -99,7 +102,7 @@
                     <option value="USD"></option>
                 </datalist>
 
-                <input type="text" id="budgetInput" list="budgetList" placeholder="Choose Project Type">
+                <input type="text" id="budgetInput" name="budget" list="budgetList" placeholder="Choose Project Type">
                 <datalist id="budgetList">
                     <option value="Simple Project (10-300 EUR)"></option>
                     <option value="Very Small Project (300-1000 EUR)"></option>
@@ -121,6 +124,7 @@
         const uploadedFilesDiv = document.getElementById('uploadedFiles');
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
+            console.log('File selected:', file.name);
             const fileReader = new FileReader();
             fileReader.onload = function(e) {
                 const fileUrl = e.target.result;
@@ -152,8 +156,29 @@
         event.preventDefault(); // Prevent the default behavior of the label click event
         document.getElementById('file').click();
     });
+    //pune tagurile din baza de date ca optiuni din care sa alegi
+    function fetchTags() {
+        fetch('../../../backend/controllers/User.php?action=fetchTags', {
+        method: 'GET', 
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })   
+        .then(response => response.json())
+            .then(tags => {
+                const tagList = document.getElementById('tagList');
+                tagList.innerHTML = ''; 
 
-    //tags
+                tags.forEach(tag => {
+                    const option = document.createElement('option');
+                    option.value = tag.tag_name;
+                    tagList.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching tags:', error));
+    }
+    fetchTags();
+    //adding tags
         document.getElementById('addTag').addEventListener('click', function() {
         event.preventDefault(); //ca sa nu mai apara required-ul de la title input
         const tagsInput = document.getElementById('tagsInput');
@@ -186,8 +211,20 @@
 
         selectedTagDiv.appendChild(removeButton);
         selectedTagsDiv.appendChild(selectedTagDiv);
-        // Clear the input field
         tagsInput.value = '';
+        //trimit noul tag adaugat spre backend ca sa-l puna in bd
+        fetch('../../../backend/controllers/User.php?action=addTag', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ tag_name: selectedTagName }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Tag added successfully:', data);
+        })
+        .catch(error => console.error('Error adding tag:', error));
     });
 
     //currency and budget

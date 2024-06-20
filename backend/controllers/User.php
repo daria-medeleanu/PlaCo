@@ -179,30 +179,121 @@
                 echo json_encode(['message' => 'Failed to delete profile']);
             }
         }
-
-}
+        public function postProject() {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $files = [];
+            $uploadDir ='./uploads/';
+        
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            if (!empty($_FILES['file']['name'])) {
+                
+                foreach ($_FILES['file']['tmp_name'] as $key => $tmp_name) {
+                    $filename = basename($_FILES['file']['name'][$key]);
+                    $targetFile = $uploadDir . $filename;
+        
+                    if (move_uploaded_file($tmp_name, $targetFile)) {
+                        $files[] = $targetFile;
+                    } else {
+                        error_log("Failed to move uploaded file: " . $filename);
+                    }
+                }
+            }
+        
+            $data = [
+                'title' => trim($_POST['title']),
+                'description' => trim($_POST['description']),
+                'files' => implode(',', $files),
+                //'currency' => trim($_POST['currency']),
+                'owner_id' => $_SESSION['id']
+            ];
+            
+            if ($this->userModel->saveProject($data)) {
+                flash('project_message', 'Project posted successfully');
+              //  redirect('../../frontend/ClientLoggedIn/client_profile/client_profile.php');
+            } else {
+                flash('project_message', 'Something went wrong');
+                redirect('../../frontend/ClientLoggedIn/post_a_new_project.php');
+            }
+        }
+         // Action to fetch all tags
+    public function fetchTags() {
+        $tags = $this->userModel->fetchTags();
+        echo json_encode($tags);
+    }
+        public function addTag() {
+            $data = json_decode(file_get_contents('php://input'), true);
+    
+            if (isset($data['tag_name'])) {
+                $tag_name = trim($data['tag_name']);
+    
+                if (!$this->userModel->tagExists($tag_name)) {
+                    $result = $this->userModel->insertTag($tag_name);
+                    echo json_encode($result);
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => 'Tag already exists']);
+                }
+            } else {
+                http_response_code(400);
+                echo json_encode(['status' => 'error', 'message' => 'Tag name is required']);
+            }
+        }
+    }
 
     $init = new Users;
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    switch ($_POST['type']) {
-        case 'register':
-            $init->register();
-            break;
-        case 'login':
-            $init->login();
-            break;
-        default:
-            redirect("./SignUp.php");
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_POST['type'])) {
+            switch ($_POST['type']) {
+                case 'register':
+                    $init->register();
+                    break;
+                case 'login':
+                    $init->login();
+                    break;
+                case 'post_project':
+                    $init->postProject();
+                    break;
+                default:
+                    redirect("./SignUp.php");
+                    break;
+            }
+        } else {
+            $action = isset($_GET['action']) ? $_GET['action'] : '';
+    
+            switch ($action) {
+                case 'addTag':
+                    $init->addTag();
+                    break;
+                default:
+                    echo json_encode(array('status' => 'error', 'message' => 'Invalid action.'));
+                    break;
+            }
+        }
+    } elseif ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+        $data = json_decode(file_get_contents("php://input"), true);
+        if ($data && isset($data['type']) && $data['type'] === 'update_profile') {
+            $init->updateProfile($data);
+        } else {
+            http_response_code(405);
+            echo json_encode(["message" => "Invalid request."]);
+        }
+    } elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+        $init->deleteProfile();
+    } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        $action = isset($_GET['action']) ? $_GET['action'] : '';
+    
+        switch ($action) {
+            case 'fetchTags':
+                $init->fetchTags();
+                break;
+            default:
+                echo json_encode(array('status' => 'error', 'message' => 'Invalid action.'));
+                break;
+        }
+    } else {
+        http_response_code(405);
+        echo json_encode(["message" => "Method Not Allowed"]);
     }
-} elseif ($_SERVER['REQUEST_METHOD'] == 'PUT') {
-    $data = json_decode(file_get_contents("php://input"), true);
-    // if ($data && $data['type'] === 'update_profile') {
-        $init->updateProfile($data);
-} elseif ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
-            $init->deleteProfile();
-}  
-// else {
-//         http_response_code(405);
-//         echo json_encode(["message" => "Invalid request."]);
-// }
+    

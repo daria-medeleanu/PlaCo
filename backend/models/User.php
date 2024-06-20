@@ -21,7 +21,6 @@
             return $this->db->single();
         }
         public function register($data){
-            // console_log('blabla');
             $this->db->query('INSERT INTO users (nume, prenume, email, password_hash, user_type) 
             VALUES (:nume, :prenume, :email, :password_hash, :user_type)');
             //bind values
@@ -36,13 +35,13 @@
             if($this->db->execute()){
                 $name = $data['nume'] . ' ' . $data['prenume'];
                 $joining_date = date('Y-m-d');
-                
                 $this->db->query('INSERT INTO user_profile (email, name, joining_date, user_type) 
                                 VALUES (:email, :name, :joining_date, :user_type)');
                 $this->db->bind(':email', $data['email']);
                 $this->db->bind(':name', $name);
                 $this->db->bind(':joining_date', $joining_date);
                 $this->db->bind(':user_type',$data['user_type']);
+                console_log('blabla');
                 return $this->db->execute();
             }else{
                 return false;
@@ -86,6 +85,44 @@
                 return $this->db->execute();
             } else {
                 return false;
+            }
+        }
+        public function saveProject($data) {
+            $this->db->query('INSERT INTO project (title, description, files, owner_id) 
+                              VALUES (:title, :description, :files, :owner_id)');
+            
+            $this->db->bind(':title', $data['title']);
+            $this->db->bind(':description', $data['description']);
+            $this->db->bind(':files', $data['files']);
+          //  $this->db->bind(':currency', $data['currency']);
+            $this->db->bind(':owner_id', $data['owner_id']);
+    
+            if ($this->db->execute()) {
+                return true; 
+            } else {
+                return false; 
+            }
+        }
+        public function fetchTags() {
+            $query = "SELECT * FROM tags";
+            $this->db->query($query);
+            return $this->db->resultSet();
+        }
+        public function tagExists($tag_name) {
+            $query = "SELECT * FROM tags WHERE tag_name = :tag_name";
+            $this->db->query($query);
+            $this->db->bind(':tag_name', $tag_name);
+            $this->db->execute();
+            return $this->db->rowCount() > 0;
+        }
+        public function insertTag($tag_name) {
+            $query = "INSERT INTO tags (tag_name) VALUES (:tag_name)";
+            $this->db->query($query);
+            $this->db->bind(':tag_name', $tag_name);
+            if ($this->db->execute()) {
+                return array('status' => 'success', 'message' => 'Tag added successfully.');
+            } else {
+                return array('status' => 'error', 'message' => 'Failed to add tag.');
             }
         }
 
