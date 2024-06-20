@@ -8,8 +8,8 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forgot your password</title>
-    <link rel="stylesheet" href="style/LoginPage.css"> 
-    <link rel="shortcut icon" type="image/x-icon" href="logo.png">
+    <link rel="stylesheet" href="/PlaCo/frontend/Login/style/LoginPage.css"> 
+    <link rel="shortcut icon" type="image/x-icon" href="/PlaCo/frontend/Login/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 
 </head>
@@ -18,7 +18,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
         <div class="logo-content">
             <a class="logo-pic" href="/home/home">
                 <div class="logo-pic">
-                    <img src="logo.png" class="logo-image" alt="Logo">
+                    <img src="/PlaCo/frontend/Login/logo.png" class="logo-image" alt="Logo">
                 </div>
                 <div class="writing">PlaCo</div>
             </a>
@@ -39,7 +39,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                 
                 <button class="login-btn" type="submit" >Reset your password</button>            
                 
-                <a class="wrapper-link" href="LoginPage.php">Back</a>
+                <a class="wrapper-link" href="/home/login">Back</a>
             </div>
         </div>
     </form>
