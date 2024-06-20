@@ -4,7 +4,7 @@
     include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/models/User.php';
     include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/User.php';
     
-    session_start();
+    // session_start();
     $usersController = new Users(); 
     $userProfile = $usersController->displayProfile();
 

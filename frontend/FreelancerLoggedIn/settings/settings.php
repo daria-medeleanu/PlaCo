@@ -128,41 +128,41 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
         </div>
     </div>
     <script>
-    document.getElementById('saveChangesButton').addEventListener('click', function() {
-        var data = {
-            type: 'update_profile',
-            name: document.getElementById('nameInput').value, 
-            phone_number: document.getElementById('phoneInput').value,
-            email: document.getElementById('emailInput').value,
-            address: document.getElementById('addressInput').value
-        };
-        fetch("../../../backend/controllers/User.php",{
-            method: "PUT",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => {
-            return response.text();
-        })
-        .then(data => {
-            console.log(data);
-            window.location.href = "/home/freelancer_profile";
-        })
-        .catch(error => {
-            console.error('Error:', error);
+        document.getElementById('saveChangesButton').addEventListener('click', function() {
+            var data = {
+                type: 'update_profile',
+                name: document.getElementById('nameInput').value, 
+                phone_number: document.getElementById('phoneInput').value,
+                email: document.getElementById('emailInput').value,
+                address: document.getElementById('addressInput').value
+            };
+            fetch("../../../backend/controllers/User.php",{
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                return response.text();
+            })
+            .then(data => {
+                console.log(data);
+                window.location.href = "/home/freelancer_profile";
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+            
         });
-        
-    });
-    document.getElementById('deleteProfile').addEventListener('click', function() {
-    if (confirm('Are you sure you want to delete your profile? This action cannot be undone.')) {
-        fetch("/PlaCo/backend/controllers/User.php", {
-            method: "DELETE",
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
+        document.getElementById('deleteProfile').addEventListener('click', function() {
+        if (confirm('Are you sure you want to delete your profile? This action cannot be undone.')) {
+            fetch("/PlaCo/backend/controllers/User.php", {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
         .then(response => {return response.text();})
         .then(data => {
             console.log('Server response', data);
@@ -179,9 +179,9 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
         .catch(error => {
             console.error('Error:', error);
         });
-    }
-});
-</script>
+        }   
+        });
+    </script>
     <script> 
         //deschide intai edit profile ca default page pt settings
         window.onload = function() {
@@ -240,19 +240,19 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
         selectedTagsDiv.appendChild(selectedTagDiv);
         // Clear the input field
         tagsInput.value = '';
-    });
+        });
 
-    // Profile picture upload
-    document.getElementById('profilePictureInput').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-        
-        reader.onload = function(e) {
-            document.getElementById('profilePicture').src = e.target.result;
-        }
-        
-        reader.readAsDataURL(file);
-    });
+        // Profile picture upload
+        document.getElementById('profilePictureInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                document.getElementById('profilePicture').src = e.target.result;
+            }
+            
+            reader.readAsDataURL(file);
+        });
 
     </script>
     <script>
@@ -265,11 +265,21 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                     'Content-Type': 'application/json'
                 }
             })
-            .then(response => response.json())
+            .then(response => {
+                if(!response.ok){
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
             .then(data => {
+                console.log(data);
+                if (data.error) {
+                    console.error('Error fetching profile data:', data.error);
+                    return;
+                }
                 // Populate form fields with data
-                document.getElementById('profilePicture').src = data.profile_picture;
-                document.getElementById('profilePictureInput').value = data.profile_picture;
+                // document.getElementById('profilePicture').src = data.profile_picture;
+                // document.getElementById('profilePictureInput').value = data.profile_picture;
                 document.getElementById('nameInput').value = data.name;
                 document.getElementById('phoneInput').value = data.phone_number;
                 document.getElementById('emailInput').value = data.email;

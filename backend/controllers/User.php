@@ -1,7 +1,6 @@
 <?php 
-    require_once __DIR__ . '/../models/User.php';
-    require_once __DIR__ . '/../helpers/session_helper.php';
-    
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/models/User.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
     class Users {
         private $userModel;
 
@@ -129,6 +128,7 @@
             if(!$userProfile){
                 die("aici Profile not found.");
             }
+            console_log($userProfile);
             return $userProfile;
         }
         public function updateProfile($data){

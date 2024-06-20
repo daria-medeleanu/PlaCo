@@ -42,7 +42,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                     <label for="remember-checkbox" class="checkbox-label">Remember me</label>
                 </div>
                 
-                <a class="wrapper-link" href="register">Sign Up</a>
+                <a class="wrapper-link" href="/home/register">Sign Up</a>
                 <?php flash('login') ?>
             </div>
         </div>

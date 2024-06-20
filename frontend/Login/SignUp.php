@@ -49,7 +49,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                     <button class="login-btn sign-up-btn" type="submit" onclick="setUserType('client')">Sign Up as Client</button>            
                 </div>
                 
-                <a class="wrapper-link" href="login">Log In</a>
+                <a class="wrapper-link" href="/home/login">Log In</a>
                 <?php flash('register') ?>
             </div>
         </div>
