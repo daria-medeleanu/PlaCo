@@ -15,12 +15,13 @@
                 'nume' => trim($data['nume']),
                 'email' => trim($data['email']),
                 'password_hash' => trim($data['password_hash']),
+                'psw-conf' => trim($data['psw-conf']),
                 'user_type' => trim($data['user_type'])
             ];
 
 
             //validare inputuri 
-            if(empty($data['prenume']) || empty($data['nume']) || empty($data['email']) || empty($data['password_hash']) || empty(trim($_POST['psw-conf'])) ){
+            if(empty($data['prenume']) || empty($data['nume']) || empty($data['email']) || empty($data['password_hash']) || empty($data['psw-conf']) ){
                 http_response_code(400);
                 echo json_encode(["message" => "Please fill out all inputs"]);
                 return;
@@ -49,7 +50,7 @@
                 http_response_code(400);
                 echo json_encode(["message" => "Invalid password"]);
                 return; 
-            } else if($data['password_hash'] !== trim($_POST['psw-conf'])){
+            } else if($data['password_hash'] !== $data['psw-conf']){
                 http_response_code(400);
                 echo json_encode(["message" => "Passwords don't match"]);
                 return;
@@ -221,9 +222,11 @@
                     echo json_encode(["message" => "Invalid request type"]);
                     break;
             }
+            break;
         case 'PUT':
             $data = json_decode(file_get_contents("php://input"),true);
             if($data){
+                console_log('aici intra');
                 $init->updateProfile($data);
             } else {
                 http_response_code(400);
