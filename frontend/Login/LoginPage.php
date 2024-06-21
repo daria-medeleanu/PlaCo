@@ -69,18 +69,18 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                 body: JSON.stringify(requestBody)
                 
             });
-            const result = await response.json();
-            console.log(result);
-            const messageDiv = document.getElementById('message');
+            // const result = await response.json();
+            // console.log(result);
+            // const messageDiv = document.getElementById('message');
 
-            if(response.ok){
-                messageDiv.textContent = result.message;
-                messageDiv.style.color = green;
-                window.location.href = '/home/home';
-            } else {
-                messageDiv.textContent = result.message;
-                messageDiv.style.color = 'red';
-            }
+            // if(response.ok){
+            //     messageDiv.textContent = result.message;
+            //     messageDiv.style.color = green;
+            //     window.location.href = '/home/home';
+            // } else {
+            //     messageDiv.textContent = result.message;
+            //     messageDiv.style.color = 'red';
+            // }
         });
     </script>
 

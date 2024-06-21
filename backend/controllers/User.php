@@ -285,13 +285,13 @@
     switch($_SERVER['REQUEST_METHOD']) {
         case 'POST':
             $data = json_decode(file_get_contents("php://input"). true);
+            console_log('login_check');
             if(isset($data['type'])){
                 switch($data['type']){
                     case 'register':
                         $init->register($data);
                         break;
                     case 'login':
-                        console_log('login_check');
                         // $init->login($data);
                         break;
                     default:
