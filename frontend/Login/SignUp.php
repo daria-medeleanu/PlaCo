@@ -15,10 +15,36 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
 
 </head>
 <script>
-        function setUserType(userType) {
-            document.getElementById('user_type').value = userType;
+    function setUserType(userType) {
+        document.getElementById('user_type').value = userType;
+    }
+    async function handleSubmit(event){
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData.entries());
+        data.type = 'register';
+
+        const response = await fetch('/PlaCo/backend/controllers/User.php', {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        const messageDiv = document.getElementById('message');
+        if(response.ok){
+            messageDiv.textContent = result.message;
+            messageDiv.style.color = 'green';
+            window.location.href = '/home/login';
+        } else {
+            messageDiv.textContent = result.message;
+            messageDiv.style.color = 'red';
         }
-    </script>
+    }
+</script>
 <body>
     <div class="logo">
         <div class="logo-content">
@@ -34,7 +60,8 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
     <div class="title">
         <h2>Sign Up</h2>
     </div>
-    <form action="/PlaCo/backend/controllers/User.php" method="post">
+    <!-- action="/PlaCo/backend/controllers/User.php" method="post" -->
+    <form id="signUpForm" onSubmit="handleSubmit(event)">
         <div class="wrapper"> 
             <div class="login-container">
                 <input type="hidden" name="type" value="register">
@@ -50,7 +77,8 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                 </div>
                 
                 <a class="wrapper-link" href="/home/login">Log In</a>
-                <?php flash('register') ?>
+                <div id="message"></div>
+                <!-- <?php flash('register') ?> -->
             </div>
         </div>
     </form>

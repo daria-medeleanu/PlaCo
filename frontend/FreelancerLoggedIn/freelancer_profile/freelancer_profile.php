@@ -5,12 +5,12 @@
     include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/User.php';
     
     // session_start();
-    $usersController = new Users(); 
-    $userProfile = $usersController->displayProfile();
+    // $usersController = new Users(); 
+    // $userProfile = $usersController->displayProfile();
 
-    if (!$userProfile) {
-        die("Profile not found.");
-    }
+    // if (!$userProfile) {
+    //     die("Profile not found.");
+    // }
 ?>
 <!DOCTYPE html>
 <html lang="en">
