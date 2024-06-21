@@ -11,6 +11,7 @@
             $this->db->query('SELECT * FROM users WHERE email = :email');
             $this->db->bind(':email', $email);
             $row = $this->db->single();
+            console_log($row);
             return $row ? true : false;
         }
         public function getUserByEmail($email) {

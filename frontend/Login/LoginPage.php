@@ -1,6 +1,7 @@
 <?php 
 include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,26 +62,44 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                 password: password 
             };
             console.log('Request Body:', requestBody);
-            const response = await fetch('/PlaCo/backend/controllers/User.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(requestBody)
-                
-            });
-            // const result = await response.json();
-            // console.log(result);
-            // const messageDiv = document.getElementById('message');
+            try {
+                const response = await fetch('/PlaCo/backend/controllers/User.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
 
-            // if(response.ok){
-            //     messageDiv.textContent = result.message;
-            //     messageDiv.style.color = green;
-            //     window.location.href = '/home/home';
-            // } else {
-            //     messageDiv.textContent = result.message;
-            //     messageDiv.style.color = 'red';
-            // }
+                const textResponse = await response.text();
+                console.log('Raw Response:', textResponse);
+
+                try {
+                    const result = JSON.parse(textResponse);
+                    console.log('Parsed JSON Response:', result);
+
+                    const messageDiv = document.getElementById('message');
+                    if (response.ok) {
+                        messageDiv.textContent = result.message;
+                        messageDiv.style.color = 'green';
+                        // window.location.href = '/home/home';
+                    } else {
+                        messageDiv.textContent = result.message;
+                        messageDiv.style.color = 'red';
+                    }
+                } catch (jsonError) {
+                    console.error('JSON Parse Error:', jsonError);
+                    const messageDiv = document.getElementById('message');
+                    messageDiv.textContent = 'An unexpected error occurred. Please try again.';
+                    messageDiv.style.color = 'red';
+                }
+
+            } catch (error) {
+                console.error('Fetch error:', error);
+                const messageDiv = document.getElementById('message');
+                messageDiv.textContent = 'An error occurred while logging in. Please try again.';
+                messageDiv.style.color = 'red';
+            }
         });
     </script>
 

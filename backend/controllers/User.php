@@ -9,17 +9,6 @@
         }
 
         public function register($data){
-            //saitizam data primita din post 
-            // $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-            //init data 
-            // $data = [
-            //     'prenume' => trim($_POST['prenume']),
-            //     'nume' => trim($_POST['nume']),
-            //     'email' => trim($_POST['email']),
-            //     'password_hash' => trim($_POST['password_hash']),
-            //     'user_type' => trim($_POST['user_type'])
-            // ];
             $data = [
                 'prenume' => trim($data['prenume']),
                 'nume' => trim($data['nume']),
@@ -31,24 +20,18 @@
 
             //validare inputuri 
             if(empty($data['prenume']) || empty($data['nume']) || empty($data['email']) || empty($data['password_hash']) || empty(trim($_POST['psw-conf'])) ){
-                // flash("register", "Please fill out all inputs");
                 http_response_code(400);
                 echo json_encode(["message" => "Please fill out all inputs"]);
                 return;
-                // redirect("/home/register");
             }
 
             if(!preg_match("/^[a-zA-Z]*$/", $data['prenume'])){
-                // flash("register", "Invalid first name. Don't use special characters or numbers!");
-                // redirect("/home/register");
                 http_response_code(400);
                 echo json_encode(["message" => "Invalid name. Don't use special characters or numbers!"]);
                 return;
             } 
 
             if(!preg_match("/^[a-zA-Z]*$/", $data['nume'])){
-                // flash("register", "Invalid last name. Don't use special characters or numbers!");
-                // redirect("/home/register");
                 http_response_code(400);
                 echo json_encode(["message" => "Invalid name. Don't use special characters or numbers!"]);
                 return;
@@ -56,30 +39,22 @@
 
           
             if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)){
-                // flash("register", "Invalid email");
-                // redirect("/home/register");
                 http_response_code(400);
                 echo json_encode(["message" => "Invalid email"]);
                 return;
             }
 
             if(strlen($data['password_hash']) < 6){
-                // flash("register", "Invalid password");
-                // redirect("/home/register"); 
                 http_response_code(400);
                 echo json_encode(["message" => "Invalid password"]);
                 return; 
             } else if($data['password_hash'] !== trim($_POST['psw-conf'])){
-                // flash("register", "Passwords don't match");
-                // redirect("/home/register");
                 http_response_code(400);
                 echo json_encode(["message" => "Passwords don't match"]);
                 return;
             }
 
             if($this->userModel->findUserByEmail($data['email'])){
-                // flash("register", "Email already used");
-                // redirect("/home/register");
                 http_response_code(400);
                 echo json_encode(["message" => "Email already used"]);
                 return;
@@ -91,30 +66,19 @@
             if($this->userModel->register($data)){
                 http_response_code(201);
                 echo json_encode(["message" => "User registered successfully"]);
-                // redirect("/home/login");
             }else{
                 http_response(500);
                 echo json_encode(["message" => "Something went wrong"]);
-                // die("Something went wrong");
             }
         }
         public function login($data){
-            // $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-    
-            //Init data
-            // $data=[
-            //     'email' => trim($_POST['email']),
-            //     'password' => trim($_POST['password'])
-            // ];
+
             $data = [
                 'email' => trim($data['email']),
                 'password' => trim($data['password'])
             ];
     
             if(empty($data['email']) || empty($data['password'])){
-                // flash("login", "Please fill out all inputs");
-                // header("location: login");
-                // exit();
                 http_response_code(400);
                 echo json_encode(["message" => "Please fill out all inputs"]);
                 return;
@@ -128,17 +92,14 @@
                 }else{
                     http_response_code(401);
                     echo json_encode(["message" => "Password Incorrect"]);
-                    // flash("login", "Password Incorrect");
-                    // redirect("login");
                 }
             }else{
-                // flash("login", "No user found");
-                // redirect("login");
                 http_response_code(404);
                 echo json_encode(["message" => "No user found"]);
             }
         }  
         public function createUserSession($loggedInUser){
+            session_start();
             $_SESSION['id'] = $loggedInUser->id;
             $_SESSION['user_type'] = $loggedInUser->user_type;
             $_SESSION['email'] = $loggedInUser->email;
@@ -281,24 +242,47 @@
         // }
     }
     $init = new Users;
-
+    error_log('VERIFICARE'); // Log to server log
+    error_log('Request Method: ' . $_SERVER['REQUEST_METHOD']);
+    error_log('Request Data: ' . file_get_contents("php://input"));
     switch($_SERVER['REQUEST_METHOD']) {
         case 'POST':
-            $data = json_decode(file_get_contents("php://input"). true);
-            console_log('login_check');
+            // $data = json_decode(file_get_contents("php://input"). true);
+            // error_log('POST request received'); // Log to server log
+
+            // if(isset($data['type'])){
+            //     switch($data['type']){
+            //         case 'register':
+            //             $init->register($data);
+            //             break;
+            //         case 'login':
+            //             $init->login($data);
+            //             break;
+            //         default:
+            //             http_response_code(400);
+            //             echo json_encode(["message" => "Invalid request type"]);
+            //             break;
+            //     }
+            // }
+            // break;
+            header('Content-Type: application/json');
+            $data = json_decode(file_get_contents("php://input"), true);
             if(isset($data['type'])){
                 switch($data['type']){
                     case 'register':
                         $init->register($data);
                         break;
                     case 'login':
-                        // $init->login($data);
+                        $init->login($data);
                         break;
                     default:
                         http_response_code(400);
                         echo json_encode(["message" => "Invalid request type"]);
                         break;
                 }
+            } else {
+                http_response_code(400);
+                echo json_encode(["message" => "Request type not set"]);
             }
             break;
         case 'PUT':
