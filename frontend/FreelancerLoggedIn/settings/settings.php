@@ -3,13 +3,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/User.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
 
-// session_start();
-// $usersController = new Users(); 
-// $userProfile = $usersController->displayProfile();
-
-// if (!$userProfile) {
-//     die("Profile not found.");
-// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -147,7 +140,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                 return response.text();
             })
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 window.location.href = "/home/freelancer_profile";
             })
             .catch(error => {
@@ -259,7 +252,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
     document.addEventListener("DOMContentLoaded", function() {
         // Function to get user profile data
         function getUserProfile() {
-            fetch('/PlaCo/index.php', {
+            fetch('/PlaCo/backend/controllers/User.php', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -272,14 +265,11 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                 return response.json();
             })
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 if (data.error) {
                     console.error('Error fetching profile data:', data.error);
                     return;
                 }
-                // Populate form fields with data
-                // document.getElementById('profilePicture').src = data.profile_picture;
-                // document.getElementById('profilePictureInput').value = data.profile_picture;
                 document.getElementById('nameInput').value = data.name;
                 document.getElementById('phoneInput').value = data.phone_number;
                 document.getElementById('emailInput').value = data.email;

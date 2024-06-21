@@ -112,8 +112,7 @@
 
                 const profileData = await response.json();
                 console.log('Fetched Profile Data:', profileData);
-
-                // document.getElementById('profilePicture').src = profileData.profile_picture ? profileData.profile_picture : '/PlaCo/frontend/FreelancerLoggedIn/freelancer_profile/img/profile-icon.png';
+                    
                 document.getElementById('profileName').textContent = profileData.name ? profileData.name : 'N/A';
                 document.getElementById('profilePhoneNumber').textContent = profileData.phoneNumber ? profileData.phone_number : 'N/A';
                 document.getElementById('profileEmail').textContent = profileData.email ? profileData.email : 'N/A';

@@ -141,8 +141,9 @@
                 return;
                 // die("aici Profile not found.");
             }
-            // return $userProfile;
+            http_response_code(200);
             echo json_encode($userProfile);
+            return;
         }
         public function updateProfile($data){
             // if(!isset($_SESSION)){
@@ -206,9 +207,9 @@
     }
     $init = new Users;
     
-    header('Content-Type: application/json');
     switch($_SERVER['REQUEST_METHOD']) {
         case 'POST':
+            header('Content-Type: application/json');
             $data = json_decode(file_get_contents("php://input"), true);
             switch($data['type']){
                 case 'register':
@@ -239,6 +240,7 @@
         case 'GET':
             header('Content-Type: text/html');
             $init->displayProfile();
+
             break;
         default:
             http_response_code(405);
