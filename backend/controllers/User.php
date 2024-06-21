@@ -1,6 +1,7 @@
 <?php 
     include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/models/User.php';
     include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
+
     class Users {
         private $userModel;
 

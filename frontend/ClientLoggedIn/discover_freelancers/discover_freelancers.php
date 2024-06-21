@@ -1,3 +1,8 @@
+<?php 
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/User.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Discover Freelancers</title>
     <link rel="stylesheet" href="../header/header.css"> 
-    <link rel="stylesheet" href="discover_freelancers.css"> 
+    <link rel="stylesheet" href="/PlaCo/frontend/ClientLoggedIn/discover_freelancers.css"> 
     <link rel="shortcut icon" type="image/x-icon" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
