@@ -29,7 +29,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
     <div class="title">
         <h2>Login</h2>
     </div>
-    <!-- action="/PlaCo/backend/controllers/User.php" method="post" -->
     <form id="loginForm">
         <div class="wrapper"> 
             <div class="login-container">
@@ -82,7 +81,11 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                     if (response.ok) {
                         messageDiv.textContent = result.message;
                         messageDiv.style.color = 'green';
-                        // window.location.href = '/home/home';
+                        if(messageDiv.textContent === "client"){
+                            window.location.href = '/home/client_profile';
+                        } else if (messageDiv.textContent === "freelancer"){
+                            window.location.href = '/home/freelancer_profile';
+                        }
                     } else {
                         messageDiv.textContent = result.message;
                         messageDiv.style.color = 'red';

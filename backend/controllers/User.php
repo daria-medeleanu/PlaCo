@@ -101,19 +101,18 @@
             }
         }  
         public function createUserSession($loggedInUser){
-            // session_start();
+            session_start();
             $_SESSION['id'] = $loggedInUser->id;
             $_SESSION['user_type'] = $loggedInUser->user_type;
             $_SESSION['email'] = $loggedInUser->email;
-            // if ($loggedInUser->user_type == 'client') {
-            //     redirect("/home/client_profile");
-            // } elseif ($loggedInUser->user_type == 'freelancer') {
-            //     redirect("/home/freelancer_profile");
-            // } else {
-            //     redirect("/home/login");
-            // }
+            if ($loggedInUser->user_type == "client") {
+                $userType = "client";
+            } 
+            if ($loggedInUser->user_type == "freelancer") {
+                $userType = "freelancer";
+            } 
             http_response_code(200);
-            echo json_encode(["message" => "Login successful"]);
+            echo json_encode(["message" => $userType]);
         }  
         public function logout(){
             unset($_SESSION['id']);
@@ -146,9 +145,9 @@
             echo json_encode($userProfile);
         }
         public function updateProfile($data){
-            if(!isset($_SESSION)){
-                session_start();
-            }
+            // if(!isset($_SESSION)){
+            //     session_start();
+            // }
             if(!isset($_SESSION['id'])){
                 http_response_code(401);
                 echo json_encode(["message" => "Unauthorized"]);
@@ -180,9 +179,9 @@
             } 
         }
         public function deleteProfile(){
-            if(!isset($_SESSION)){
-                session_start();
-            }
+            // if(!isset($_SESSION)){
+            //     session_start();
+            // }
     
             if(!isset($_SESSION['id'])){
                 // header('Content-Type: application/json');
@@ -206,6 +205,7 @@
         }
     }
     $init = new Users;
+    
     header('Content-Type: application/json');
     switch($_SERVER['REQUEST_METHOD']) {
         case 'POST':
@@ -237,6 +237,7 @@
             $init->deleteProfile();
             break;
         case 'GET':
+            header('Content-Type: text/html');
             $init->displayProfile();
             break;
         default:

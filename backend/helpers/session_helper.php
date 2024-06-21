@@ -1,7 +1,7 @@
 <?php
     
 if(!isset($_SESSION)){
-    session_start();
+    // session_start();
 }
 
 function flash($name = '', $message = '', $class = 'form-invalid-input'){
