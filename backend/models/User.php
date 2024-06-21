@@ -39,7 +39,6 @@
                 $this->db->bind(':name', $name);
                 $this->db->bind(':joining_date', $joining_date);
                 $this->db->bind(':user_type',$data['user_type']);
-                console_log('blabla');
                 return $this->db->execute();
             }else{
                 return false;

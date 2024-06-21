@@ -2,13 +2,7 @@
     include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/User.php';
     include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
     include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
-    // session_start();
-    $usersController = new Users(); 
-    $userProfile = $usersController->displayProfile();
 
-    if (!$userProfile) {
-        die("Profile not found.");
-    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -83,11 +77,11 @@
         </div>
         <div class="info-text">
             <h2>Professional areas:</h2>
-            <p>Name: <?php echo htmlspecialchars($userProfile->name); ?></p>
-            <p>Phone number: <?php echo htmlspecialchars ($userProfile->phone_number);?></p>
-            <p>Email address: <?php echo htmlspecialchars($userProfile->email);?></p>
-            <p>Address: <?php echo htmlspecialchars($userProfile->address);?></p>
-            <p>Joining date:<?php echo htmlspecialchars($userProfile->joining_date); ?></p>
+            <p>Name: <span id="profileName"></span></p>
+            <p>Phone number: <span id="profilePhoneNumber"></span></p>
+            <p>Email address: <span id="profileEmail"></span></p>
+            <p>Address: <span id="profileAddress"></span></p>
+            <p>Joining date:<span id="profileJoinDate"></span></p>
         </div>
      </section>
      <section class="box">
@@ -106,6 +100,34 @@
         <h3>userAnaMaria</h3>
         <p> mi-a stricat gresia din baie</p>
     </section>
-   
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            try{
+                const response = await fetch('/PlaCo/backend/controllers/User.php', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok.');
+                }
+
+                const profileData = await response.json();
+                console.log('Fetched Profile Data:', profileData);
+
+                // document.getElementById('profilePicture').src = profileData.profile_picture ? profileData.profile_picture : '/PlaCo/frontend/FreelancerLoggedIn/freelancer_profile/img/profile-icon.png';
+                document.getElementById('profileName').textContent = profileData.name ? profileData.name : 'N/A';
+                document.getElementById('profilePhoneNumber').textContent = profileData.phoneNumber ? profileData.phone_number : 'N/A';
+                document.getElementById('profileEmail').textContent = profileData.email ? profileData.email : 'N/A';
+                document.getElementById('profileAddress').textContent = profileData.address ? profileData.address : 'N/A';
+                document.getElementById('profileJoinDate').textContent = profileData.joining_date ? profileData.joining_date : 'N/A';
+
+            } catch (error) {
+                console.error('Error fetching profile data:', error);
+            }
+        });
+    </script>
 </body>
 </html>

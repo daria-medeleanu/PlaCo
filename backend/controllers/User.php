@@ -10,46 +10,30 @@
         }
 
         public function register($data){
-            //saitizam data primita din post 
-            // $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-            //init data 
-            // $data = [
-            //     'prenume' => trim($_POST['prenume']),
-            //     'nume' => trim($_POST['nume']),
-            //     'email' => trim($_POST['email']),
-            //     'password_hash' => trim($_POST['password_hash']),
-            //     'user_type' => trim($_POST['user_type'])
-            // ];
             $data = [
                 'prenume' => trim($data['prenume']),
                 'nume' => trim($data['nume']),
                 'email' => trim($data['email']),
                 'password_hash' => trim($data['password_hash']),
+                'psw-conf' => trim($data['psw-conf']),
                 'user_type' => trim($data['user_type'])
             ];
 
 
             //validare inputuri 
-            if(empty($data['prenume']) || empty($data['nume']) || empty($data['email']) || empty($data['password_hash']) || empty(trim($_POST['psw-conf'])) ){
-                // flash("register", "Please fill out all inputs");
+            if(empty($data['prenume']) || empty($data['nume']) || empty($data['email']) || empty($data['password_hash']) || empty($data['psw-conf']) ){
                 http_response_code(400);
                 echo json_encode(["message" => "Please fill out all inputs"]);
                 return;
-                // redirect("/home/register");
             }
 
             if(!preg_match("/^[a-zA-Z]*$/", $data['prenume'])){
-                // flash("register", "Invalid first name. Don't use special characters or numbers!");
-                // redirect("/home/register");
                 http_response_code(400);
                 echo json_encode(["message" => "Invalid name. Don't use special characters or numbers!"]);
                 return;
             } 
 
             if(!preg_match("/^[a-zA-Z]*$/", $data['nume'])){
-                // flash("register", "Invalid last name. Don't use special characters or numbers!");
-                // redirect("/home/register");
                 http_response_code(400);
                 echo json_encode(["message" => "Invalid name. Don't use special characters or numbers!"]);
                 return;
@@ -57,30 +41,22 @@
 
           
             if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)){
-                // flash("register", "Invalid email");
-                // redirect("/home/register");
                 http_response_code(400);
                 echo json_encode(["message" => "Invalid email"]);
                 return;
             }
 
             if(strlen($data['password_hash']) < 6){
-                // flash("register", "Invalid password");
-                // redirect("/home/register"); 
                 http_response_code(400);
                 echo json_encode(["message" => "Invalid password"]);
                 return; 
-            } else if($data['password_hash'] !== trim($_POST['psw-conf'])){
-                // flash("register", "Passwords don't match");
-                // redirect("/home/register");
+            } else if($data['password_hash'] !== $data['psw-conf']){
                 http_response_code(400);
                 echo json_encode(["message" => "Passwords don't match"]);
                 return;
             }
 
             if($this->userModel->findUserByEmail($data['email'])){
-                // flash("register", "Email already used");
-                // redirect("/home/register");
                 http_response_code(400);
                 echo json_encode(["message" => "Email already used"]);
                 return;
@@ -92,30 +68,19 @@
             if($this->userModel->register($data)){
                 http_response_code(201);
                 echo json_encode(["message" => "User registered successfully"]);
-                // redirect("/home/login");
             }else{
-                http_response(500);
+                http_response_code(500);
                 echo json_encode(["message" => "Something went wrong"]);
-                // die("Something went wrong");
             }
         }
         public function login($data){
-            // $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-    
-            //Init data
-            // $data=[
-            //     'email' => trim($_POST['email']),
-            //     'password' => trim($_POST['password'])
-            // ];
+
             $data = [
                 'email' => trim($data['email']),
                 'password' => trim($data['password'])
             ];
     
             if(empty($data['email']) || empty($data['password'])){
-                // flash("login", "Please fill out all inputs");
-                // header("location: login");
-                // exit();
                 http_response_code(400);
                 echo json_encode(["message" => "Please fill out all inputs"]);
                 return;
@@ -129,29 +94,25 @@
                 }else{
                     http_response_code(401);
                     echo json_encode(["message" => "Password Incorrect"]);
-                    // flash("login", "Password Incorrect");
-                    // redirect("login");
                 }
             }else{
-                // flash("login", "No user found");
-                // redirect("login");
                 http_response_code(404);
                 echo json_encode(["message" => "No user found"]);
             }
         }  
         public function createUserSession($loggedInUser){
+            session_start();
             $_SESSION['id'] = $loggedInUser->id;
             $_SESSION['user_type'] = $loggedInUser->user_type;
             $_SESSION['email'] = $loggedInUser->email;
-            // if ($loggedInUser->user_type == 'client') {
-            //     redirect("/home/client_profile");
-            // } elseif ($loggedInUser->user_type == 'freelancer') {
-            //     redirect("/home/freelancer_profile");
-            // } else {
-            //     redirect("/home/login");
-            // }
+            if ($loggedInUser->user_type == "client") {
+                $userType = "client";
+            } 
+            if ($loggedInUser->user_type == "freelancer") {
+                $userType = "freelancer";
+            } 
             http_response_code(200);
-            echo json_encode(["message" => "Login successful"]);
+            echo json_encode(["message" => $userType]);
         }  
         public function logout(){
             unset($_SESSION['id']);
@@ -184,9 +145,9 @@
             echo json_encode($userProfile);
         }
         public function updateProfile($data){
-            if(!isset($_SESSION)){
-                session_start();
-            }
+            // if(!isset($_SESSION)){
+            //     session_start();
+            // }
             if(!isset($_SESSION['id'])){
                 http_response_code(401);
                 echo json_encode(["message" => "Unauthorized"]);
@@ -218,9 +179,9 @@
             } 
         }
         public function deleteProfile(){
-            if(!isset($_SESSION)){
-                session_start();
-            }
+            // if(!isset($_SESSION)){
+            //     session_start();
+            // }
     
             if(!isset($_SESSION['id'])){
                 // header('Content-Type: application/json');
@@ -242,69 +203,30 @@
                 echo json_encode(['message' => 'Failed to delete profile']);
             }
         }
-        // public function postProject() {
-        //     $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-        //     $files = [];
-        //     $uploadDir ='./uploads/';
-        
-        //     if (!is_dir($uploadDir)) {
-        //         mkdir($uploadDir, 0755, true);
-        //     }
-        //     if (!empty($_FILES['file']['name'])) {
-                
-        //         foreach ($_FILES['file']['tmp_name'] as $key => $tmp_name) {
-        //             $filename = basename($_FILES['file']['name'][$key]);
-        //             $targetFile = $uploadDir . $filename;
-        
-        //             if (move_uploaded_file($tmp_name, $targetFile)) {
-        //                 $files[] = $targetFile;
-        //             } else {
-        //                 error_log("Failed to move uploaded file: " . $filename);
-        //             }
-        //         }
-        //     }
-        
-        //     $data = [
-        //         'title' => trim($_POST['title']),
-        //         'description' => trim($_POST['description']),
-        //         'files' => implode(',', $files),
-        //         //'currency' => trim($_POST['currency']),
-        //         'owner_id' => $_SESSION['id']
-        //     ];
-            
-        //     if ($this->userModel->saveProject($data)) {
-        //         flash('project_message', 'Project posted successfully');
-        //       //  redirect('../../frontend/ClientLoggedIn/client_profile/client_profile.php');
-        //     } else {
-        //         flash('project_message', 'Something went wrong');
-        //         redirect('/home/post_a_project');
-        //     }
-        // }
     }
     $init = new Users;
-
+    
+    header('Content-Type: application/json');
     switch($_SERVER['REQUEST_METHOD']) {
         case 'POST':
-            $data = json_decode(file_get_contents("php://input"). true);
-            console_log('login_check');
-            if(isset($data['type'])){
-                switch($data['type']){
-                    case 'register':
-                        $init->register($data);
-                        break;
-                    case 'login':
-                        // $init->login($data);
-                        break;
-                    default:
-                        http_response_code(400);
-                        echo json_encode(["message" => "Invalid request type"]);
-                        break;
-                }
+            $data = json_decode(file_get_contents("php://input"), true);
+            switch($data['type']){
+                case 'register':
+                    $init->register($data);
+                    break;
+                case 'login':
+                    $init->login($data);
+                    break;
+                default:
+                    http_response_code(400);
+                    echo json_encode(["message" => "Invalid request type"]);
+                    break;
             }
             break;
         case 'PUT':
             $data = json_decode(file_get_contents("php://input"),true);
             if($data){
+                console_log('aici intra');
                 $init->updateProfile($data);
             } else {
                 http_response_code(400);
@@ -315,6 +237,7 @@
             $init->deleteProfile();
             break;
         case 'GET':
+            header('Content-Type: text/html');
             $init->displayProfile();
             break;
         default:
@@ -322,39 +245,3 @@
             echo json_encode(["message" => "Method Not Allowed"]);
             break;
     }
-    // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //     if (isset($_POST['type'])) {
-    //         switch ($_POST['type']) {
-    //             case 'register':
-    //                 $init->register();
-    //                 break;
-    //             case 'login':
-    //                 $init->login();
-    //                 break;
-    //             case 'post_project':
-    //                 $init->postProject();
-    //                 break;
-    //             default:
-    //                 redirect("/home/register");
-    //                 break;
-    //         }
-    //     }
-    // } elseif ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-    //     $data = json_decode(file_get_contents("php://input"), true);
-    //     if ($data && isset($data['type']) && $data['type'] === 'update_profile') {
-    //         $init->updateProfile($data);
-    //     } else {
-    //         http_response_code(405);
-    //         echo json_encode(["message" => "Invalid request."]);
-    //     }
-    // } elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-    //     $init->deleteProfile();
-    // } elseif($_SERVER['REQUEST_METHOD'] === 'GET'){
-    //     $userProfile = $init->displayProfile();
-    //     echo json_encode($userProfile);
-    //     // exit;
-    // } else {
-    //     http_response_code(405);
-    //     echo json_encode(["message" => "Method Not Allowed"]);
-    // }
-    
