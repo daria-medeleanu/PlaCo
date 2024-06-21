@@ -1,15 +1,7 @@
 <?php
-require_once '../../../backend/models/User.php';
-require_once '../../../backend/helpers/session_helper.php';
-require_once '../../../backend/controllers/User.php';
-
-// session_start();
-$usersController = new Users(); 
-$userProfile = $usersController->displayProfile();
-
-if (!$userProfile) {
-    die("Profile not found.");
-}
+include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/User.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,33 +9,33 @@ if (!$userProfile) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings</title>
-    <link rel="stylesheet" href="../header/header.css"> 
-    <link rel="stylesheet" href="settings.css"> 
-    <link rel="shortcut icon" type="image/x-icon" href="logo.png">
+    <link rel="stylesheet" href="/PlaCo/frontend/ClientLoggedIn/header/header.css"> 
+    <link rel="stylesheet" href="/PlaCo/frontend/ClientLoggedIn/settings/settings.css"> 
+    <link rel="shortcut icon" type="image/x-icon" href="/PlaCo/frontend/ClientLoggedIn/settings/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <div class="header">
         <div class="nav-left">
-            <a class="logo-pic" href="../../Login/DashboardLogin.html">
-                <img src="logo.png" class="logo" alt="Logo">
+            <a class="logo-pic" href="/home/home">
+                <img src="/PlaCo/frontend/ClientLoggedIn/settings/logo.png" class="logo" alt="Logo">
                 <div class="nav-btn-left">PlaCo</div>
             </a>
         </div>
         <div class="nav-right">
             <div class="options-nav-bar">
-                <a href="../discover_freelancers/discover_freelancers.html" class="nav-btn-left">Discover Freelancers</a>
-                <a href="../client_profile/post_a_new_project.html" class="nav-btn-left">Post a new Project</a>
+                <a href="/home/discover_freelancers" class="nav-btn-left">Discover Freelancers</a>
+                <a href="/home/post_a_project" class="nav-btn-left">Post a new Project</a>
             </div>
             <div class="menu-btn-right btn-dissapear">
                 <input type="checkbox" id="profile-toggle">
                 <label for="profile-toggle" >Profile</label>
                 <div class="menu" id="profile-menu">
-                    <button onclick="window.location.href='../client_profile/client_profile.html'">My Profile</button>
-                    <button onclick="window.location.href='../client_profile/active_projects.html'">Active Projects</button>
-                    <button onclick="window.location.href='../client_profile/finished_projects.html'">Finished Projects</button>
-                    <button onclick="window.location.href='../../Login/DashboardLogin.php'">Log Out</button>
+                    <button onclick="window.location.href='/home/client_profile'">My Profile</button>
+                    <button onclick="window.location.href='/home/active_projects'">Active Projects</button>
+                    <button onclick="window.location.href='/home/finished_projects'">Finished Projects</button>
+                    <button onclick="window.location.href='/home/home'">Log Out</button>
                     <button onclick="window.location.href='#'">Settings</button>
                 </div>
             </div>
@@ -86,28 +78,18 @@ if (!$userProfile) {
         <div class="right-panel">
             <div id="editProfile">
                 <h2>Edit Profile</h2>
-                <!-- <div class="profile-picture-container">
-                    <img src="profile-icon.png" alt="Profile Picture" id="profilePicture">
-                    <input type="file" id="profilePictureInput" accept="image/*">
-                    <label for="profilePictureInput" class="upload-profile-picture-button">Upload New Picture</label>
-                </div>
-                <input type="text" class="form-input" placeholder="Name">
-                <input type="text" class="form-input" placeholder="Phone number">
-                <input type="text" class="form-input" placeholder="Email address">
-                <input type="text" class="form-input" placeholder="Address"> -->
                 <form id="editProfileForm" enctype="multipart/form-data">
                     <div class="profile-picture-container">
-                        <img src="profile-icon.png" alt="Profile Picture" id="profilePicture">
-                        <input type="file" id="profilePictureInput" accept="image/*" value="<?php echo htmlspecialchars($userProfile->profile_picture); ?>">
+                        <img src="/PlaCo/frontend/ClientLoggedIn/settings/profile-icon.png" alt="Profile Picture" id="profilePicture">
+                        <input type="file" id="profilePictureInput" accept="image/*" >
                         <label for="profilePictureInput" class="upload-profile-picture-button">Upload New Picture</label>
                     </div>
-                    <input type="text" class="form-input" id="nameInput" placeholder="Name" value="<?php echo htmlspecialchars($userProfile->name); ?>">
-                    <input type="text" class="form-input" id="phoneInput" placeholder="Phone number" value="<?php echo htmlspecialchars($userProfile->phone_number); ?>">
-                    <input type="text" class="form-input" id="emailInput" placeholder="Email address" value="<?php echo htmlspecialchars($userProfile->email); ?>">
-                    <input type="text" class="form-input" id="addressInput" placeholder="Address" value="<?php echo htmlspecialchars($userProfile->address); ?>">
+                    <input type="text" class="form-input" id="nameInput" placeholder="Name" >
+                    <input type="text" class="form-input" id="phoneInput" placeholder="Phone number">
+                    <input type="text" class="form-input" id="emailInput" placeholder="Email address" readonly>
+                    <input type="text" class="form-input" id="addressInput" placeholder="Address" >
                     
                    
-                </form>
                 <h2>Professional areas:</h2>
                 <div class="tags-container">
                     <input type="text" id="tagsInput" list="tagList" placeholder="Enter or select tag">
@@ -121,11 +103,9 @@ if (!$userProfile) {
                 </div>
 
                 <div class="selected-tags" id="selectedTags"></div>
-                <!-- <button class="button-submit">Save Changes</button> -->
                 <button type="button" id="saveChangesButton" class="button-submit">Save Changes</button>
                 <button type="button" id="deleteProfile" class="button-submit">Delete Profile</button>
-
-
+                </form>
             
             </div>
             <div class="change-password" id="changePassword">
@@ -145,60 +125,66 @@ if (!$userProfile) {
         </div>
     </div>
     <script>
-    document.getElementById('saveChangesButton').addEventListener('click', function() {
-        var data = {
-            type: 'update_profile',
-            name: document.getElementById('nameInput').value, 
-            phone_number: document.getElementById('phoneInput').value,
-            email: document.getElementById('emailInput').value,
-            address: document.getElementById('addressInput').value
-        };
-        fetch("../../../backend/controllers/User.php",{
+    async function handleProfileUpdate(event) {
+    event.preventDefault();
+    const data = {
+        type: 'update_profile',
+        name: document.getElementById('nameInput').value,
+        phone_number: document.getElementById('phoneInput').value,
+        email: document.getElementById('emailInput').value,
+        address: document.getElementById('addressInput').value
+    };
+
+    try {
+        const response = await fetch("/PlaCo/backend/controllers/User.php", {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        })
-        .then(response => {
-            return response.text();
-        })
-        .then(data => {
-            console.log(data);
-            window.location.href = "../client_profile/client_profile.php";
-        })
-        .catch(error => {
-            console.error('Error:', error);
         });
-        
-    });
-    document.getElementById('deleteProfile').addEventListener('click', function() {
-    if (confirm('Are you sure you want to delete your profile? This action cannot be undone.')) {
-        fetch("../../../backend/controllers/User.php", {
-            method: "DELETE",
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message === 'Profile deleted successfully') {
-                alert(data.message);
-                window.location.href = "../../Login/DashboardLogin.php";
-            } else {
-                console.error('Failed to delete profile:', data.message);
-                window.location.href = "../../Login/DashboardLogin.php";
-                // Handle failure here (e.g., show an error message to the user)
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    }
-});
 
+        const result = await response.json();
+        if (response.ok) {
+            window.location.href = "/home/client_profile";
+        } else {
+            console.error('Failed to update profile:', result.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+async function handleProfileDeletion(event) {
+    if (confirm('Are you sure you want to delete your profile? This action cannot be undone.')) {
+        try {
+            const response = await fetch("/PlaCo/backend/controllers/User.php", {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                window.location.href = "/home/home";
+            } else {
+                console.error('Failed to delete profile:', result.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+}
+
+document.getElementById('saveChangesButton').addEventListener('click', handleProfileUpdate);
+document.getElementById('deleteProfile').addEventListener('click', handleProfileDeletion);
+  
 </script>
     <script>
+        window.onload = function() {
+        showEditProfile();
+        };
         function showEditProfile() {
             document.getElementById('editProfile').style.display = 'block';
             document.getElementById('changePassword').style.display = 'none';
@@ -216,10 +202,6 @@ if (!$userProfile) {
             document.getElementById('changePassword').style.display = 'none';
             document.getElementById('statistics').style.display = 'block';
         }
-        //prima data deschide edit profile ca sectiune default pt settings
-        window.onload = function() {
-        showEditProfile();
-        };
         //tags
         document.getElementById('addTag').addEventListener('click', function() {
         event.preventDefault(); //ca sa nu mai apara required-ul de la title input
@@ -268,7 +250,42 @@ if (!$userProfile) {
         
         reader.readAsDataURL(file);
     });
-
     </script>
+    <script>
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Function to get user profile data
+    function getUserProfile() {
+        fetch('/PlaCo/backend/controllers/User.php', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if(!response.ok){
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // console.log(data);
+            if (data.error) {
+                console.error('Error fetching profile data:', data.error);
+                return;
+            }
+            document.getElementById('nameInput').value = data.name;
+            document.getElementById('phoneInput').value = data.phone_number;
+            document.getElementById('emailInput').value = data.email;
+            document.getElementById('addressInput').value = data.address;
+        })
+        .catch(error => console.error('Error fetching profile data:', error));
+    }
+
+    // Call the function to get user profile data when the page loads
+    getUserProfile();
+});
+</script>
+
 </body>
 </html>

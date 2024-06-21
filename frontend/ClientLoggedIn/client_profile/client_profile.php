@@ -2,6 +2,7 @@
     include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/User.php';
     include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
     include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/models/User.php';
 
 ?>
 <!DOCTYPE html>
@@ -90,7 +91,7 @@
             <div class="boxBtn"><a href="/home/finished_projects"> See Finished Projects</a></div>
         </div>
         <div class="btn-edit-profile">
-            <div class="boxBtn"><a href="/home/settings" >Edit Profile</a> </div>
+            <div class="boxBtn"><a href="/home/settings_client" >Edit Profile</a> </div>
         </div>
     </section>
     <section class="review">
@@ -119,7 +120,7 @@
 
                 // document.getElementById('profilePicture').src = profileData.profile_picture ? profileData.profile_picture : '/PlaCo/frontend/FreelancerLoggedIn/freelancer_profile/img/profile-icon.png';
                 document.getElementById('profileName').textContent = profileData.name ? profileData.name : 'N/A';
-                document.getElementById('profilePhoneNumber').textContent = profileData.phoneNumber ? profileData.phone_number : 'N/A';
+                document.getElementById('profilePhoneNumber').textContent = profileData.phone_number ? profileData.phone_number : 'N/A';
                 document.getElementById('profileEmail').textContent = profileData.email ? profileData.email : 'N/A';
                 document.getElementById('profileAddress').textContent = profileData.address ? profileData.address : 'N/A';
                 document.getElementById('profileJoinDate').textContent = profileData.joining_date ? profileData.joining_date : 'N/A';

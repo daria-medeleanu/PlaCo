@@ -114,7 +114,7 @@
                 console.log('Fetched Profile Data:', profileData);
                     
                 document.getElementById('profileName').textContent = profileData.name ? profileData.name : 'N/A';
-                document.getElementById('profilePhoneNumber').textContent = profileData.phoneNumber ? profileData.phone_number : 'N/A';
+                document.getElementById('profilePhoneNumber').textContent = profileData.phone_number ? profileData.phone_number : 'N/A';
                 document.getElementById('profileEmail').textContent = profileData.email ? profileData.email : 'N/A';
                 document.getElementById('profileAddress').textContent = profileData.address ? profileData.address : 'N/A';
                 document.getElementById('profileJoinDate').textContent = profileData.joining_date ? profileData.joining_date : 'N/A';
