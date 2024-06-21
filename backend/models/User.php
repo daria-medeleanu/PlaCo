@@ -22,6 +22,7 @@
             $this->db->query('INSERT INTO users (nume, prenume, email, password_hash, user_type) 
             VALUES (:nume, :prenume, :email, :password_hash, :user_type)');
             //bind values
+            console_log("aici insert");
             $this->db->bind(':nume', $data['nume']);
             $this->db->bind(':prenume', $data['prenume']);
             $this->db->bind(':email', $data['email']);
