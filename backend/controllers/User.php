@@ -68,7 +68,7 @@
                 http_response_code(201);
                 echo json_encode(["message" => "User registered successfully"]);
             }else{
-                http_response(500);
+                http_response_code(500);
                 echo json_encode(["message" => "Something went wrong"]);
             }
         }
@@ -249,9 +249,11 @@
             $data = json_decode(file_get_contents("php://input"), true);
             switch($data['type']){
                 case 'register':
+                    console_log("aici");
                     $init->register($data);
                     break;
                 case 'login':
+                    console_log("aici2");
                     $init->login($data);
                     break;
                 default:
