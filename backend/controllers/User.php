@@ -146,7 +146,10 @@
             return;
         }
         public function updateProfile($data){
-            
+             if(!isset($_SESSION)){
+                 session_start();
+             }
+
             if(!isset($_SESSION['id'])){
                 http_response_code(401);
                 echo json_encode(["message" => "Unauthorized"]);
@@ -160,16 +163,6 @@
                 'address' => trim($data['address'])
             ];
             if($this->userModel->updateProfile($userId, $updatedData)){
-                // header('Content-Type: application/json');
-                // echo json_encode(['message' => 'Profile updated successfully']);
-                // } else {
-                //     http_response_code(500);
-                //     header('Content-Type: application/json');
-                //     echo json_encode(['message' => 'Failed to update profile']);
-                //     // redirect("../../frontend/FreelancerLoggedIn/freelancer_profile/freelancer_profile.php");
-                    
-                //     }
-                // redirect("../../frontend/FreelancerLoggedIn/freelancer_profile/freelancer_profile.php");
                 echo json_encode(['message' => 'Profile updated successfully']);
             } else {
                 http_response_code(500);
@@ -177,12 +170,11 @@
             } 
         }
         public function deleteProfile(){
-            
+            if(!isset($_SESSION)){
+               session_start();
+             }
     
             if(!isset($_SESSION['id'])){
-                // header('Content-Type: application/json');
-                // echo json_encode(['message' => 'Unauthorized']);
-                // exit();
                 http_response_code(401);
                 echo json_encode(['message' => 'Unauthorized']);
                 return;
@@ -221,12 +213,14 @@
             break;
         case 'PUT':
             $data = json_decode(file_get_contents("php://input"),true);
-            if($data){
-                console_log('aici intra');
-                $init->updateProfile($data);
-            } else {
-                http_response_code(400);
-                echo json_encode(["message" => "Invalid data"]);
+            switch($data['type']){
+                case 'update_profile':
+                    $init->updateProfile($data);
+                    break;
+                default:
+                    http_response_code(400);
+                    echo json_encode(["message" => "Invalid data"]);
+                    break;
             }
             break;
         case 'DELETE':
@@ -234,7 +228,6 @@
             break;
         case 'GET':
             $init->displayProfile();
-
             break;
         default:
             http_response_code(405);

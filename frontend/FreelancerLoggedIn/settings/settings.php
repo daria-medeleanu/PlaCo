@@ -121,59 +121,60 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
         </div>
     </div>
     <script>
-        document.getElementById('saveChangesButton').addEventListener('click', function() {
-            var data = {
-                type: 'update_profile',
-                name: document.getElementById('nameInput').value, 
-                phone_number: document.getElementById('phoneInput').value,
-                email: document.getElementById('emailInput').value,
-                address: document.getElementById('addressInput').value
-            };
-            fetch("../../../backend/controllers/User.php",{
-                method: "PUT",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => {
-                return response.text();
-            })
-            .then(data => {
-                // console.log(data);
-                window.location.href = "/home/freelancer_profile";
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-            
+    async function handleProfileUpdate(event) {
+    event.preventDefault();
+    const data = {
+        type: 'update_profile',
+        name: document.getElementById('nameInput').value,
+        phone_number: document.getElementById('phoneInput').value,
+        email: document.getElementById('emailInput').value,
+        address: document.getElementById('addressInput').value
+    };
+
+    try {
+        const response = await fetch("/PlaCo/backend/controllers/User.php", {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
         });
-        document.getElementById('deleteProfile').addEventListener('click', function() {
-        if (confirm('Are you sure you want to delete your profile? This action cannot be undone.')) {
-            fetch("/PlaCo/backend/controllers/User.php", {
+
+        const result = await response.json();
+        if (response.ok) {
+            window.location.href = "/home/freelancer_profile";
+        } else {
+            console.error('Failed to update profile:', result.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+async function handleProfileDeletion(event) {
+    if (confirm('Are you sure you want to delete your profile? This action cannot be undone.')) {
+        try {
+            const response = await fetch("/PlaCo/backend/controllers/User.php", {
                 method: "DELETE",
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            })
-        .then(response => {return response.text();})
-        .then(data => {
-            console.log('Server response', data);
-            // if (data.message === 'Profile deleted successfully') {
-                // alert(data.message);
+            });
+
+            const result = await response.json();
+            if (response.ok) {
                 window.location.href = "/home/home";
-            // } 
-                //  else {
-                    // console.error('Failed to delete profile:', data.message);
-                // Handle failure here (e.g., show an error message to the user)
-            // }
-            // } 
-        })
-        .catch(error => {
+            } else {
+                console.error('Failed to delete profile:', result.message);
+            }
+        } catch (error) {
             console.error('Error:', error);
-        });
-        }   
-        });
+        }
+    }
+}
+
+document.getElementById('saveChangesButton').addEventListener('click', handleProfileUpdate);
+document.getElementById('deleteProfile').addEventListener('click', handleProfileDeletion);
     </script>
     <script> 
         //deschide intai edit profile ca default page pt settings
