@@ -1,4 +1,3 @@
-<!-- <link rel="stylesheet" href="./helpers.css"> -->
 <?php
     
 if(!isset($_SESSION)){

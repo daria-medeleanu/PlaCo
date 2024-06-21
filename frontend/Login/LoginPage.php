@@ -28,13 +28,13 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
     <div class="title">
         <h2>Login</h2>
     </div>
-        
-    <form action="/PlaCo/backend/controllers/User.php" method="post">
+    <!-- action="/PlaCo/backend/controllers/User.php" method="post" -->
+    <form id="loginForm">
         <div class="wrapper"> 
             <div class="login-container">
                 <input type="hidden" name="type" value="login">
-                <input type="text" name="email" placeholder="Enter email" required>    
-                <input type="password" name="password" placeholder="Enter password" required>
+                <input type="text" id="email" name="email" placeholder="Enter email" required>    
+                <input type="password" id="password" name="password" placeholder="Enter password" required>
                 <a class="wrapper-link" href="/home/ForgotPassword">Forgot your password?</a>
                 <button class="login-btn" type="submit" >Login</button>            
                 <div class="remember-me">
@@ -42,11 +42,47 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                     <label for="remember-checkbox" class="checkbox-label">Remember me</label>
                 </div>
                 
-                <a class="wrapper-link" href="register">Sign Up</a>
-                <?php flash('login') ?>
+                <a class="wrapper-link" href="/home/register">Sign Up</a>
+                <!-- <?php flash('login') ?> -->
+                <div id="message"></div>
             </div>
         </div>
     </form>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(event){
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+ 
+            const requestBody = {
+                type: 'login',
+                email: email, 
+                password: password 
+            };
+            console.log('Request Body:', requestBody);
+            const response = await fetch('/PlaCo/backend/controllers/User.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestBody)
+                
+            });
+            // const result = await response.json();
+            // console.log(result);
+            // const messageDiv = document.getElementById('message');
+
+            // if(response.ok){
+            //     messageDiv.textContent = result.message;
+            //     messageDiv.style.color = green;
+            //     window.location.href = '/home/home';
+            // } else {
+            //     messageDiv.textContent = result.message;
+            //     messageDiv.style.color = 'red';
+            // }
+        });
+    </script>
 
 </body>
 </html>
