@@ -249,6 +249,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
 
     </script>
     <script>
+
     document.addEventListener("DOMContentLoaded", function() {
         // Function to get user profile data
         function getUserProfile() {
