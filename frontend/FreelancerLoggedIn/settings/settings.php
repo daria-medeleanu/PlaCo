@@ -250,6 +250,7 @@ document.getElementById('deleteProfile').addEventListener('click', handleProfile
 
     </script>
     <script>
+
     document.addEventListener("DOMContentLoaded", function() {
         // Function to get user profile data
         function getUserProfile() {

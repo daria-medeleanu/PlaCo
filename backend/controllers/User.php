@@ -139,8 +139,8 @@
                 http_response_code(404);
                 echo json_encode(["message" => "Profile not found"]);
                 return;
-                // die("aici Profile not found.");
             }
+                // header('Content-Type: application/json');
             http_response_code(200);
             echo json_encode($userProfile);
             return;
@@ -149,11 +149,11 @@
              if(!isset($_SESSION)){
                  session_start();
              }
+
             if(!isset($_SESSION['id'])){
                 http_response_code(401);
                 echo json_encode(["message" => "Unauthorized"]);
                 return;
-                // redirect("login");
             }
             $userId = $_SESSION['id'];
             $updatedData = [
@@ -227,7 +227,6 @@
             $init->deleteProfile();
             break;
         case 'GET':
-            header('Content-Type: text/html');
             $init->displayProfile();
             break;
         default:
