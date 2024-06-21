@@ -212,11 +212,9 @@
             $data = json_decode(file_get_contents("php://input"), true);
             switch($data['type']){
                 case 'register':
-                    console_log("aici");
                     $init->register($data);
                     break;
                 case 'login':
-                    console_log("aici2");
                     $init->login($data);
                     break;
                 default:
