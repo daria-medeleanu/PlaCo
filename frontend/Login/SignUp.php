@@ -110,7 +110,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                 
                 <a class="wrapper-link" href="/home/login">Log In</a>
                 <div id="message"></div>
-                <!-- <?php flash('register') ?> -->
             </div>
         </div>
     </form>
