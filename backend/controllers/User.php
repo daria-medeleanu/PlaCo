@@ -203,44 +203,6 @@
                 echo json_encode(['message' => 'Failed to delete profile']);
             }
         }
-        // public function postProject() {
-        //     $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-        //     $files = [];
-        //     $uploadDir ='./uploads/';
-        
-        //     if (!is_dir($uploadDir)) {
-        //         mkdir($uploadDir, 0755, true);
-        //     }
-        //     if (!empty($_FILES['file']['name'])) {
-                
-        //         foreach ($_FILES['file']['tmp_name'] as $key => $tmp_name) {
-        //             $filename = basename($_FILES['file']['name'][$key]);
-        //             $targetFile = $uploadDir . $filename;
-        
-        //             if (move_uploaded_file($tmp_name, $targetFile)) {
-        //                 $files[] = $targetFile;
-        //             } else {
-        //                 error_log("Failed to move uploaded file: " . $filename);
-        //             }
-        //         }
-        //     }
-        
-        //     $data = [
-        //         'title' => trim($_POST['title']),
-        //         'description' => trim($_POST['description']),
-        //         'files' => implode(',', $files),
-        //         //'currency' => trim($_POST['currency']),
-        //         'owner_id' => $_SESSION['id']
-        //     ];
-            
-        //     if ($this->userModel->saveProject($data)) {
-        //         flash('project_message', 'Project posted successfully');
-        //       //  redirect('../../frontend/ClientLoggedIn/client_profile/client_profile.php');
-        //     } else {
-        //         flash('project_message', 'Something went wrong');
-        //         redirect('/home/post_a_project');
-        //     }
-        // }
     }
     $init = new Users;
     header('Content-Type: application/json');

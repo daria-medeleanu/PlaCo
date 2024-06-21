@@ -28,17 +28,17 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                 body: JSON.stringify(data)
             });
 
-            const result = await response.json();
-
-            const messageDiv = document.getElementById('message');
-            if(response.ok){
-                messageDiv.textContent = result.message;
-                messageDiv.style.color = 'green';
-                window.location.href = '/home/login'; // Redirect to login page on successful signup
-            } else {
-                messageDiv.textContent = result.message;
-                messageDiv.style.color = 'red';
-            }
+            const result = await response.text();
+            console.log(result);
+            // const messageDiv = document.getElementById('message');
+            // if(response.ok){
+            //     messageDiv.textContent = result.message;
+            //     messageDiv.style.color = 'green';
+            //     window.location.href = '/home/login'; // Redirect to login page on successful signup
+            // } else {
+            //     messageDiv.textContent = result.message;
+            //     messageDiv.style.color = 'red';
+            // }
         }
 
         function setUserType(userType) {
