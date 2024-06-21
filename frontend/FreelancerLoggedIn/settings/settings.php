@@ -178,9 +178,7 @@ document.getElementById('deleteProfile').addEventListener('click', handleProfile
     </script>
     <script> 
         //deschide intai edit profile ca default page pt settings
-        window.onload = function() {
-        showEditProfile();
-        };
+        window.onload = showEditProfile;
         function showEditProfile() {
             document.getElementById('editProfile').style.display = 'block';
             document.getElementById('changePassword').style.display = 'none';

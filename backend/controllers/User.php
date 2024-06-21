@@ -182,8 +182,8 @@
     
             $userId = $_SESSION['id'];
             if($this->userModel->deleteProfile($userId)){
+                session_unset();
                 session_destroy();
-                // header('Content-Type: application/json');
                 echo json_encode(['message' => 'Profile deleted successfully']);
             } else {
                 http_response_code(500);
