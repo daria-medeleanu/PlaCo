@@ -11,7 +11,6 @@
             $this->db->query('SELECT * FROM users WHERE email = :email');
             $this->db->bind(':email', $email);
             $row = $this->db->single();
-            console_log($row);
             return $row ? true : false;
         }
         public function getUserByEmail($email) {
@@ -40,7 +39,6 @@
                 $this->db->bind(':name', $name);
                 $this->db->bind(':joining_date', $joining_date);
                 $this->db->bind(':user_type',$data['user_type']);
-                console_log('blabla');
                 return $this->db->execute();
             }else{
                 return false;

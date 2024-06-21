@@ -15,6 +15,38 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
 
 </head>
 <script>
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const formData = new FormData(document.getElementById('signUpForm'));
+            const data = Object.fromEntries(formData.entries());
+
+            const response = await fetch('/PlaCo/backend/controllers/User.php', {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            const messageDiv = document.getElementById('message');
+            if(response.ok){
+                messageDiv.textContent = result.message;
+                messageDiv.style.color = 'green';
+                window.location.href = '/home/login'; // Redirect to login page on successful signup
+            } else {
+                messageDiv.textContent = result.message;
+                messageDiv.style.color = 'red';
+            }
+        }
+
+        function setUserType(userType) {
+            document.getElementById('user_type').value = userType;
+            handleSubmit(event); // Automatically submit the form after setting user type
+        }
+    </script>
+<!-- <script>
     function setUserType(userType) {
         document.getElementById('user_type').value = userType;
     }
@@ -44,7 +76,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
             messageDiv.style.color = 'red';
         }
     }
-</script>
+</script> -->
 <body>
     <div class="logo">
         <div class="logo-content">

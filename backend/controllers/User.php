@@ -100,7 +100,7 @@
             }
         }  
         public function createUserSession($loggedInUser){
-            session_start();
+            // session_start();
             $_SESSION['id'] = $loggedInUser->id;
             $_SESSION['user_type'] = $loggedInUser->user_type;
             $_SESSION['email'] = $loggedInUser->email;
@@ -243,49 +243,22 @@
         // }
     }
     $init = new Users;
-    error_log('VERIFICARE'); // Log to server log
-    error_log('Request Method: ' . $_SERVER['REQUEST_METHOD']);
-    error_log('Request Data: ' . file_get_contents("php://input"));
+    header('Content-Type: application/json');
     switch($_SERVER['REQUEST_METHOD']) {
         case 'POST':
-            // $data = json_decode(file_get_contents("php://input"). true);
-            // error_log('POST request received'); // Log to server log
-
-            // if(isset($data['type'])){
-            //     switch($data['type']){
-            //         case 'register':
-            //             $init->register($data);
-            //             break;
-            //         case 'login':
-            //             $init->login($data);
-            //             break;
-            //         default:
-            //             http_response_code(400);
-            //             echo json_encode(["message" => "Invalid request type"]);
-            //             break;
-            //     }
-            // }
-            // break;
-            header('Content-Type: application/json');
             $data = json_decode(file_get_contents("php://input"), true);
-            if(isset($data['type'])){
-                switch($data['type']){
-                    case 'register':
-                        $init->register($data);
-                        break;
-                    case 'login':
-                        $init->login($data);
-                        break;
-                    default:
-                        http_response_code(400);
-                        echo json_encode(["message" => "Invalid request type"]);
-                        break;
-                }
-            } else {
-                http_response_code(400);
-                echo json_encode(["message" => "Request type not set"]);
+            switch($data['type']){
+                case 'register':
+                    $init->register($data);
+                    break;
+                case 'login':
+                    $init->login($data);
+                    break;
+                default:
+                    http_response_code(400);
+                    echo json_encode(["message" => "Invalid request type"]);
+                    break;
             }
-            break;
         case 'PUT':
             $data = json_decode(file_get_contents("php://input"),true);
             if($data){
@@ -306,39 +279,3 @@
             echo json_encode(["message" => "Method Not Allowed"]);
             break;
     }
-    // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //     if (isset($_POST['type'])) {
-    //         switch ($_POST['type']) {
-    //             case 'register':
-    //                 $init->register();
-    //                 break;
-    //             case 'login':
-    //                 $init->login();
-    //                 break;
-    //             case 'post_project':
-    //                 $init->postProject();
-    //                 break;
-    //             default:
-    //                 redirect("/home/register");
-    //                 break;
-    //         }
-    //     }
-    // } elseif ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-    //     $data = json_decode(file_get_contents("php://input"), true);
-    //     if ($data && isset($data['type']) && $data['type'] === 'update_profile') {
-    //         $init->updateProfile($data);
-    //     } else {
-    //         http_response_code(405);
-    //         echo json_encode(["message" => "Invalid request."]);
-    //     }
-    // } elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-    //     $init->deleteProfile();
-    // } elseif($_SERVER['REQUEST_METHOD'] === 'GET'){
-    //     $userProfile = $init->displayProfile();
-    //     echo json_encode($userProfile);
-    //     // exit;
-    // } else {
-    //     http_response_code(405);
-    //     echo json_encode(["message" => "Method Not Allowed"]);
-    // }
-    
