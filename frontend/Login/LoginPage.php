@@ -43,7 +43,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                 </div>
                 
                 <a class="wrapper-link" href="/home/register">Sign Up</a>
-                <!-- <?php flash('login') ?> -->
+                
                 <div id="message"></div>
             </div>
         </div>
@@ -80,7 +80,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                     const messageDiv = document.getElementById('message');
                     if (response.ok) {
                         messageDiv.textContent = result.message;
-                        messageDiv.style.color = 'green';
+                        messageDiv.style.color = '#14213d';
                         if(messageDiv.textContent === "client"){
                             window.location.href = '/home/client_profile';
                         } else if (messageDiv.textContent === "freelancer"){

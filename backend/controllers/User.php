@@ -15,7 +15,7 @@
                 'nume' => trim($data['nume']),
                 'email' => trim($data['email']),
                 'password_hash' => trim($data['password_hash']),
-                'psw-conf' => trim($data['psw-conf']),
+                'psw-conf' => trim($data['psw_conf']),
                 'user_type' => trim($data['user_type'])
             ];
 
@@ -58,7 +58,7 @@
 
             if($this->userModel->findUserByEmail($data['email'])){
                 http_response_code(400);
-                echo json_encode(["message" => "Email already used"]);
+                echo json_encode(["message" => "This email is already used by another user"]);
                 return;
             }
 
@@ -67,7 +67,7 @@
             // all tests have passed
             if($this->userModel->register($data)){
                 http_response_code(201);
-                echo json_encode(["message" => "User registered successfully"]);
+                echo json_encode(["message" => "User registered successfully. Please login to start using your account"]);
             }else{
                 http_response_code(500);
                 echo json_encode(["message" => "Something went wrong"]);
