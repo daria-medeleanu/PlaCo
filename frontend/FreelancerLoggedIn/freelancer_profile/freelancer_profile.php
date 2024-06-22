@@ -105,14 +105,12 @@
         });
     </script>
     <script>
-    function logout() {
-        // Remove the JWT token from localStorage
-        localStorage.removeItem('jwt');
-        
-        // Redirect the user to the login page
-        window.location.href = '/home/login';
-    }
-</script>
+        function logout() {
+            localStorage.removeItem('jwt');
+            
+            window.location.href = '/home/login';
+        }
+    </script>
     <script>
         function toggleMenu() {
             var navRight = document.querySelector('.nav-right');
