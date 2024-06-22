@@ -1,8 +1,8 @@
 <?php 
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/User.php';
+   // include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/User.php';
     include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
     include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/Tags.php';
+    //include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/Tags.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -95,7 +95,7 @@
 
             <label for="budget">What is your estimated budget?</label>
             <div class="budget-container">
-                <input type="text" id="CurrencyInput" list="CurrencyList" placeholder="Currency">
+                <input type="text" id="currencyInput" list="CurrencyList" placeholder="Currency">
                 <datalist id="CurrencyList">
                     <option value="EUR"></option>
                     <option value="LEU"></option>
@@ -173,20 +173,14 @@
         // Function to fetch tags from server and populate datalist
         async function fetchTags() {
             try {
-                const requestBody = {
-                    type: 'fetch_tags'
-                };
-
-                const response = await fetch('/PlaCo/backend/controllers/Tags.php', {
+                const response = await fetch('/PlaCo/backend/controllers/Tags.php?type=fetch_tags', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(requestBody),
+                    }
                 });
 
-                const textResponse = await response.text();
-                const tags = JSON.parse(textResponse);
+                const tags = await response.json();
 
                 tagList.innerHTML = '';
                 tags.forEach(tag => {
@@ -251,8 +245,7 @@
                     body: JSON.stringify(requestBody),
                 });
 
-                const textResponse = await response.text();
-                const data = JSON.parse(textResponse);
+                const data = await response.json();
                 console.log('Tag added successfully:', data);
                 // Handle success if needed
             } catch (error) {
@@ -265,12 +258,13 @@
                                   .map(tagDiv => tagDiv.textContent.replace('X', '').trim());
                 const requestBody = {
                 type: 'post_project',
-                title: titleInput,  //.value?
-                description: descriptionInput ,
+                title: titleInput.value,  //.value?
+                description: descriptionInput.value ,
                 tags: selectedTags,
-                budget:budgetInput,
-                currency:currencyInput
+                budget:budgetInput.value,
+                currency:currencyInput.value
                 };
+                console.log('Request Body:', requestBody);
                 try {
                     const response = await fetch('/PlaCo/backend/controllers/User.php', {
                         method: 'POST',
@@ -280,7 +274,8 @@
                     body: JSON.stringify(requestBody)
                     });
 
-                    const result = await response.json();
+                    const result = await response.text();
+                    console.log(result);
                     if (response.ok) {
                         messageDiv.textContent = 'Project posted successfully!';
                         messageDiv.style.color = 'green';
@@ -309,15 +304,15 @@
             document.getElementById(inputId).value = selectedOption;
         }
 
-        document.getElementById('CurrencyInput').addEventListener('focus', function() {
-            setInputValue('CurrencyInput', selectedCurrency);
+        document.getElementById('currencyInput').addEventListener('focus', function() {
+            setInputValue('currencyInput', selectedCurrency);
         });
 
         document.getElementById('budgetInput').addEventListener('focus', function() {
             setInputValue('budgetInput', selectedBudget);
         });
 
-        document.getElementById('CurrencyInput').addEventListener('input', function() {
+        document.getElementById('currencyInput').addEventListener('input', function() {
             selectedCurrency = this.value; // Store the selected currency
         });
 

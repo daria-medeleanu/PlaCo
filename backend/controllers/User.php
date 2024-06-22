@@ -193,9 +193,23 @@
         }
 
         public function postProject($data) {
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            if(!isset($_SESSION)){
+                session_start();
+            }
+
+           if(!isset($_SESSION['id'])){
+               http_response_code(401);
+               echo json_encode(["message" => "Unauthorized"]);
+               return;
+           }
+            console_log($data['title']);
+            $title = isset($data['title']) ? trim($data['title']) : '';
+    $description = isset($data['description']) ? trim($data['description']) : '';
+    $currency = isset($data['currency']) ? trim($data['currency']) : '';
+    $budget = isset($data['budget']) ? trim($data['budget']) : '';
+    $tags = isset($data['tags']) ? $data['tags'] : [];
             $files = [];
-            $uploadDir = './uploads/';
+            $uploadDir = '/PlaCo/backend/controllers/uploads/';
     
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0755, true);
@@ -213,26 +227,19 @@
                     }
                 }
             }
-    
-            $data = [
-                'title' => trim($data['title']),
-                'description' => trim($data['description']),
-                'currency' => trim($data['currency']),
-                'budget' => trim($data['budget']),
+            $projectData = [
+                'title' => $title,
+                'description' => $description,
+                'currency' => $currency,
+                'budget' => $budget,
                 'files' => implode(',', $files),
                 'owner_id' => $_SESSION['id']
             ];
-    
-           /* if ($this->userModel->saveProject($data)) {
-                http_response_code(201);
-                echo json_encode(['status' => 'success', 'message' => 'Project posted successfully']);
-            } else {
-                http_response_code(500);
-                echo json_encode(['status' => 'error', 'message' => 'Something went wrong']);
-            }*/
-            $projectId = $this->userModel->saveProject($data);
+        
+            // Save project and link tags
+            $projectId = $this->userModel->saveProject($projectData);
             if ($projectId) {
-                foreach ($data['tags'] as $tag) {
+                foreach ($tags as $tag) {
                     $tagId = $this->userModel->getOrCreateTag($tag);
                     $this->userModel->linkProjectTag($projectId, $tagId);
                 }
