@@ -1,6 +1,6 @@
 <?php 
-    require_once __DIR__ . '/../libraries/Database.php';
-    require_once __DIR__ . '/../helpers/session_helper.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/libraries/Database.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
     class User {
         private $db;
         
@@ -85,17 +85,18 @@
             }
         }
         public function saveProject($data) {
-            $this->db->query('INSERT INTO project (title, description, files, owner_id) 
-                              VALUES (:title, :description, :files, :owner_id)');
+            $this->db->query('INSERT INTO project (title, description, currency, budget, files, owner_id) 
+                              VALUES (:title, :description, :currency, :budget, :files, :owner_id)');
             
             $this->db->bind(':title', $data['title']);
             $this->db->bind(':description', $data['description']);
             $this->db->bind(':files', $data['files']);
-          //  $this->db->bind(':currency', $data['currency']);
+            $this->db->bind(':currency', $data['currency']);
+            $this->db->bind(':budget', $data['budget']);
             $this->db->bind(':owner_id', $data['owner_id']);
     
             if ($this->db->execute()) {
-                return true; 
+                return $this->db->lastInsertId(); 
             } else {
                 return false; 
             }
@@ -104,6 +105,17 @@
             $query = "SELECT * FROM tags";
             $this->db->query($query);
             return $this->db->resultSet();
+        }
+        public function getOrCreateTag($tagName) {
+            if (!$this->tagExists($tagName)) {
+                $this->insertTag($tagName);
+            }
+            return $this->getTagId($tagName);
+        }
+        public function getTagId($tagName) {
+            $this->db->query('SELECT id FROM tags WHERE tag_name = :tag_name');
+            $this->db->bind(':tag_name', $tagName);
+            return $this->db->single()->id;
         }
         public function tagExists($tag_name) {
             $query = "SELECT * FROM tags WHERE tag_name = :tag_name";
@@ -121,6 +133,12 @@
             } else {
                 return array('status' => 'error', 'message' => 'Failed to add tag.');
             }
+        }
+        public function linkProjectTag($projectId, $tagId) {
+            $this->db->query('INSERT INTO project_tags (project_id, tag_id) VALUES (:project_id, :tag_id)');
+            $this->db->bind(':project_id', $projectId);
+            $this->db->bind(':tag_id', $tagId);
+            return $this->db->execute();
         }
 
     }

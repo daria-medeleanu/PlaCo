@@ -191,7 +191,60 @@
                 echo json_encode(['message' => 'Failed to delete profile']);
             }
         }
+
+        public function postProject($data) {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $files = [];
+            $uploadDir = './uploads/';
+    
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            
+            if (!empty($_FILES['file']['name'])) {
+                foreach ($_FILES['file']['tmp_name'] as $key => $tmp_name) {
+                    $filename = basename($_FILES['file']['name'][$key]);
+                    $targetFile = $uploadDir . $filename;
+    
+                    if (move_uploaded_file($tmp_name, $targetFile)) {
+                        $files[] = $targetFile;
+                    } else {
+                        error_log("Failed to move uploaded file: " . $filename);
+                    }
+                }
+            }
+    
+            $data = [
+                'title' => trim($data['title']),
+                'description' => trim($data['description']),
+                'currency' => trim($data['currency']),
+                'budget' => trim($data['budget']),
+                'files' => implode(',', $files),
+                'owner_id' => $_SESSION['id']
+            ];
+    
+           /* if ($this->userModel->saveProject($data)) {
+                http_response_code(201);
+                echo json_encode(['status' => 'success', 'message' => 'Project posted successfully']);
+            } else {
+                http_response_code(500);
+                echo json_encode(['status' => 'error', 'message' => 'Something went wrong']);
+            }*/
+            $projectId = $this->userModel->saveProject($data);
+            if ($projectId) {
+                foreach ($data['tags'] as $tag) {
+                    $tagId = $this->userModel->getOrCreateTag($tag);
+                    $this->userModel->linkProjectTag($projectId, $tagId);
+                }
+                http_response_code(201);
+                echo json_encode(['status' => 'success', 'message' => 'Project posted successfully', 'project_id' => $projectId]);
+            } else {
+                http_response_code(500);
+                echo json_encode(['status' => 'error', 'message' => 'Something went wrong']);
+            }
+        }
     }
+        
     $init = new Users;
     
     switch($_SERVER['REQUEST_METHOD']) {
@@ -204,6 +257,9 @@
                     break;
                 case 'login':
                     $init->login($data);
+                    break;
+                case 'post_project':
+                    $init->postProject($data);
                     break;
                 default:
                     http_response_code(400);
