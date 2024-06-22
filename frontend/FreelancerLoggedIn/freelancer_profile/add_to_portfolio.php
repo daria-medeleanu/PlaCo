@@ -63,15 +63,15 @@
     </script>
     <div class="container">
         <h1>Portfolio Item Upload</h1>
-        <form id="portfolioForm" action="your_server_side_script" method="post" enctype="multipart/form-data">
-            
+        <form id="portfolioForm" enctype="multipart/form-data">
+            <input type="hidden" name="type" value="post_portfolio">
             <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required>
+            <input type="text" id="titleInput" name="title" required>
             
             <label for="description">Portfolio Item Description:</label>
-            <textarea id="description" name="description" rows="6" required></textarea>
+            <textarea id="descriptionInput" name="description" rows="6" required></textarea>
 
-            <input type="file" id="file" name="file" multiple style="display: none;">
+            <input type="file" id="file" name="file[]" multiple style="display: none;">
             <label for="file" class="upload-label">+ Upload Files</label>
             <div class="uploaded-files" id="uploadedFiles"></div>
 
@@ -79,16 +79,13 @@
             <div class="tags-container">
                 <input type="text" id="tagsInput" list="tagList" placeholder="Enter or select tag">
                 <datalist id="tagList">
-                    <option>Tag 1</option>
-                    <option>Tag 2</option>
-                    <option>Tag 3</option>
-                    <option>Tag 4</option>
                 </datalist>
-                <button id="addTag">Add</button>
+                <button type="button" id="addTag">Add</button>
             </div>
             <div class="selected-tags" id="selectedTags"></div>
             
             <button type="submit">Save</button>
+            <div id="message"></div>
         </form>
     </div>
 
@@ -129,44 +126,143 @@
         event.preventDefault(); // Prevent the default behavior of the label click event
         document.getElementById('file').click();
     });
-    </script>
-
-    <script> //tags
-        document.getElementById('addTag').addEventListener('click', function() {
-        event.preventDefault(); //ca sa nu mai apara required-ul de la title input
+    document.addEventListener('DOMContentLoaded', function() {
+        const titleInput = document.getElementById('titleInput');
+        const descriptionInput = document.getElementById('descriptionInput');
         const tagsInput = document.getElementById('tagsInput');
-        const selectedTagsDiv = document.getElementById('selectedTags');
-        
-        let selectedTagName = tagsInput.value.trim();
-        if (selectedTagName === '') return; // fara empty tags
+        const tagList = document.getElementById('tagList');
+        const addTagBtn = document.getElementById('addTag');
+        const portfolioForm = document.getElementById('portfolioForm');
+        const selectedTagsContainer = document.getElementById('selectedTags');
+        const messageDiv = document.getElementById('message');
+        let tagsFetched = false;
 
-        // Check if the entered tag already exists among the predefined tags
-        const tagExists = document.querySelector(`#tagList option[value="${selectedTagName}"]`);
-        
-        if (!tagExists) {
-            // Create a new option to select the entered tag in the future
-            const newTagOption = document.createElement('option');
-            newTagOption.value = selectedTagName;
-            document.getElementById('tagList').appendChild(newTagOption);
+        // Function to fetch tags from server and populate datalist
+        async function fetchTags() {
+            try {
+                const response = await fetch('/PlaCo/backend/controllers/Tags.php?type=fetch_tags', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                const tags = await response.json();
+
+                tagList.innerHTML = '';
+                tags.forEach(tag => {
+                    const option = document.createElement('option');
+                    option.value = tag.tag_name;
+                    tagList.appendChild(option);
+                });
+
+                tagsFetched = true;
+            } catch (error) {
+                console.error('Error fetching tags:', error);
+            }
         }
 
-        // Create the selected tag element
-        const selectedTagDiv = document.createElement('div');
-        selectedTagDiv.textContent = selectedTagName;
-
-        const removeButton = document.createElement('button');
-        removeButton.textContent = 'X';
-        removeButton.classList.add('remove-tag');
-        removeButton.addEventListener('click', function() {
-            selectedTagDiv.remove();
-            removeButton.remove();
+        tagsInput.addEventListener('click', function() {
+            if (!tagsFetched) { // Fetch tags only if not fetched before
+                fetchTags();
+            }
         });
 
-        selectedTagDiv.appendChild(removeButton);
-        selectedTagsDiv.appendChild(selectedTagDiv);
-        // Clear the input field
-        tagsInput.value = '';
-    });
+        addTagBtn.addEventListener('click', async function(event) {
+            event.preventDefault(); // Prevent form submission or default action
+
+            const selectedTagName = tagsInput.value.trim();
+            if (selectedTagName === '') return; // Don't add empty tags
+
+            const tagExists = document.querySelector(`#tagList option[value="${selectedTagName}"]`);
+
+            if (!tagExists) {
+                const newTagOption = document.createElement('option');
+                newTagOption.value = selectedTagName;
+                tagList.appendChild(newTagOption);
+            }
+
+            const selectedTagDiv = document.createElement('div');
+            selectedTagDiv.textContent = selectedTagName;
+
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'X';
+            removeButton.classList.add('remove-tag');
+            removeButton.addEventListener('click', function() {
+                selectedTagDiv.remove();
+                removeButton.remove();
+            });
+
+            selectedTagDiv.appendChild(removeButton);
+            selectedTagsContainer.appendChild(selectedTagDiv);
+
+            tagsInput.value = '';
+
+            try {
+                const requestBody = {
+                    type: 'add_tag',
+                    tag_name: selectedTagName
+                };
+
+                const response = await fetch('/PlaCo/backend/controllers/Tags.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody),
+                });
+
+                const data = await response.json();
+                console.log('Tag added successfully:', data);
+                // Handle success if needed
+            } catch (error) {
+                console.error('Error adding tag:', error);
+            }
+        });
+        projectForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                const selectedTags = Array.from(document.querySelectorAll('.selected-tags div'))
+                                  .map(tagDiv => tagDiv.textContent.replace('X', '').trim());
+                const requestBody = {
+                type: 'post_portfolio',
+                title: titleInput.value,  //.value?
+                description: descriptionInput.value ,
+                tags: selectedTags,
+            };
+                console.log('Request Body:', requestBody);
+                try {
+                    const response = await fetch('/PlaCo/backend/controllers/User.php', {
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                    });
+
+                    const result = await response.text();
+                    console.log(result);
+                    if (response.ok) {
+                        messageDiv.textContent = 'Portfolio item posted successfully!';
+                        window.location.href = '/home/freelancer_profile';
+                        messageDiv.style.color = 'green';
+                        portfolioForm.reset();
+                        selectedTagsContainer.innerHTML = '';
+                    } else {
+                        messageDiv.textContent = 'Error posting portfolio item: ' + result.message;
+                        messageDiv.style.color = 'red';
+                    }
+                    
+                } catch (error) {
+                    console.error('Error posting portfolio item:', error);
+                    messageDiv.textContent = 'Error posting portfolio item';
+                    messageDiv.style.color = 'red';
+                }
+            });
+        });
+       
+
     </script>
+
+   
 </body>
 </html>

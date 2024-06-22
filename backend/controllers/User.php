@@ -204,10 +204,10 @@
            }
             console_log($data['title']);
             $title = isset($data['title']) ? trim($data['title']) : '';
-    $description = isset($data['description']) ? trim($data['description']) : '';
-    $currency = isset($data['currency']) ? trim($data['currency']) : '';
-    $budget = isset($data['budget']) ? trim($data['budget']) : '';
-    $tags = isset($data['tags']) ? $data['tags'] : [];
+            $description = isset($data['description']) ? trim($data['description']) : '';
+            $currency = isset($data['currency']) ? trim($data['currency']) : '';
+            $budget = isset($data['budget']) ? trim($data['budget']) : '';
+            $tags = isset($data['tags']) ? $data['tags'] : [];
             $files = [];
             $uploadDir = '/PlaCo/backend/controllers/uploads/';
     
@@ -250,6 +250,58 @@
                 echo json_encode(['status' => 'error', 'message' => 'Something went wrong']);
             }
         }
+        public function postPortfolio($data) {
+            if(!isset($_SESSION)){
+                session_start();
+            }
+
+           if(!isset($_SESSION['id'])){
+               http_response_code(401);
+               echo json_encode(["message" => "Unauthorized"]);
+               return;
+           }
+            console_log($data['title']);
+            $title = isset($data['title']) ? trim($data['title']) : '';
+            $description = isset($data['description']) ? trim($data['description']) : '';
+            $tags = isset($data['tags']) ? $data['tags'] : [];
+            $files = [];
+            $uploadDir = '/PlaCo/backend/controllers/uploads2/';
+    
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            
+            if (!empty($_FILES['file']['name'])) {
+                foreach ($_FILES['file']['tmp_name'] as $key => $tmp_name) {
+                    $filename = basename($_FILES['file']['name'][$key]);
+                    $targetFile = $uploadDir . $filename;
+    
+                    if (move_uploaded_file($tmp_name, $targetFile)) {
+                        $files[] = $targetFile;
+                    } else {
+                        error_log("Failed to move uploaded file: " . $filename);
+                    }
+                }
+            }
+            $portfolioData = [
+                'title' => $title,
+                'description' => $description,
+                'files' => implode(',', $files),
+                'owner_id' => $_SESSION['id']
+            ];
+            $portfolioId = $this->userModel->savePortfolio($portfolioData);
+            if ($portfolioId) {
+                foreach ($tags as $tag) {
+                    $tagId = $this->userModel->getOrCreateTag($tag);
+                    $this->userModel->linkPortfolioTag($portfolioId, $tagId);
+                }
+                http_response_code(201);
+                echo json_encode(['status' => 'success', 'message' => 'Portfolio item posted successfully', 'portfolio_id' => $portfolioId]);
+            } else {
+                http_response_code(500);
+                echo json_encode(['status' => 'error', 'message' => 'Something went wrong']);
+            }
+        }
     }
         
     $init = new Users;
@@ -267,6 +319,9 @@
                     break;
                 case 'post_project':
                     $init->postProject($data);
+                    break;
+                case 'post_portfolio':
+                    $init->postPortfolio($data);
                     break;
                 default:
                     http_response_code(400);

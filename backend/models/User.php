@@ -101,6 +101,21 @@
                 return false; 
             }
         }
+        public function savePortfolio($data) {
+            $this->db->query('INSERT INTO portfolio_item (title, description, files, owner_id) 
+                              VALUES (:title, :description, :files, :owner_id)');
+            
+            $this->db->bind(':title', $data['title']);
+            $this->db->bind(':description', $data['description']);
+            $this->db->bind(':files', $data['files']);
+            $this->db->bind(':owner_id', $data['owner_id']);
+    
+            if ($this->db->execute()) {
+                return $this->db->lastInsertId(); 
+            } else {
+                return false; 
+            }
+        }
         public function fetchTags() {
             $query = "SELECT * FROM tags";
             $this->db->query($query);
@@ -137,6 +152,12 @@
         public function linkProjectTag($projectId, $tagId) {
             $this->db->query('INSERT INTO project_tags (project_id, tag_id) VALUES (:project_id, :tag_id)');
             $this->db->bind(':project_id', $projectId);
+            $this->db->bind(':tag_id', $tagId);
+            return $this->db->execute();
+        }
+        public function linkPortfolioTag($portfolioId, $tagId) {
+            $this->db->query('INSERT INTO portfolio_tags (portfolio_id, tag_id) VALUES (:portfolio_id, :tag_id)');
+            $this->db->bind(':portfolio_id', $portfolioId);
             $this->db->bind(':tag_id', $tagId);
             return $this->db->execute();
         }
