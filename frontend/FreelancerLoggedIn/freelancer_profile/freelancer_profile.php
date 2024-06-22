@@ -31,7 +31,7 @@
                 <div class="menu" id="profile-menu">
                     <button onclick="window.location.href='#'">My Profile</button>
                     <button onclick="window.location.href='/home/my_portfolio'">My Portfolio</button>
-                    <button onclick="window.location.href='/home/home'">Log Out</button>
+                    <button id="logoutButton" onclick="logout()">Log Out</button>
                     <button onclick="window.location.href='/home/settings_freelancer'">Settings</button>
                 </div>
             </div>
@@ -104,6 +104,15 @@
             }
         });
     </script>
+    <script>
+    function logout() {
+        // Remove the JWT token from localStorage
+        localStorage.removeItem('jwt');
+        
+        // Redirect the user to the login page
+        window.location.href = '/home/login';
+    }
+</script>
     <script>
         function toggleMenu() {
             var navRight = document.querySelector('.nav-right');
