@@ -278,6 +278,7 @@
                     console.log(result);
                     if (response.ok) {
                         messageDiv.textContent = 'Project posted successfully!';
+                        window.location.href = '/home/client_profile';
                         messageDiv.style.color = 'green';
                         projectForm.reset();
                         selectedTagsContainer.innerHTML = '';
