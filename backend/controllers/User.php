@@ -1,6 +1,9 @@
 <?php 
     include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/models/User.php';
     include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/util/vendor/autoload.php';
+    use Firebase\JWT\JWT;
+    use Firebase\JWT\Key;
 
     class Users {
         private $userModel;
@@ -74,32 +77,82 @@
             }
         }
         public function login($data){
-
             $data = [
                 'email' => trim($data['email']),
                 'password' => trim($data['password'])
             ];
-    
+        
             if(empty($data['email']) || empty($data['password'])){
                 http_response_code(400);
                 echo json_encode(["message" => "Please fill out all inputs"]);
                 return;
             }
-                //Check for user/email
+
+            // Check for user/email
             if($this->userModel->findUserByEmail($data['email'])){
                 $loggedInUser = $this->userModel->login($data['email'], $data['password']);
                 if($loggedInUser){
-                    //Create session
+                    // Generate JWT token        
+                    $key = "Aceasta este o cheie supersecreta"; // Replace with your secret key
+                    $issuedAt = time();
+                    $expirationTime = $issuedAt + 3600;  // jwt valid for 1 hour
+                    $issuer = 'http://localhost'; // Adjust issuer as per your setup
+        
+                    $payload = [
+                        'iss' => $issuer,
+                        'iat' => $issuedAt,
+                        'exp' => $expirationTime,
+                        'user_id' => $loggedInUser->id,
+                        'email' => $loggedInUser->email,
+                        'user_type' => $loggedInUser->user_type
+                    ];
+        
+                    $jwt = JWT::encode($payload, $key, 'HS256');
+        
+                    // Respond with the JWT
                     $this->createUserSession($loggedInUser);
-                }else{
+                    http_response_code(200);
+                    echo json_encode([
+                        "message" => "Login successful",
+                        "token" => $jwt,
+                        "user_type" => $loggedInUser->user_type
+                    ]);
+                } else {
                     http_response_code(401);
                     echo json_encode(["message" => "Password Incorrect"]);
                 }
-            }else{
+            } else {
                 http_response_code(404);
                 echo json_encode(["message" => "No user found"]);
             }
-        }  
+        }
+        // public function login($data){
+
+        //     $data = [
+        //         'email' => trim($data['email']),
+        //         'password' => trim($data['password'])
+        //     ];
+    
+        //     if(empty($data['email']) || empty($data['password'])){
+        //         http_response_code(400);
+        //         echo json_encode(["message" => "Please fill out all inputs"]);
+        //         return;
+        //     }
+        //         //Check for user/email
+        //     if($this->userModel->findUserByEmail($data['email'])){
+        //         $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+        //         if($loggedInUser){
+        //             //Create session
+        //             $this->createUserSession($loggedInUser);
+        //         }else{
+        //             http_response_code(401);
+        //             echo json_encode(["message" => "Password Incorrect"]);
+        //         }
+        //     }else{
+        //         http_response_code(404);
+        //         echo json_encode(["message" => "No user found"]);
+        //     }
+        // }  
         public function createUserSession($loggedInUser){
             session_start();
             $_SESSION['id'] = $loggedInUser->id;
@@ -111,8 +164,8 @@
             if ($loggedInUser->user_type == "freelancer") {
                 $userType = "freelancer";
             } 
-            http_response_code(200);
-            echo json_encode(["message" => $userType]);
+            // http_response_code(200);
+            // echo json_encode(["message" => $userType]);
         }  
         public function logout(){
             unset($_SESSION['id']);
@@ -124,26 +177,57 @@
             echo json_encode(["message" => "Logout successful"]);
         }
         public function displayProfile(){
-            if(!isset($_SESSION)){
-                session_start();
-            }
-            if(!isset($_SESSION['id'])){
-                // redirect("/home/home");
+            $headers = apache_request_headers();
+            if (!isset($headers['Authorization'])) {
                 http_response_code(401);
                 echo json_encode(["message" => "Unauthorized"]);
                 return;
             }
-            $userProfile = $this->userModel->getUserProfileById($_SESSION['id']);
+        
+            $authHeader = $headers['Authorization'];
+            $token = null;
             
-            if(!$userProfile){
-                http_response_code(404);
-                echo json_encode(["message" => "Profile not found"]);
+            // Extract JWT token from Authorization header (Bearer token)
+            if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+                $token = $matches[1];
+            }
+            
+            if (!$token) {
+                http_response_code(401);
+                echo json_encode(["message" => "Unauthorized"]);
                 return;
             }
-                // header('Content-Type: application/json');
-            http_response_code(200);
-            echo json_encode($userProfile);
-            return;
+        
+            try {
+                // Decode and verify JWT token
+                $publicKey = "Aceasta este o cheie supersecreta";
+                $decoded = JWT::decode($token, new Key($publicKey, 'HS256'));
+                // Check if the decoded token contains necessary information (like user ID)
+                if (!isset($decoded->user_id)) {
+                    http_response_code(401);
+                    echo json_encode(["message" => "Unauthorized"]);
+                    return;
+                }
+        
+                // Retrieve user profile using user ID from decoded token
+                $userProfile = $this->userModel->getUserProfileById($decoded->user_id);
+        
+                if (!$userProfile) {
+                    http_response_code(404);
+                    echo json_encode(["message" => "Profile not found"]);
+                    return;
+                }
+        
+                // Return user profile as JSON response
+                http_response_code(200);
+                echo json_encode($userProfile);
+                return;
+        
+            } catch (Exception $e) {
+                http_response_code(401);
+                echo json_encode(["message" => "Unauthorized"]);
+                return;
+            }
         }
         public function updateProfile($data){
             if(!isset($_SESSION)){

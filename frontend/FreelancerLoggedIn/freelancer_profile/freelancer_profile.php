@@ -71,17 +71,23 @@
         <p> mi-a stricat gresia din baie</p>
     </section>
     <script>
+        const jwtToken = localStorage.getItem('jwt');
         document.addEventListener('DOMContentLoaded', async function() {
             try{
                 const response = await fetch('/PlaCo/backend/controllers/User.php', {
                     method: 'GET',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${jwtToken}`
                     }
                 });
 
                 if (!response.ok) {
-                    throw new Error('Network response was not ok.');
+                    if(response.status === 401){
+                        window.location.href = '/home/login';
+                    } else {
+                        throw new Error('Network response was not ok.');
+                    }
                 }
 
                 const profileData = await response.json();
