@@ -1,9 +1,5 @@
 <?php 
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/models/User.php';
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/User.php';
-    
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,29 +41,7 @@
         </a>
     </div>
 
-    <script>
-        function toggleMenu() {
-            var navRight = document.querySelector('.nav-right');
-            navRight.classList.toggle('collapsed');
-        }    
     
-        document.addEventListener('click', function(event) {
-            var profileToggle = document.getElementById('profile-toggle');
-            var profileMenu = document.getElementById('profile-menu');
-            var target = event.target;
-            
-            if (!target.closest('.menu-btn-right')) {
-                profileMenu.style.display = 'none';
-                profileToggle.checked = false;
-            }
-        });
-
-        document.getElementById('profile-toggle').addEventListener('click', function(event) {
-            var profileMenu = document.getElementById('profile-menu');
-            profileMenu.style.display = this.checked ? 'block' : 'none';
-            event.stopPropagation();
-        });
-    </script>
     <section class="profile-info">
         <div class="profile-picture">
             <img src="/PlaCo/frontend/FreelancerLoggedIn/freelancer_profile/img/profile-icon.png" alt="Add Profile Picture">
@@ -122,6 +96,29 @@
             } catch (error) {
                 console.error('Error fetching profile data:', error);
             }
+        });
+    </script>
+    <script>
+        function toggleMenu() {
+            var navRight = document.querySelector('.nav-right');
+            navRight.classList.toggle('collapsed');
+        }    
+    
+        document.addEventListener('click', function(event) {
+            var profileToggle = document.getElementById('profile-toggle');
+            var profileMenu = document.getElementById('profile-menu');
+            var target = event.target;
+            
+            if (!target.closest('.menu-btn-right')) {
+                profileMenu.style.display = 'none';
+                profileToggle.checked = false;
+            }
+        });
+
+        document.getElementById('profile-toggle').addEventListener('click', function(event) {
+            var profileMenu = document.getElementById('profile-menu');
+            profileMenu.style.display = this.checked ? 'block' : 'none';
+            event.stopPropagation();
         });
     </script>
 </body>

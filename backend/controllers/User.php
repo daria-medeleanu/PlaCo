@@ -146,9 +146,9 @@
             return;
         }
         public function updateProfile($data){
-             if(!isset($_SESSION)){
+            if(!isset($_SESSION)){
                  session_start();
-             }
+            }
 
             if(!isset($_SESSION['id'])){
                 http_response_code(401);
@@ -160,14 +160,55 @@
                 'name' => trim($data['name']),
                 'phone_number' => trim($data['phone_number']),
                 'email' => trim($data['email']),
-                'address' => trim($data['address'])
+                'address' => trim($data['address']), 
             ];
-            if($this->userModel->updateProfile($userId, $updatedData)){
+            // if($this->userModel->updateProfile($userId, $updatedData)){
+            //     echo json_encode(['message' => 'Profile updated successfully']);
+            // } else {
+            //     http_response_code(500);
+            //     echo json_encode(['message' => 'Failed to update profile']);
+            // }
+            if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
+                $file = $_FILES['profile_picture'];
+        
+                $targetDir = __DIR__ . '/../data/images/';
+                $targetFile = $targetDir . basename($file['name']);
+                $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+        
+                $check = getimagesize($file['tmp_name']);
+                if ($check !== false) {
+                    // Check file size (example: 5MB max)
+                    if ($file['size'] <= 5000000) {
+                        $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+                        if (in_array($imageFileType, $allowedTypes)) {
+                            // Move the uploaded file to the target directory
+                            if (move_uploaded_file($file['tmp_name'], $targetFile)) {
+                                // Set the profile picture path in the data
+                                $updatedData['profile_picture'] = $targetFile;
+                            } else {
+                                echo json_encode(['error' => 'Failed to move uploaded file']);
+                                return;
+                            }
+                        } else {
+                            echo json_encode(['error' => 'Only JPG, JPEG, PNG, and GIF files are allowed']);
+                            return;
+                        }
+                    } else {
+                        echo json_encode(['error' => 'File size exceeds the maximum limit']);
+                        return;
+                    }
+                } else {
+                    echo json_encode(['error' => 'Uploaded file is not an image']);
+                    return;
+                }
+            }
+        
+            if ($this->userModel->updateProfile($userId, $updatedData)) {
                 echo json_encode(['message' => 'Profile updated successfully']);
             } else {
                 http_response_code(500);
                 echo json_encode(['message' => 'Failed to update profile']);
-            } 
+            }
         }
         public function deleteProfile(){
             if(!isset($_SESSION)){
@@ -212,7 +253,25 @@
             }
             break;
         case 'PUT':
-            $data = json_decode(file_get_contents("php://input"),true);
+            // $data = json_decode(file_get_contents("php://input"),true);
+            // switch($data['type']){
+            //     case 'update_profile':
+            //         $init->updateProfile($data);
+            //         break;
+            //     default:
+            //         http_response_code(400);
+            //         echo json_encode(["message" => "Invalid data"]);
+            //         break;
+            // }
+            // break;
+            parse_str(file_get_contents("php://input"), $_PUT);
+            $data = $_PUT;
+            if ($_SERVER['CONTENT_TYPE'] === 'multipart/form-data') {
+                $data = array_merge($data, $_POST);
+                $data['profile_picture'] = $_FILES['profile_picture'];
+            }
+            console.log($data);
+
             switch($data['type']){
                 case 'update_profile':
                     $init->updateProfile($data);
