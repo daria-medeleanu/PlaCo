@@ -195,26 +195,7 @@
             $this->db->bind(':skill_id', $skillId);
             return $this->db->execute();
         }
-        // public function getAllProjects() {
-        //     $query = "SELECT * FROM project";
-        //     $this->db->query($query);
-        //     $projects = $this->db->resultSetAssoc();
-    
-        //     foreach ($projects as &$project) {
-        //         $project['tags'] = $this->getProjectTags($project['id']);
-        //     }
-    
-        //     return $projects;
-        // }
-    
-        // private function getProjectTags($projectId) {
-        //     $query = "SELECT t.tag_name FROM project_tags pt
-        //               JOIN tags t ON pt.tag_id = t.id
-        //               WHERE pt.project_id = :project_id";
-        //     $this->db->query($query);
-        //     $this->db->bind(':project_id', $projectId);
-        //     return $this->db->resultSetAssoc();
-        // }
+        
         public function getAllProjects($city = null, $skills = null, $search = null) {
             $query = "SELECT * FROM project WHERE 1=1";
             $bindParams = [];
@@ -257,6 +238,12 @@
                       WHERE pt.project_id = :project_id";
             $this->db->query($query);
             $this->db->bind(':project_id', $projectId);
+            return $this->db->resultSetAssoc();
+        }
+        public function getPortfolioItemsByUserId($userId) {
+            $query = "SELECT title FROM portfolio_item WHERE owner_id = :user_id";
+            $this->db->query($query);
+            $this->db->bind(':user_id', $userId);
             return $this->db->resultSetAssoc();
         }
 

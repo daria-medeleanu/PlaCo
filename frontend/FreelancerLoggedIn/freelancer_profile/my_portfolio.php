@@ -1,10 +1,4 @@
-<?php 
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/models/User.php';
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/User.php';
-    
-?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -68,9 +62,45 @@
             profileMenu.style.display = this.checked ? 'block' : 'none';
             event.stopPropagation();
         });
+        async function fetchPortfolioItems() {
+            const response = await fetch('/PlaCo/backend/controllers/Portfolios.php');
+            const portfolioItems = await response.json();
+            displayPortfolioItems(portfolioItems);
+        }
+
+        function displayPortfolioItems(portfolioItems) {
+            const projectContainer = document.getElementById('projectContainer');
+            projectContainer.innerHTML = '';
+
+            portfolioItems.forEach(item => {
+                const projectBox = document.createElement('div');
+                projectBox.classList.add('project');
+
+                projectBox.innerHTML = `
+                    <img src="/PlaCo/frontend/FreelancerLoggedIn/freelancer_profile/img/project.jpg" alt="${item.title}" class="project-image">
+                    <div class="project-title">${item.title}</div>
+                `;
+
+                projectContainer.appendChild(projectBox);
+            });
+
+            const addProjectLink = document.createElement('a');
+            addProjectLink.href = "/home/add_to_portfolio";
+            addProjectLink.classList.add('add-project');
+
+            addProjectLink.innerHTML = `
+                <div class="add-symbol">+</div>
+                <div class="add-text">Add a new project</div>
+            `;
+
+            projectContainer.appendChild(addProjectLink);
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchPortfolioItems);
+
     </script>
     <div class="project-container" id="projectContainer">
-        <div class="project" id="project1">
+        <!-- <div class="project" id="project1">
             <img src="/PlaCo/frontend/FreelancerLoggedIn/freelancer_profile/img/project.jpg" alt="Project 1" class="project-image">
             <div class="project-title">Project 1</div>
         </div>
@@ -93,7 +123,7 @@
         <a href="/home/add_to_portfolio" class="add-project">
             <div class="add-symbol">+</div>
             <div class="add-text">Add a new project</div>
-        </a>
+        </a> -->
     </div>
 
 </body>
