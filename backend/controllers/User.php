@@ -207,6 +207,7 @@
             $description = isset($data['description']) ? trim($data['description']) : '';
             $currency = isset($data['currency']) ? trim($data['currency']) : '';
             $budget = isset($data['budget']) ? trim($data['budget']) : '';
+            $city = isset($data['city']) ? trim($data['city']) : '';
             $tags = isset($data['tags']) ? $data['tags'] : [];
             $files = [];
             $uploadDir = '/PlaCo/backend/controllers/uploads/';
@@ -232,6 +233,7 @@
                 'description' => $description,
                 'currency' => $currency,
                 'budget' => $budget,
+                'city'=>$city,
                 'files' => implode(',', $files),
                 'owner_id' => $_SESSION['id']
             ];

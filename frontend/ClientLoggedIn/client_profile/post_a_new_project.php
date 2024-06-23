@@ -92,6 +92,7 @@
                 <button type="button" id="addTag">Add</button>
             </div>
             <div class="selected-tags" id="selectedTags"></div>
+            
 
             <label for="budget">What is your estimated budget?</label>
             <div class="budget-container">
@@ -112,6 +113,15 @@
                     <option value="Very Large Project (15.000-35.000 EUR)"></option>
                     <option value="Huge Project (35.000+ EUR)"></option>
                 </datalist>
+            </div>
+            <label for="city">City:</label>
+            <div class="tags-container">
+            <input type="text" id="cityInput" list="cityList" placeholder="Select City" required>
+            <datalist id="cityList">
+                <option value="New York">
+                <option value="Los Angeles">
+                <option value="London">
+            </datalist>
             </div>
             
             <button type="submit">Post Project</button>
@@ -168,6 +178,7 @@
         const projectForm = document.getElementById('projectForm');
         const selectedTagsContainer = document.getElementById('selectedTags');
         const messageDiv = document.getElementById('message');
+        const cityInput = document.getElementById('cityInput'); 
         let tagsFetched = false;
 
         // Function to fetch tags from server and populate datalist
@@ -262,7 +273,8 @@
                 description: descriptionInput.value ,
                 tags: selectedTags,
                 budget:budgetInput.value,
-                currency:currencyInput.value
+                currency:currencyInput.value,
+                city:cityInput.value 
                 };
                 console.log('Request Body:', requestBody);
                 try {
@@ -299,7 +311,7 @@
     //currency and budget
         let selectedCurrency = '';
         let selectedBudget = '';
-
+        let selectedCity = '';
         // Function to set the selected option as the input value
         function setInputValue(inputId, selectedOption) {
             document.getElementById(inputId).value = selectedOption;
@@ -313,12 +325,19 @@
             setInputValue('budgetInput', selectedBudget);
         });
 
+        document.getElementById('cityInput').addEventListener('focus', function() {
+            setInputValue('cityInput', selectedCity);
+        });
+
         document.getElementById('currencyInput').addEventListener('input', function() {
             selectedCurrency = this.value; // Store the selected currency
         });
 
         document.getElementById('budgetInput').addEventListener('input', function() {
             selectedBudget = this.value; // Store the selected budget
+        });
+        document.getElementById('cityInput').addEventListener('input', function() {
+            selectedCity = this.value; // Store the selected city
         });
     </script>
 </body>

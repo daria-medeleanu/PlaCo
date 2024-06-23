@@ -85,13 +85,14 @@
             }
         }
         public function saveProject($data) {
-            $this->db->query('INSERT INTO project (title, description, currency, budget, files, owner_id) 
-                              VALUES (:title, :description, :currency, :budget, :files, :owner_id)');
+            $this->db->query('INSERT INTO project (title, description, currency, budget, city, files, owner_id) 
+                              VALUES (:title, :description, :currency, :budget, :city, :files, :owner_id)');
             
             $this->db->bind(':title', $data['title']);
             $this->db->bind(':description', $data['description']);
             $this->db->bind(':files', $data['files']);
             $this->db->bind(':currency', $data['currency']);
+            $this->db->bind(':city', $data['city']);
             $this->db->bind(':budget', $data['budget']);
             $this->db->bind(':owner_id', $data['owner_id']);
     
@@ -193,6 +194,10 @@
             $this->db->bind(':portfolio_item_id', $portfolioId);
             $this->db->bind(':skill_id', $skillId);
             return $this->db->execute();
+        }
+        public function getAllProjects() {
+            $this->db->query('SELECT * FROM projects');
+            return $this->db->resultSet();
         }
 
     }

@@ -61,6 +61,43 @@
             profileMenu.style.display = this.checked ? 'block' : 'none';
             event.stopPropagation();
         });
+        async function fetchProjects() {
+            const response = await fetch('/PlaCo/backend/controllers/Projects.php?type=fetch_projects');
+            const projects = await response.json();
+            displayProjects(projects);
+        }
+
+        function displayProjects(projects) {
+            const projectsList = document.querySelector('.projects-list');
+            projectsList.innerHTML = '';
+
+            projects.forEach(project => {
+                const projectBox = document.createElement('a');
+                projectBox.href = '/home/project';
+                projectBox.classList.add('project-box');
+
+                projectBox.innerHTML = `
+                    <div class="project-text-input">
+                        <h2>${project.title}</h2>
+    
+                         <div class="text-container">
+                            <div class="title"><h3>Address: </h3></div>
+                            <div class="content"><p>${project.city}</p></div>
+                        </div>
+                        <div class="text-container">
+                            <div class="title"><h3>Description </h3></div>
+                            <div class="content"><p>${project.description}</p></div>
+                        </div>
+                    </div>
+                `;
+
+                projectsList.appendChild(projectBox);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchProjects);
+
+   </script>
     </script>
     <section>
         <div class="sidebar">
@@ -97,7 +134,7 @@
         </div>
         <div class="main-content">
             <div class="projects-list">
-                <a href="/home/project" class="project-box">
+                <!-- <a href="/home/project" class="project-box">
                     <div class="project-text-input">
                         <h2>Project name</h2>
                         <div class="text-container">
@@ -151,11 +188,11 @@
                              </div>
                         </div>
                     </div>
-                </a>
+                </a> -->
             </div>
         </div>
     </section>
+
     
-   
 </body>
 </html>
