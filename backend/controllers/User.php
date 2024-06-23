@@ -202,7 +202,6 @@
                echo json_encode(["message" => "Unauthorized"]);
                return;
            }
-            console_log($data['title']);
             $title = isset($data['title']) ? trim($data['title']) : '';
             $description = isset($data['description']) ? trim($data['description']) : '';
             $currency = isset($data['currency']) ? trim($data['currency']) : '';

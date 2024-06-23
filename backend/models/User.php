@@ -195,9 +195,69 @@
             $this->db->bind(':skill_id', $skillId);
             return $this->db->execute();
         }
-        public function getAllProjects() {
-            $this->db->query('SELECT * FROM projects');
-            return $this->db->resultSet();
+        // public function getAllProjects() {
+        //     $query = "SELECT * FROM project";
+        //     $this->db->query($query);
+        //     $projects = $this->db->resultSetAssoc();
+    
+        //     foreach ($projects as &$project) {
+        //         $project['tags'] = $this->getProjectTags($project['id']);
+        //     }
+    
+        //     return $projects;
+        // }
+    
+        // private function getProjectTags($projectId) {
+        //     $query = "SELECT t.tag_name FROM project_tags pt
+        //               JOIN tags t ON pt.tag_id = t.id
+        //               WHERE pt.project_id = :project_id";
+        //     $this->db->query($query);
+        //     $this->db->bind(':project_id', $projectId);
+        //     return $this->db->resultSetAssoc();
+        // }
+        public function getAllProjects($city = null, $skills = null, $search = null) {
+            $query = "SELECT * FROM project WHERE 1=1";
+            $bindParams = [];
+    
+            if ($city && $city!=='all') {
+                $query .= " AND city = :city";
+                $bindParams[':city'] = $city;
+            }
+    
+            if ($search) {
+                $query .= " AND (title LIKE :search OR description LIKE :search)";
+                $bindParams[':search'] = '%' . $search . '%';
+            }
+    
+            $this->db->query($query);
+            foreach ($bindParams as $param => $value) {
+                $this->db->bind($param, $value);
+            }
+    
+            $projects = $this->db->resultSetAssoc();
+    
+            foreach ($projects as &$project) {
+                $project['tags'] = $this->getProjectTags($project['id']);
+            }
+    
+            if ($skills) {
+                $skillsArray = explode(',', $skills);
+                $projects = array_filter($projects, function($project) use ($skillsArray) {
+                    $projectSkills = array_column($project['tags'], 'tag_name');
+                    return !array_diff($skillsArray, $projectSkills);
+                });
+            }
+    
+            return $projects;
+        }
+    
+        private function getProjectTags($projectId) {
+            $query = "SELECT t.tag_name FROM project_tags pt
+                      JOIN tags t ON pt.tag_id = t.id
+                      WHERE pt.project_id = :project_id";
+            $this->db->query($query);
+            $this->db->bind(':project_id', $projectId);
+            return $this->db->resultSetAssoc();
         }
 
     }

@@ -61,44 +61,8 @@
             profileMenu.style.display = this.checked ? 'block' : 'none';
             event.stopPropagation();
         });
-        async function fetchProjects() {
-            const response = await fetch('/PlaCo/backend/controllers/Projects.php?type=fetch_projects');
-            const projects = await response.json();
-            displayProjects(projects);
-        }
-
-        function displayProjects(projects) {
-            const projectsList = document.querySelector('.projects-list');
-            projectsList.innerHTML = '';
-
-            projects.forEach(project => {
-                const projectBox = document.createElement('a');
-                projectBox.href = '/home/project';
-                projectBox.classList.add('project-box');
-
-                projectBox.innerHTML = `
-                    <div class="project-text-input">
-                        <h2>${project.title}</h2>
+      </script>
     
-                         <div class="text-container">
-                            <div class="title"><h3>Address: </h3></div>
-                            <div class="content"><p>${project.city}</p></div>
-                        </div>
-                        <div class="text-container">
-                            <div class="title"><h3>Description </h3></div>
-                            <div class="content"><p>${project.description}</p></div>
-                        </div>
-                    </div>
-                `;
-
-                projectsList.appendChild(projectBox);
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', fetchProjects);
-
-   </script>
-    </script>
     <section>
         <div class="sidebar">
             <form class="search-container">
@@ -109,13 +73,7 @@
             </form>
             <div class="filters-box">
                 <h2>Filters</h2>
-                <div class="filter">
-                    <label for="country">Country:</label>
-                    <select id="country">
-                        <option value="all">All</option>
-                        <option value="romania">Romania</option>
-                    </select>
-                </div>
+           
                 <div class="filter">
                     <label for="city">City:</label>
                     <select id="city">
@@ -134,65 +92,71 @@
         </div>
         <div class="main-content">
             <div class="projects-list">
-                <!-- <a href="/home/project" class="project-box">
-                    <div class="project-text-input">
-                        <h2>Project name</h2>
-                        <div class="text-container">
-                           <div class="title"><h3>Proffesional areas: </h3></div>
-                            <div class="content-tags">
-                                <p>light instalation</p>
-                                <p>window repair</p>
-                            </div>
-                        </div>
-                        <div class="text-container">
-                            <div class="title"><h3>Address: </h3></div>
-                             <div class="content"><p>blabla</p></div>
-                         </div>
-                         <div class="text-container">
-                            <div class="title"><h3>Description </h3></div>
-                             <div class="content">
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                 Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                                  It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                                </p>
-                            </div>
-                         </div>
-                    </div>
-                </a>
-                <a href="/home/project" class="project-box">
-                        <div class="project-text-input">
-                            <h2>Project name</h2>
-                            <div class="text-container">
-                            <div class="title"><h3>Proffesional areas: </h3></div>
-                                <div class="content-tags">
-                                    <p>wall painter</p>
-                                    <p>floor instalation</p>
-                                    <p>electrician</p>
-                                    <p>electrician</p>
-                                </div>
-                            </div>
-                            <div class="text-container">
-                                <div class="title"><h3>Address: </h3></div>
-                                <div class="content">
-                                    <p>blabla</p>
-                                </div>
-                            </div>
-                            <div class="text-container">
-                                <div class="title"><h3>Description </h3></div>
-                                 <div class="content">
-                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                     Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                                      It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                                    </p>
-                                </div>
-                             </div>
-                        </div>
-                    </div>
-                </a> -->
             </div>
         </div>
     </section>
+<script>
+      async function fetchProjects() {
+        const city = encodeURIComponent(document.getElementById('city').value);
+    const skills = encodeURIComponent(document.getElementById('skills').value);
+    const search = encodeURIComponent(document.querySelector('.search-container input').value);
 
+    console.log('Fetching projects with:', { city, skills, search });
+
+    const response = await fetch(`/PlaCo/backend/controllers/Projects.php?type=fetch_projects&city=${city}&skills=${skills}&search=${search}`);
+    
+            const projects = await response.json();
+            displayProjects(projects);
+        }
+
+        function displayProjects(projects) {
+            const projectsList = document.querySelector('.projects-list');
+            projectsList.innerHTML = '';
+
+            projects.forEach(project => {
+                const projectBox = document.createElement('a');
+                projectBox.href = '/home/project';
+                projectBox.classList.add('project-box');
+                const tags = project.tags.map(tag => `<p>${tag.tag_name}</p>`).join('');
+
+                const truncatedDescription = project.description.length > 200 ? project.description.substring(0, 200) + '...' : project.description;
+
+                projectBox.innerHTML = `
+                    <div class="project-text-input">
+                        <h2>${project.title}</h2>
+                        <div class="text-container">
+                            <div class="title"><h3>Professional areas: </h3></div>
+                            <div class="content-tags">${tags}</div>
+                        </div>
+                        <div class="text-container">
+                            <div class="title"><h3>Address: </h3></div>
+                            <div class="content"><p>${project.city}</p></div>
+                        </div>
+                        <div class="text-container">
+                            <div class="title"><h3>Description: </h3></div>
+
+                            <div class="content"><p>${truncatedDescription}</p></div>
+                        </div>
+                    </div>
+                `;
+
+                projectsList.appendChild(projectBox);
+            });
+        }
+
+        document.querySelector('.search-container').addEventListener('submit', function(event) {
+            event.preventDefault();
+            fetchProjects();
+        });
+
+        document.querySelector('.apply-btn').addEventListener('click', function(event) {
+            event.preventDefault();
+            fetchProjects();
+        });
+
+        document.addEventListener('DOMContentLoaded', fetchProjects);
+    
+</script>
     
 </body>
 </html>
