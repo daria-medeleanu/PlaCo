@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Active Projects</title>
-    <link rel="stylesheet" href="/PlaCo/frontend/ClientLoggedIn/header/header.css">
-    <link rel="stylesheet" href="/PlaCo/frontend/ClientLoggedIn/client_profile/style/active_projects.css"> 
-    <link rel="shortcut icon" type="image/x-icon" href="/PlaCo/frontend/ClientLoggedIn/client_profile/img/logo.png">
+    <title>Project Activ</title>
+    <link rel="stylesheet" href="/PlaCo/frontend/ClientLoggedIn/header/header.css"> 
+    <link rel="stylesheet" href="/PlaCo/frontend/ClientLoggedIn/client_profile/style/proiect_activ.css"> 
+    <link rel="shortcut icon" type="image/x-icon" href="/PlaCo/frontend/ClientLoggedIn/search_for_jobs/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-
-    <div class="header">
+   
+<div class="header">
         <div class="nav-left">
             <a class="logo-pic" href="/home/home">
                 <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/logo.png" class="logo" alt="Logo">
@@ -62,60 +62,38 @@
             profileMenu.style.display = this.checked ? 'block' : 'none';
             event.stopPropagation();
         });
-
-        async function fetchActiveProjects() {
-            const response = await fetch(`/PlaCo/backend/controllers/MyProjects.php?type=active_projects`);
-            const activeProjects = await response.json();
-            displayActiveProjects(activeProjects);
-        }
-
-        function displayActiveProjects(activeProjects) {
-            const projectContainer = document.getElementById('projectContainer');
-            projectContainer.innerHTML = '';
-
-            activeProjects.forEach(item => {
-                const projectBox = document.createElement('div');
-                projectBox.classList.add('project');
-
-                const projectLink = document.createElement('a');
-                projectLink.href = `/PlaCo/frontend/ClientLoggedIn/client_profile/proiect_activ.php?project_id=${item.id}`;
-                projectLink.classList.add('project-link');
-
-                projectBox.innerHTML = `
-                    <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/project.jpg" alt="${item.title}" class="project-image">
-                    <div class="project-title">${item.title}</div>
-                `;
-                projectLink.appendChild(projectBox);
-                projectContainer.appendChild(projectLink);
-            });
-
-            const addProjectLink = document.createElement('a');
-            addProjectLink.href = "/home/post_a_project";
-            addProjectLink.classList.add('add-project');
-
-            addProjectLink.innerHTML = `
-                <div class="add-symbol">+</div>
-                <div class="add-text">Add a new project</div>
-            `;
-
-            projectContainer.appendChild(addProjectLink);
-        }
-
-        document.addEventListener('DOMContentLoaded', fetchActiveProjects);
-
     </script>
 
-    <div class="project-container" id="projectContainer">
-        <!-- <div class="project" id="project1">
-            <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/project.jpg" alt="Project 1" class="project-image">
-            <div class="project-title">Project 1</div>
+    <section class="project-details">
+        <div class="project-content">
+            <h1 id="project-title"></h1>
+            <div class="project-info">
+                <p><strong>City:</strong> <span id="project-city"></span></p>
+                <p><strong>Budget:</strong> <span id="project-budget"></span></p>
+                <p><strong>Description:</strong></p>
+                <p id="project-description"></p>
+            </div>
         </div>
-        <a href="/home/post_a_project" class="add-project">
-            <div class="add-symbol">+</div>
-            <div class="add-text">Add a new project</div>
-        </a> -->
-    </div>
+    </section>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const projectId = urlParams.get('project_id');
 
+            if (!projectId) {
+                alert('Project ID is required');
+                return;
+            }
+
+            const response = await fetch(`/PlaCo/backend/controllers/ProjectDetails.php?project_id=${projectId}`);
+            const project = await response.json();
+
+            document.getElementById('project-title').textContent = project.title;
+            document.getElementById('project-city').textContent = project.city;
+            document.getElementById('project-budget').textContent = project.budget;
+            document.getElementById('project-description').textContent = project.description;
+    });
+    </script>
 </body>
 </html>
