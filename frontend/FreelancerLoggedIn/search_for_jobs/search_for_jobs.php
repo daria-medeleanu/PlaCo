@@ -115,7 +115,7 @@
 
             projects.forEach(project => {
                 const projectBox = document.createElement('a');
-                projectBox.href = '/home/project';
+                projectBox.href = `/home/project?project_id=${project.id}`;
                 projectBox.classList.add('project-box');
                 const tags = project.tags.map(tag => `<p>${tag.tag_name}</p>`).join('');
 

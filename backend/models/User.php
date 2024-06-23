@@ -246,6 +246,71 @@
             $this->db->bind(':user_id', $userId);
             return $this->db->resultSetAssoc();
         }
+        public function getFreelancers($city = null, $skills = null, $search = null) {
+            $query = "SELECT * FROM user_profile WHERE user_type = 'freelancer'";
+            $bindParams = [];
+    
+            if ($city && $city !== 'all') {
+                $query .= " AND address LIKE :city";
+                $bindParams[':city'] = '%' . $city . '%';
+            }
+    
+            if ($search) {
+                $query .= " AND (name LIKE :search OR address LIKE :search)";
+                $bindParams[':search'] = '%' . $search . '%';
+            }
+    
+            $this->db->query($query);
+            foreach ($bindParams as $param => $value) {
+                $this->db->bind($param, $value);
+            }
+    
+            $freelancers = $this->db->resultSetAssoc();
+    
+            foreach ($freelancers as &$freelancer) {
+                $freelancer['skills'] = $this->getFreelancerSkills($freelancer['id']);
+            }
+    
+            if ($skills) {
+                $skillsArray = explode(',', $skills);
+                $freelancers = array_filter($freelancers, function($freelancer) use ($skillsArray) {
+                    return !array_diff($skillsArray, $freelancer['skills']);
+                });
+            }
+    
+            return $freelancers;
+        }
+    
+        private function getFreelancerSkills($freelancerId) {
+            $query = "SELECT DISTINCT s.skill_name 
+                      FROM skills s 
+                      JOIN portfolio_skills ps ON s.id = ps.skill_id 
+                      JOIN portfolio_item pi ON ps.portfolio_item_id = pi.id 
+                      WHERE pi.owner_id = :freelancer_id";
+            $this->db->query($query);
+            $this->db->bind(':freelancer_id', $freelancerId);
+            $skills = $this->db->resultSetAssoc();
+    
+            return array_column($skills, 'skill_name');
+        }
+        public function getProjectDetails($projectId) {
+            $query = "SELECT * FROM project WHERE id = :project_id";
+            $this->db->query($query);
+            $this->db->bind(':project_id', $projectId);
+            return $this->db->single();
+        }
+    
+        public function saveOffer($data) {
+            $query = "INSERT INTO offers (project_id, freelancer_id, budget_offered, motivation) 
+                      VALUES (:project_id, :freelancer_id, :budget_offered, :motivation)";
+            $this->db->query($query);
+            $this->db->bind(':project_id', $data['project_id']);
+            $this->db->bind(':freelancer_id', $data['freelancer_id']);
+            $this->db->bind(':budget_offered', $data['budget_offered']);
+            $this->db->bind(':motivation', $data['motivation']);
+    
+            return $this->db->execute();
+        }
 
     }
 
