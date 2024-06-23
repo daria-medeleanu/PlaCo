@@ -260,10 +260,9 @@
                echo json_encode(["message" => "Unauthorized"]);
                return;
            }
-            console_log($data['title']);
             $title = isset($data['title']) ? trim($data['title']) : '';
             $description = isset($data['description']) ? trim($data['description']) : '';
-            $tags = isset($data['tags']) ? $data['tags'] : [];
+            $skills = isset($data['skills']) ? $data['skills'] : [];
             $files = [];
             $uploadDir = '/PlaCo/backend/controllers/uploads2/';
     
@@ -291,9 +290,9 @@
             ];
             $portfolioId = $this->userModel->savePortfolio($portfolioData);
             if ($portfolioId) {
-                foreach ($tags as $tag) {
-                    $tagId = $this->userModel->getOrCreateTag($tag);
-                    $this->userModel->linkPortfolioTag($portfolioId, $tagId);
+                foreach ($skills as $skill) {
+                    $skillId = $this->userModel->getOrCreateSkill($skill);
+                    $this->userModel->linkPortfolioSkill($portfolioId, $skillId);
                 }
                 http_response_code(201);
                 echo json_encode(['status' => 'success', 'message' => 'Portfolio item posted successfully', 'portfolio_id' => $portfolioId]);

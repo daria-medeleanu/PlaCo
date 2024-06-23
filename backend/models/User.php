@@ -121,21 +121,44 @@
             $this->db->query($query);
             return $this->db->resultSet();
         }
+        public function fetchSkills() {
+            $query = "SELECT * FROM skills";
+            $this->db->query($query);
+            return $this->db->resultSet();
+        }
         public function getOrCreateTag($tagName) {
             if (!$this->tagExists($tagName)) {
                 $this->insertTag($tagName);
             }
             return $this->getTagId($tagName);
         }
+        public function getOrCreateSkill($skillName) {
+            if (!$this->skillExists($skillName)) {
+                $this->insertSkill($skillName);
+            }
+            return $this->getSkillId($skillName);
+        }
         public function getTagId($tagName) {
             $this->db->query('SELECT id FROM tags WHERE tag_name = :tag_name');
             $this->db->bind(':tag_name', $tagName);
+            return $this->db->single()->id;
+        }
+        public function getSkillId($skillName) {
+            $this->db->query('SELECT id FROM skills WHERE skill_name = :skill_name');
+            $this->db->bind(':skill_name', $skillName);
             return $this->db->single()->id;
         }
         public function tagExists($tag_name) {
             $query = "SELECT * FROM tags WHERE tag_name = :tag_name";
             $this->db->query($query);
             $this->db->bind(':tag_name', $tag_name);
+            $this->db->execute();
+            return $this->db->rowCount() > 0;
+        }
+        public function skillExists($skill_name) {
+            $query = "SELECT * FROM skills WHERE skill_name = :skill_name";
+            $this->db->query($query);
+            $this->db->bind(':skill_name', $skill_name);
             $this->db->execute();
             return $this->db->rowCount() > 0;
         }
@@ -149,16 +172,26 @@
                 return array('status' => 'error', 'message' => 'Failed to add tag.');
             }
         }
+        public function insertSkill($skill_name) {
+            $query = "INSERT INTO skills (skill_name) VALUES (:skill_name)";
+            $this->db->query($query);
+            $this->db->bind(':skill_name', $skill_name);
+            if ($this->db->execute()) {
+                return array('status' => 'success', 'message' => 'Skill added successfully.');
+            } else {
+                return array('status' => 'error', 'message' => 'Failed to add skill.');
+            }
+        }
         public function linkProjectTag($projectId, $tagId) {
             $this->db->query('INSERT INTO project_tags (project_id, tag_id) VALUES (:project_id, :tag_id)');
             $this->db->bind(':project_id', $projectId);
             $this->db->bind(':tag_id', $tagId);
             return $this->db->execute();
         }
-        public function linkPortfolioTag($portfolioId, $tagId) {
-            $this->db->query('INSERT INTO portfolio_tags (portfolio_id, tag_id) VALUES (:portfolio_id, :tag_id)');
-            $this->db->bind(':portfolio_id', $portfolioId);
-            $this->db->bind(':tag_id', $tagId);
+        public function linkPortfolioSkill($portfolioId, $skillId) {
+            $this->db->query('INSERT INTO portfolio_skills (portfolio_item_id, skill_id) VALUES (:portfolio_item_id, :skill_id)');
+            $this->db->bind(':portfolio_item_id', $portfolioId);
+            $this->db->bind(':skill_id', $skillId);
             return $this->db->execute();
         }
 

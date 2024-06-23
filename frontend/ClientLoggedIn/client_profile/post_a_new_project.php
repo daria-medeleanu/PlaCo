@@ -171,9 +171,9 @@
         let tagsFetched = false;
 
         // Function to fetch tags from server and populate datalist
-        async function fetchTags() {
+        async function fetchTags(type) {
             try {
-                const response = await fetch('/PlaCo/backend/controllers/Tags.php?type=fetch_tags', {
+                const response = await fetch(`/PlaCo/backend/controllers/Tags.php?type=${type}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -197,7 +197,7 @@
 
         tagsInput.addEventListener('click', function() {
             if (!tagsFetched) { // Fetch tags only if not fetched before
-                fetchTags();
+                fetchTags('fetch_tags');
             }
         });
 

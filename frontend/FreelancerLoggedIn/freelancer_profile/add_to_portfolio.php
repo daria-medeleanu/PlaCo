@@ -129,79 +129,79 @@
     document.addEventListener('DOMContentLoaded', function() {
         const titleInput = document.getElementById('titleInput');
         const descriptionInput = document.getElementById('descriptionInput');
-        const tagsInput = document.getElementById('tagsInput');
-        const tagList = document.getElementById('tagList');
-        const addTagBtn = document.getElementById('addTag');
+        const skillsInput = document.getElementById('tagsInput');
+        const skillList = document.getElementById('tagList');
+        const addSkillBtn = document.getElementById('addTag');
         const portfolioForm = document.getElementById('portfolioForm');
-        const selectedTagsContainer = document.getElementById('selectedTags');
+        const selectedSkillsContainer = document.getElementById('selectedTags');
         const messageDiv = document.getElementById('message');
-        let tagsFetched = false;
+        let skillsFetched = false;
 
         // Function to fetch tags from server and populate datalist
-        async function fetchTags() {
+        async function fetchSkills(type) {
             try {
-                const response = await fetch('/PlaCo/backend/controllers/Tags.php?type=fetch_tags', {
+                const response = await fetch(`/PlaCo/backend/controllers/Tags.php?type=${type}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                     }
                 });
 
-                const tags = await response.json();
+                const skills = await response.json();
 
-                tagList.innerHTML = '';
-                tags.forEach(tag => {
+                skillList.innerHTML = '';
+                skills.forEach(skill => {
                     const option = document.createElement('option');
-                    option.value = tag.tag_name;
-                    tagList.appendChild(option);
+                    option.value = skill.skill_name;
+                    skillList.appendChild(option);
                 });
 
-                tagsFetched = true;
+                skillsFetched = true;
             } catch (error) {
-                console.error('Error fetching tags:', error);
+                console.error('Error fetching skills:', error);
             }
         }
 
-        tagsInput.addEventListener('click', function() {
-            if (!tagsFetched) { // Fetch tags only if not fetched before
-                fetchTags();
+        skillsInput.addEventListener('click', function() {
+            if (!skillsFetched) { // Fetch skills only if not fetched before
+                fetchSkills('fetch_skills');
             }
         });
 
-        addTagBtn.addEventListener('click', async function(event) {
+        addSkillBtn.addEventListener('click', async function(event) {
             event.preventDefault(); // Prevent form submission or default action
 
-            const selectedTagName = tagsInput.value.trim();
-            if (selectedTagName === '') return; // Don't add empty tags
+            const selectedSkillName = skillsInput.value.trim();
+            if (selectedSkillName === '') return; // Don't add empty skills
 
-            const tagExists = document.querySelector(`#tagList option[value="${selectedTagName}"]`);
+            const skillExists = document.querySelector(`#skillList option[value="${selectedSkillName}"]`);
 
-            if (!tagExists) {
-                const newTagOption = document.createElement('option');
-                newTagOption.value = selectedTagName;
-                tagList.appendChild(newTagOption);
+            if (!skillExists) {
+                const newSkillOption = document.createElement('option');
+                newSkillOption.value = selectedSkillName;
+                skillList.appendChild(newSkillOption);
             }
 
-            const selectedTagDiv = document.createElement('div');
-            selectedTagDiv.textContent = selectedTagName;
+            const selectedSkillDiv = document.createElement('div');
+            selectedSkillDiv.textContent = selectedSkillName;
 
             const removeButton = document.createElement('button');
             removeButton.textContent = 'X';
             removeButton.classList.add('remove-tag');
             removeButton.addEventListener('click', function() {
-                selectedTagDiv.remove();
+                selectedSkillDiv.remove();
                 removeButton.remove();
             });
 
-            selectedTagDiv.appendChild(removeButton);
-            selectedTagsContainer.appendChild(selectedTagDiv);
+            selectedSkillDiv.appendChild(removeButton);
+            selectedSkillsContainer.appendChild(selectedSkillDiv);
 
-            tagsInput.value = '';
+            skillsInput.value = '';
 
             try {
                 const requestBody = {
-                    type: 'add_tag',
-                    tag_name: selectedTagName
+                    type: 'add_skill',
+                    skill_name: selectedSkillName
                 };
 
                 const response = await fetch('/PlaCo/backend/controllers/Tags.php', {
@@ -213,21 +213,21 @@
                 });
 
                 const data = await response.json();
-                console.log('Tag added successfully:', data);
+                console.log('Skill added successfully:', data);
                 // Handle success if needed
             } catch (error) {
-                console.error('Error adding tag:', error);
+                console.error('Error adding Skill:', error);
             }
         });
-        projectForm.addEventListener('submit', async function(event) {
+        portfolioForm.addEventListener('submit', async function(event) {
                 event.preventDefault();
-                const selectedTags = Array.from(document.querySelectorAll('.selected-tags div'))
-                                  .map(tagDiv => tagDiv.textContent.replace('X', '').trim());
+                const selectedSkills = Array.from(document.querySelectorAll('.selected-tags div'))
+                                  .map(skillDiv => skillDiv.textContent.replace('X', '').trim());
                 const requestBody = {
                 type: 'post_portfolio',
                 title: titleInput.value,  //.value?
                 description: descriptionInput.value ,
-                tags: selectedTags,
+                skills: selectedSkills,
             };
                 console.log('Request Body:', requestBody);
                 try {
@@ -243,10 +243,10 @@
                     console.log(result);
                     if (response.ok) {
                         messageDiv.textContent = 'Portfolio item posted successfully!';
-                        window.location.href = '/home/freelancer_profile';
+                     
                         messageDiv.style.color = 'green';
                         portfolioForm.reset();
-                        selectedTagsContainer.innerHTML = '';
+                        selectedSkillsContainer.innerHTML = '';
                     } else {
                         messageDiv.textContent = 'Error posting portfolio item: ' + result.message;
                         messageDiv.style.color = 'red';

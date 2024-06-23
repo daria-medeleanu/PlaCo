@@ -13,6 +13,10 @@ class Tags {
         $tags = $this->userModel->fetchTags();
         echo json_encode($tags);
     }
+    public function fetchSkills() {
+        $skills = $this->userModel->fetchSkills();
+        echo json_encode($skills);
+    }
 
     public function addTag() {
         $data = json_decode(file_get_contents('php://input'), true);
@@ -31,6 +35,23 @@ class Tags {
             echo json_encode(['status' => 'error', 'message' => 'Tag name is required']);
         }
     }
+    public function addSkill() {
+        $data = json_decode(file_get_contents('php://input'), true);
+    
+        if (isset($data['skill_name'])) {
+            $skill_name = trim($data['skill_name']);
+    
+            if (!$this->userModel->skillExists($skill_name)) {
+                $result = $this->userModel->insertSkill($skill_name);
+                echo json_encode(['status' => 'success', 'message' => 'Skill added successfully']);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Skill already exists']);
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode(['status' => 'error', 'message' => 'Skill name is required']);
+        }
+    }
 }
 
 $tags = new Tags;
@@ -43,6 +64,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     case 'add_tag':
                         $tags->addTag();
                         break;
+                    case 'add_skill':
+                            $tags->addSkill();
+                            break;
                     default:
                         http_response_code(400);
                         echo json_encode(['status' => 'error', 'message' => 'Invalid action type']);
@@ -51,8 +75,26 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
 
     case 'GET':
-        $tags->fetchTags();
+        header('Content-Type: application/json');
+        if (isset($_GET['type'])) {
+            switch ($_GET['type']) {
+                case 'fetch_tags':
+                    $tags->fetchTags();
+                    break;
+                case 'fetch_skills':
+                    $tags->fetchSkills();
+                    break;
+                default:
+                    http_response_code(400);
+                    echo json_encode(['status' => 'error', 'message' => 'Invalid type']);
+                    break;
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode(['status' => 'error', 'message' => 'Type is required']);
+        }
         break;
+
 
     default:
         http_response_code(405);
