@@ -102,11 +102,15 @@
             document.getElementById('project-budget').textContent = project.budget;
             document.getElementById('project-description').textContent = project.description;
 
-            document.getElementById('apply-button').addEventListener('click', function() {
+            if (project.applied) {
+                document.getElementById('apply-button').style.display = 'none';
+                document.getElementById('applied-message').style.display = 'block';
+            } else {
+                document.getElementById('apply-button').addEventListener('click', function() {
                 document.getElementById('application-form').style.display = 'block';
-            });
+                });
 
-            document.getElementById('apply-form').addEventListener('submit', async function(event) {
+                document.getElementById('apply-form').addEventListener('submit', async function(event) {
                 event.preventDefault();
 
                 const motivation = document.getElementById('motivation').value;
@@ -137,7 +141,8 @@
                     alert('Failed to submit offer');
                 }
             });
-        });
+        }
+    });
     </script>
 </body>
 </html>

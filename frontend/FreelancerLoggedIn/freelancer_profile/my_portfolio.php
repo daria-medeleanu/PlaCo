@@ -100,30 +100,6 @@
 
     </script>
     <div class="project-container" id="projectContainer">
-        <!-- <div class="project" id="project1">
-            <img src="/PlaCo/frontend/FreelancerLoggedIn/freelancer_profile/img/project.jpg" alt="Project 1" class="project-image">
-            <div class="project-title">Project 1</div>
-        </div>
-        <div class="project">
-            <img src="/PlaCo/frontend/FreelancerLoggedIn/freelancer_profile/img/project.jpg" alt="Project 2" class="project-image">
-            <div class="project-title">Project 2</div>
-        </div>
-        <div class="project" >
-            <img src="/PlaCo/frontend/FreelancerLoggedIn/freelancer_profile/img/project.jpg" alt="Project 3" class="project-image">
-            <div class="project-title">Project 3</div>
-        </div>
-        <div class="project" >
-            <img src="/PlaCo/frontend/FreelancerLoggedIn/freelancer_profile/img/project.jpg" alt="Project 4" class="project-image">
-            <div class="project-title">Project 4</div>
-        </div>
-        <div class="project" >
-            <img src="/PlaCo/frontend/FreelancerLoggedIn/freelancer_profile/img/project.jpg" alt="Project 5" class="project-image">
-            <div class="project-title">Project 5</div>
-        </div>
-        <a href="/home/add_to_portfolio" class="add-project">
-            <div class="add-symbol">+</div>
-            <div class="add-text">Add a new project</div>
-        </a> -->
     </div>
 
 </body>

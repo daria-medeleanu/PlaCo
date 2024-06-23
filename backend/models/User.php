@@ -246,6 +246,18 @@
             $this->db->bind(':user_id', $userId);
             return $this->db->resultSetAssoc();
         }
+        public function getActiveProjectsByUserId($userId) {
+            $query = "SELECT title FROM project WHERE owner_id = :user_id AND state = 'activ'";
+            $this->db->query($query);
+            $this->db->bind(':user_id', $userId);
+            return $this->db->resultSetAssoc();
+        }
+        public function getFinishedProjectsByUserId($userId) {
+            $query = "SELECT title FROM project WHERE owner_id = :user_id AND state = 'finished'";
+            $this->db->query($query);
+            $this->db->bind(':user_id', $userId);
+            return $this->db->resultSetAssoc();
+        }
         public function getFreelancers($city = null, $skills = null, $search = null) {
             $query = "SELECT * FROM user_profile WHERE user_type = 'freelancer'";
             $bindParams = [];
@@ -293,11 +305,23 @@
     
             return array_column($skills, 'skill_name');
         }
-        public function getProjectDetails($projectId) {
+        public function getProjectDetails($projectId, $freelancerId) {
             $query = "SELECT * FROM project WHERE id = :project_id";
             $this->db->query($query);
             $this->db->bind(':project_id', $projectId);
-            return $this->db->single();
+            $projectDetails = $this->db->single();
+
+            $projectDetails->applied = $this->hasApplied($projectId, $freelancerId);
+
+            return $projectDetails;
+        }
+        public function hasApplied($projectId, $freelancerId) {
+            $query = "SELECT COUNT(*) as count FROM offers WHERE project_id = :project_id AND freelancer_id = :freelancer_id";
+            $this->db->query($query);
+            $this->db->bind(':project_id', $projectId);
+            $this->db->bind(':freelancer_id', $freelancerId);
+            $result = $this->db->single();
+            return $result->count > 0;
         }
     
         public function saveOffer($data) {

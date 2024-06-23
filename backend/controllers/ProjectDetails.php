@@ -17,7 +17,8 @@ class ProjectDetails {
         }
 
         $projectId = $_GET['project_id'];
-        $projectDetails = $this->userModel->getProjectDetails($projectId);
+        $freelancerId = $_SESSION['id']; 
+        $projectDetails = $this->userModel->getProjectDetails($projectId, $freelancerId);
         echo json_encode($projectDetails);
     }
 
