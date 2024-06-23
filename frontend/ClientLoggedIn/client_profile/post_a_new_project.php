@@ -1,10 +1,8 @@
-
-require_once '../../../backend/controllers/Tags.php';
 <?php 
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/User.php';
+   // include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/User.php';
     include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
     include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/Tags.php';
+    //include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/Tags.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -73,7 +71,7 @@ require_once '../../../backend/controllers/Tags.php';
     </script>
     <div class="container">
         <h1>Project Upload</h1>
-        <form id="portfolioForm" action="/PlaCo/backend/controllers/User.php" method="post" enctype="multipart/form-data">
+        <form id="projectForm"  enctype="multipart/form-data">
             <input type="hidden" name="type" value="post_project">
             
             <label for="title">Title:</label>
@@ -94,10 +92,11 @@ require_once '../../../backend/controllers/Tags.php';
                 <button type="button" id="addTag">Add</button>
             </div>
             <div class="selected-tags" id="selectedTags"></div>
+            
 
             <label for="budget">What is your estimated budget?</label>
             <div class="budget-container">
-                <input type="text" id="CurrencyInput" list="CurrencyList" placeholder="Currency">
+                <input type="text" id="currencyInput" list="CurrencyList" placeholder="Currency">
                 <datalist id="CurrencyList">
                     <option value="EUR"></option>
                     <option value="LEU"></option>
@@ -115,18 +114,27 @@ require_once '../../../backend/controllers/Tags.php';
                     <option value="Huge Project (35.000+ EUR)"></option>
                 </datalist>
             </div>
+            <label for="city">City:</label>
+            <div class="tags-container">
+            <input type="text" id="cityInput" list="cityList" placeholder="Select City" required>
+            <datalist id="cityList">
+                <option value="New York">
+                <option value="Los Angeles">
+                <option value="London">
+            </datalist>
+            </div>
             
             <button type="submit">Post Project</button>
+            <div id="message"></div>
         </form>
     </div>
 
     <script>
-       document.getElementById('file').addEventListener('change', function(event) {
+    document.getElementById('file').addEventListener('change', function(event) {
         const files = event.target.files;
         const uploadedFilesDiv = document.getElementById('uploadedFiles');
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
-            console.log('File selected:', file.name);
             const fileReader = new FileReader();
             fileReader.onload = function(e) {
                 const fileUrl = e.target.result;
@@ -159,109 +167,177 @@ require_once '../../../backend/controllers/Tags.php';
         document.getElementById('file').click();
     });
 
+    document.addEventListener('DOMContentLoaded', function() {
+        const titleInput = document.getElementById('titleInput');
+        const descriptionInput = document.getElementById('descriptionInput');
+        const currencyInput = document.getElementById('currencyInput');
+        const budgetInput = document.getElementById('budgetInput');
+        const tagsInput = document.getElementById('tagsInput');
+        const tagList = document.getElementById('tagList');
+        const addTagBtn = document.getElementById('addTag');
+        const projectForm = document.getElementById('projectForm');
+        const selectedTagsContainer = document.getElementById('selectedTags');
+        const messageDiv = document.getElementById('message');
+        const cityInput = document.getElementById('cityInput'); 
+        let tagsFetched = false;
 
-document.addEventListener('DOMContentLoaded', function() {
-    const tagsInput = document.getElementById('tagsInput');
-    const tagList = document.getElementById('tagList');
-    const addTagBtn = document.getElementById('addTag');
-    const selectedTagsContainer = document.getElementById('selectedTags');
-    let tagsFetched = false; 
-   
-    // Function to fetch tags from server and populate datalist
-    function fetchTags() {
-        fetch('../../../backend/controllers/Tags.php?action=fetchTags', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
+        // Function to fetch tags from server and populate datalist
+        async function fetchTags(type) {
+            try {
+                const response = await fetch(`/PlaCo/backend/controllers/Tags.php?type=${type}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                const tags = await response.json();
+
+                tagList.innerHTML = '';
+                tags.forEach(tag => {
+                    const option = document.createElement('option');
+                    option.value = tag.tag_name;
+                    tagList.appendChild(option);
+                });
+
+                tagsFetched = true;
+            } catch (error) {
+                console.error('Error fetching tags:', error);
             }
-        })
-        .then(response => response.json())
-        .then(tags => {
-            tagList.innerHTML = '';
-            tags.forEach(tag => {
-                const option = document.createElement('option');
-                option.value = tag.tag_name;
-                tagList.appendChild(option);
-            });
-            tagsFetched = true;
-        })
-        .catch(error => console.error('Error fetching tags:', error));
-    }
-    tagsInput.addEventListener('click', function() {
-        if (!tagsFetched) { // Fetch tags only if not fetched before
-            fetchTags();
-        }
-    });
-    addTagBtn.addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent form submission or default action
-
-        const selectedTagName = tagsInput.value.trim();
-        if (selectedTagName === '') return; // Don't add empty tags
-
-        const tagExists = document.querySelector(`#tagList option[value="${selectedTagName}"]`);
-
-        if (!tagExists) {
-            const newTagOption = document.createElement('option');
-            newTagOption.value = selectedTagName;
-            tagList.appendChild(newTagOption);
         }
 
-        const selectedTagDiv = document.createElement('div');
-        selectedTagDiv.textContent = selectedTagName;
-
-        const removeButton = document.createElement('button');
-        removeButton.textContent = 'X';
-        removeButton.classList.add('remove-tag');
-        removeButton.addEventListener('click', function() {
-            selectedTagDiv.remove();
-            removeButton.remove();
+        tagsInput.addEventListener('click', function() {
+            if (!tagsFetched) { // Fetch tags only if not fetched before
+                fetchTags('fetch_tags');
+            }
         });
 
-        selectedTagDiv.appendChild(removeButton);
-        selectedTagsContainer.appendChild(selectedTagDiv);
+        addTagBtn.addEventListener('click', async function(event) {
+            event.preventDefault(); // Prevent form submission or default action
 
-        tagsInput.value = '';
+            const selectedTagName = tagsInput.value.trim();
+            if (selectedTagName === '') return; // Don't add empty tags
 
-        fetch('../../../backend/controllers/Tags.php?action=addTag', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ tag_name: selectedTagName }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Tag added successfully:', data);
-            // Handle success if needed
-        })
-        .catch(error => console.error('Error adding tag:', error));
+            const tagExists = document.querySelector(`#tagList option[value="${selectedTagName}"]`);
+
+            if (!tagExists) {
+                const newTagOption = document.createElement('option');
+                newTagOption.value = selectedTagName;
+                tagList.appendChild(newTagOption);
+            }
+
+            const selectedTagDiv = document.createElement('div');
+            selectedTagDiv.textContent = selectedTagName;
+
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'X';
+            removeButton.classList.add('remove-tag');
+            removeButton.addEventListener('click', function() {
+                selectedTagDiv.remove();
+                removeButton.remove();
+            });
+
+            selectedTagDiv.appendChild(removeButton);
+            selectedTagsContainer.appendChild(selectedTagDiv);
+
+            tagsInput.value = '';
+
+            try {
+                const requestBody = {
+                    type: 'add_tag',
+                    tag_name: selectedTagName
+                };
+
+                const response = await fetch('/PlaCo/backend/controllers/Tags.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody),
+                });
+
+                const data = await response.json();
+                console.log('Tag added successfully:', data);
+                // Handle success if needed
+            } catch (error) {
+                console.error('Error adding tag:', error);
+            }
+        });
+        projectForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                const selectedTags = Array.from(document.querySelectorAll('.selected-tags div'))
+                                  .map(tagDiv => tagDiv.textContent.replace('X', '').trim());
+                const requestBody = {
+                type: 'post_project',
+                title: titleInput.value,  //.value?
+                description: descriptionInput.value ,
+                tags: selectedTags,
+                budget:budgetInput.value,
+                currency:currencyInput.value,
+                city:cityInput.value 
+                };
+                console.log('Request Body:', requestBody);
+                try {
+                    const response = await fetch('/PlaCo/backend/controllers/User.php', {
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                    });
+
+                    const result = await response.text();
+                    console.log(result);
+                    if (response.ok) {
+                        messageDiv.textContent = 'Project posted successfully!';
+                        window.location.href = '/home/client_profile';
+                        messageDiv.style.color = 'green';
+                        projectForm.reset();
+                        selectedTagsContainer.innerHTML = '';
+                    } else {
+                        messageDiv.textContent = 'Error posting project: ' + result.message;
+                        messageDiv.style.color = 'red';
+                    }
+                    
+                } catch (error) {
+                    console.error('Error posting project:', error);
+                    messageDiv.textContent = 'Error posting project';
+                    messageDiv.style.color = 'red';
+                }
+            });
+
     });
-});
-
 
     //currency and budget
         let selectedCurrency = '';
         let selectedBudget = '';
-
+        let selectedCity = '';
         // Function to set the selected option as the input value
         function setInputValue(inputId, selectedOption) {
             document.getElementById(inputId).value = selectedOption;
         }
 
-        document.getElementById('CurrencyInput').addEventListener('focus', function() {
-            setInputValue('CurrencyInput', selectedCurrency);
+        document.getElementById('currencyInput').addEventListener('focus', function() {
+            setInputValue('currencyInput', selectedCurrency);
         });
 
         document.getElementById('budgetInput').addEventListener('focus', function() {
             setInputValue('budgetInput', selectedBudget);
         });
 
-        document.getElementById('CurrencyInput').addEventListener('input', function() {
+        document.getElementById('cityInput').addEventListener('focus', function() {
+            setInputValue('cityInput', selectedCity);
+        });
+
+        document.getElementById('currencyInput').addEventListener('input', function() {
             selectedCurrency = this.value; // Store the selected currency
         });
 
         document.getElementById('budgetInput').addEventListener('input', function() {
             selectedBudget = this.value; // Store the selected budget
+        });
+        document.getElementById('cityInput').addEventListener('input', function() {
+            selectedCity = this.value; // Store the selected city
         });
     </script>
 </body>

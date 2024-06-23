@@ -27,7 +27,7 @@
         </div>
         <div class="nav-right">
             <div class="options-nav-bar">
-                <a href="/PlaCo/frontend/FreelancerLoggedIn/search_for_jobs/search_for_jobs.html" class="nav-btn-left">Search for jobs</a>
+                <a href="/home/search_for_jobs" class="nav-btn-left">Search for jobs</a>
             </div>
             <div class="menu-btn-right btn-dissapear">
                 <input type="checkbox" id="profile-toggle">

@@ -191,7 +191,120 @@
                 echo json_encode(['message' => 'Failed to delete profile']);
             }
         }
+
+        public function postProject($data) {
+            if(!isset($_SESSION)){
+                session_start();
+            }
+
+           if(!isset($_SESSION['id'])){
+               http_response_code(401);
+               echo json_encode(["message" => "Unauthorized"]);
+               return;
+           }
+            console_log($data['title']);
+            $title = isset($data['title']) ? trim($data['title']) : '';
+            $description = isset($data['description']) ? trim($data['description']) : '';
+            $currency = isset($data['currency']) ? trim($data['currency']) : '';
+            $budget = isset($data['budget']) ? trim($data['budget']) : '';
+            $city = isset($data['city']) ? trim($data['city']) : '';
+            $tags = isset($data['tags']) ? $data['tags'] : [];
+            $files = [];
+            $uploadDir = '/PlaCo/backend/controllers/uploads/';
+    
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            
+            if (!empty($_FILES['file']['name'])) {
+                foreach ($_FILES['file']['tmp_name'] as $key => $tmp_name) {
+                    $filename = basename($_FILES['file']['name'][$key]);
+                    $targetFile = $uploadDir . $filename;
+    
+                    if (move_uploaded_file($tmp_name, $targetFile)) {
+                        $files[] = $targetFile;
+                    } else {
+                        error_log("Failed to move uploaded file: " . $filename);
+                    }
+                }
+            }
+            $projectData = [
+                'title' => $title,
+                'description' => $description,
+                'currency' => $currency,
+                'budget' => $budget,
+                'city'=>$city,
+                'files' => implode(',', $files),
+                'owner_id' => $_SESSION['id']
+            ];
+        
+            // Save project and link tags
+            $projectId = $this->userModel->saveProject($projectData);
+            if ($projectId) {
+                foreach ($tags as $tag) {
+                    $tagId = $this->userModel->getOrCreateTag($tag);
+                    $this->userModel->linkProjectTag($projectId, $tagId);
+                }
+                http_response_code(201);
+                echo json_encode(['status' => 'success', 'message' => 'Project posted successfully', 'project_id' => $projectId]);
+            } else {
+                http_response_code(500);
+                echo json_encode(['status' => 'error', 'message' => 'Something went wrong']);
+            }
+        }
+        public function postPortfolio($data) {
+            if(!isset($_SESSION)){
+                session_start();
+            }
+
+           if(!isset($_SESSION['id'])){
+               http_response_code(401);
+               echo json_encode(["message" => "Unauthorized"]);
+               return;
+           }
+            $title = isset($data['title']) ? trim($data['title']) : '';
+            $description = isset($data['description']) ? trim($data['description']) : '';
+            $skills = isset($data['skills']) ? $data['skills'] : [];
+            $files = [];
+            $uploadDir = '/PlaCo/backend/controllers/uploads2/';
+    
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            
+            if (!empty($_FILES['file']['name'])) {
+                foreach ($_FILES['file']['tmp_name'] as $key => $tmp_name) {
+                    $filename = basename($_FILES['file']['name'][$key]);
+                    $targetFile = $uploadDir . $filename;
+    
+                    if (move_uploaded_file($tmp_name, $targetFile)) {
+                        $files[] = $targetFile;
+                    } else {
+                        error_log("Failed to move uploaded file: " . $filename);
+                    }
+                }
+            }
+            $portfolioData = [
+                'title' => $title,
+                'description' => $description,
+                'files' => implode(',', $files),
+                'owner_id' => $_SESSION['id']
+            ];
+            $portfolioId = $this->userModel->savePortfolio($portfolioData);
+            if ($portfolioId) {
+                foreach ($skills as $skill) {
+                    $skillId = $this->userModel->getOrCreateSkill($skill);
+                    $this->userModel->linkPortfolioSkill($portfolioId, $skillId);
+                }
+                http_response_code(201);
+                echo json_encode(['status' => 'success', 'message' => 'Portfolio item posted successfully', 'portfolio_id' => $portfolioId]);
+            } else {
+                http_response_code(500);
+                echo json_encode(['status' => 'error', 'message' => 'Something went wrong']);
+            }
+        }
     }
+        
     $init = new Users;
     
     switch($_SERVER['REQUEST_METHOD']) {
@@ -204,6 +317,12 @@
                     break;
                 case 'login':
                     $init->login($data);
+                    break;
+                case 'post_project':
+                    $init->postProject($data);
+                    break;
+                case 'post_portfolio':
+                    $init->postPortfolio($data);
                     break;
                 default:
                     http_response_code(400);
