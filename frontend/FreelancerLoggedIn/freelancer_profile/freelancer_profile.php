@@ -102,6 +102,8 @@
                 
                 if (profileData.profile_picture) {
                     document.getElementById('profilePicture').src = profileData.profile_picture;
+                }else {
+                    document.getElementById('profilePicture').src = "/PlaCo/frontend/FreelancerLoggedIn/freelancer_profile/img/profile-icon.png";
                 }
             } catch (error) {
                 console.error('Error fetching profile data:', error);
