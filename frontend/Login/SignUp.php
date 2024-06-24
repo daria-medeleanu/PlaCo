@@ -28,7 +28,8 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                 body: JSON.stringify(data)
             });
 
-            const result = await response.json();
+            const result = await response.text();
+            console.log(result);
 
             const messageDiv = document.getElementById('message');
             if(response.ok){
@@ -102,7 +103,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                 <input type="text" name="nume" placeholder="Enter last name" required>    
                 <input type="email" name="email" placeholder="Enter email example: mary@gmail.com" required>     
                 <input type="password" name="password_hash" placeholder="Enter password" required>
-                <input type="password" name="psw-conf" placeholder="Confirm your password" required>
+                <input type="password" name="psw_conf" placeholder="Confirm your password" required>
                 <div class="sign-up-menu">
                     <button class="login-btn sign-up-btn" type="submit" onclick="setUserType('freelancer')">Sign Up as Freelancer</button>            
                     <button class="login-btn sign-up-btn" type="submit" onclick="setUserType('client')">Sign Up as Client</button>            
@@ -110,7 +111,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                 
                 <a class="wrapper-link" href="/home/login">Log In</a>
                 <div id="message"></div>
-                <!-- <?php flash('register') ?> -->
             </div>
         </div>
     </form>
