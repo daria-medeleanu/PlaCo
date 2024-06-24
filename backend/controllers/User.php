@@ -191,8 +191,8 @@
                 echo json_encode(['message' => 'Failed to delete profile']);
             }
         }
-
         public function postProject($data) {
+            console_log('intra aici');
             if(!isset($_SESSION)){
                 session_start();
             }
@@ -202,39 +202,19 @@
                echo json_encode(["message" => "Unauthorized"]);
                return;
            }
-            console_log($data['title']);
             $title = isset($data['title']) ? trim($data['title']) : '';
             $description = isset($data['description']) ? trim($data['description']) : '';
             $currency = isset($data['currency']) ? trim($data['currency']) : '';
             $budget = isset($data['budget']) ? trim($data['budget']) : '';
             $city = isset($data['city']) ? trim($data['city']) : '';
             $tags = isset($data['tags']) ? $data['tags'] : [];
-            $files = [];
-            $uploadDir = '/PlaCo/backend/controllers/uploads/';
-    
-            if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0755, true);
-            }
             
-            if (!empty($_FILES['file']['name'])) {
-                foreach ($_FILES['file']['tmp_name'] as $key => $tmp_name) {
-                    $filename = basename($_FILES['file']['name'][$key]);
-                    $targetFile = $uploadDir . $filename;
-    
-                    if (move_uploaded_file($tmp_name, $targetFile)) {
-                        $files[] = $targetFile;
-                    } else {
-                        error_log("Failed to move uploaded file: " . $filename);
-                    }
-                }
-            }
             $projectData = [
                 'title' => $title,
                 'description' => $description,
                 'currency' => $currency,
                 'budget' => $budget,
                 'city'=>$city,
-                'files' => implode(',', $files),
                 'owner_id' => $_SESSION['id']
             ];
         
@@ -265,29 +245,16 @@
             $title = isset($data['title']) ? trim($data['title']) : '';
             $description = isset($data['description']) ? trim($data['description']) : '';
             $skills = isset($data['skills']) ? $data['skills'] : [];
-            $files = [];
             $uploadDir = '/PlaCo/backend/controllers/uploads2/';
     
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0755, true);
             }
             
-            if (!empty($_FILES['file']['name'])) {
-                foreach ($_FILES['file']['tmp_name'] as $key => $tmp_name) {
-                    $filename = basename($_FILES['file']['name'][$key]);
-                    $targetFile = $uploadDir . $filename;
-    
-                    if (move_uploaded_file($tmp_name, $targetFile)) {
-                        $files[] = $targetFile;
-                    } else {
-                        error_log("Failed to move uploaded file: " . $filename);
-                    }
-                }
-            }
+            
             $portfolioData = [
                 'title' => $title,
                 'description' => $description,
-                'files' => implode(',', $files),
                 'owner_id' => $_SESSION['id']
             ];
             $portfolioId = $this->userModel->savePortfolio($portfolioData);
@@ -303,6 +270,8 @@
                 echo json_encode(['status' => 'error', 'message' => 'Something went wrong']);
             }
         }
+
+        
     }
         
     $init = new Users;
@@ -311,6 +280,7 @@
         case 'POST':
             header('Content-Type: application/json');
             $data = json_decode(file_get_contents("php://input"), true);
+            
             switch($data['type']){
                 case 'register':
                     $init->register($data);
@@ -322,6 +292,7 @@
                     $init->postProject($data);
                     break;
                 case 'post_portfolio':
+                    console_log('sigur intra aici');
                     $init->postPortfolio($data);
                     break;
                 default:

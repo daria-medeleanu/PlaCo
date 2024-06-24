@@ -84,13 +84,27 @@
                 return false;
             }
         }
+        public function saveUpload($data){
+            $this->db->query('INSERT INTO images_projects (project_item_id, image_path) 
+                              VALUES (:project_item_id, :image_path)');
+            
+            $this->db->bind(':project_item_id', $data['project_item_id']);
+            $this->db->bind(':image_path', $data['image_path']);
+    
+            if ($this->db->execute()) {
+                return $this->db->lastInsertId(); 
+            } else {
+                return false; 
+            }
+        }
+
         public function saveProject($data) {
-            $this->db->query('INSERT INTO project (title, description, currency, budget, city, files, owner_id) 
-                              VALUES (:title, :description, :currency, :budget, :city, :files, :owner_id)');
+            $this->db->query('INSERT INTO project (title, description, currency, budget, city, owner_id) 
+                              VALUES (:title, :description, :currency, :budget, :city, :owner_id)');
             
             $this->db->bind(':title', $data['title']);
             $this->db->bind(':description', $data['description']);
-            $this->db->bind(':files', $data['files']);
+            // $this->db->bind(':files', $data['files']);
             $this->db->bind(':currency', $data['currency']);
             $this->db->bind(':city', $data['city']);
             $this->db->bind(':budget', $data['budget']);
@@ -103,8 +117,8 @@
             }
         }
         public function savePortfolio($data) {
-            $this->db->query('INSERT INTO portfolio_item (title, description, files, owner_id) 
-                              VALUES (:title, :description, :files, :owner_id)');
+            $this->db->query('INSERT INTO portfolio_item (title, description, owner_id) 
+                              VALUES (:title, :description, :owner_id)');
             
             $this->db->bind(':title', $data['title']);
             $this->db->bind(':description', $data['description']);

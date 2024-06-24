@@ -109,7 +109,7 @@
                 deleteButton.classList.add('delete-button');
                 deleteButton.innerHTML = 'X';
                 deleteButton.onclick = function() {
-                    uploadedFileDiv.remove(); // Remove the uploaded file container
+                    uploadedFileDiv.remove(); 
                 };
 
                 uploadedFileDiv.appendChild(image);
@@ -118,12 +118,12 @@
             };
             fileReader.readAsDataURL(file);
         }
-        // Clear the file input value after processing files to allow selecting the same file again
+        
         event.target.value = '';
     });
 
     document.querySelector('.upload-label').addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent the default behavior of the label click event
+        event.preventDefault(); 
         document.getElementById('file').click();
     });
     document.addEventListener('DOMContentLoaded', function() {
@@ -137,7 +137,7 @@
         const messageDiv = document.getElementById('message');
         let skillsFetched = false;
 
-        // Function to fetch tags from server and populate datalist
+        
         async function fetchSkills(type) {
             try {
                 const response = await fetch(`/PlaCo/backend/controllers/Tags.php?type=${type}`, {
@@ -163,16 +163,16 @@
         }
 
         skillsInput.addEventListener('click', function() {
-            if (!skillsFetched) { // Fetch skills only if not fetched before
+            if (!skillsFetched) { 
                 fetchSkills('fetch_skills');
             }
         });
 
         addSkillBtn.addEventListener('click', async function(event) {
-            event.preventDefault(); // Prevent form submission or default action
+            event.preventDefault(); 
 
             const selectedSkillName = skillsInput.value.trim();
-            if (selectedSkillName === '') return; // Don't add empty skills
+            if (selectedSkillName === '') return;
 
             const skillExists = document.querySelector(`#skillList option[value="${selectedSkillName}"]`);
 
@@ -214,7 +214,7 @@
 
                 const data = await response.json();
                 console.log('Skill added successfully:', data);
-                // Handle success if needed
+                
             } catch (error) {
                 console.error('Error adding Skill:', error);
             }
@@ -224,11 +224,11 @@
                 const selectedSkills = Array.from(document.querySelectorAll('.selected-tags div'))
                                   .map(skillDiv => skillDiv.textContent.replace('X', '').trim());
                 const requestBody = {
-                type: 'post_portfolio',
-                title: titleInput.value,  //.value?
-                description: descriptionInput.value ,
-                skills: selectedSkills,
-            };
+                    type: 'post_portfolio',
+                    title: titleInput.value,  
+                    description: descriptionInput.value ,
+                    skills: selectedSkills,
+                };
                 console.log('Request Body:', requestBody);
                 try {
                     const response = await fetch('/PlaCo/backend/controllers/User.php', {

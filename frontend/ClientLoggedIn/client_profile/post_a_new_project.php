@@ -1,8 +1,6 @@
 <?php 
-   // include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/User.php';
     include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
     include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
-    //include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/Tags.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,19 +69,20 @@
     </script>
     <div class="container">
         <h1>Project Upload</h1>
-        <form id="projectForm"  enctype="multipart/form-data">
-            <input type="hidden" name="type" value="post_project">
-            
+        <form id="projectForm" enctype="multipart/form-data">
             <label for="title">Title:</label>
             <input type="text" id="titleInput" name="title" placeholder="Title" required>
             
             <label for="description">Project Description:</label>
             <textarea id="descriptionInput" name="description" placeholder="Description" rows="6" required></textarea>
 
-            <input type="file" id="file" name="file[]" multiple style="display: none;">
-            <label for="file" class="upload-label">+ Upload Files</label>
+            <label for="file" class="upload-label">+ Upload Files
+                <span class="tooltip-text">Allowed file types: txt, pdf, jpg, png, docs, docx. Max size: 5MB</span>
+            </label>
+            <input type="file" id="file" name="file[]" multiple="multiple">
+            
             <div class="uploaded-files" id="uploadedFiles"></div>
-
+            <div id="errorsUploadingFiles"> </div>
             <label for="tags">Skills required (Tags):</label>
             <div class="tags-container">
                 <input type="text" id="tagsInput" list="tagList" placeholder="Enter or select tag">
@@ -92,7 +91,6 @@
                 <button type="button" id="addTag">Add</button>
             </div>
             <div class="selected-tags" id="selectedTags"></div>
-            
 
             <label for="budget">What is your estimated budget?</label>
             <div class="budget-container">
@@ -123,51 +121,70 @@
                 <option value="London">
             </datalist>
             </div>
-            
+
             <button type="submit">Post Project</button>
             <div id="message"></div>
         </form>
     </div>
 
     <script>
-    document.getElementById('file').addEventListener('change', function(event) {
-        const files = event.target.files;
-        const uploadedFilesDiv = document.getElementById('uploadedFiles');
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            const fileReader = new FileReader();
-            fileReader.onload = function(e) {
-                const fileUrl = e.target.result;
-                const uploadedFileDiv = document.createElement('div');
-                uploadedFileDiv.classList.add('uploaded-file');
+        let validFiles = [];
 
-                const image = document.createElement('img');
-                image.src = fileUrl;
-                image.alt = file.name;
+        document.getElementById('file').addEventListener('change', function(event) {
+            const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+            const files = event.target.files;
+            const uploadedFilesDiv = document.getElementById('uploadedFiles');
+            const errorsUploadingFiles = document.getElementById('errorsUploadingFiles');
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = ''; 
+            errorsUploadingFiles.textContent = '';
+            const allowedExtensions = ['txt', 'pdf', 'jpg', 'png', 'docs', 'docx'];
 
-                const deleteButton = document.createElement('button');
-                deleteButton.classList.add('delete-button');
-                deleteButton.innerHTML = 'X';
-                deleteButton.onclick = function() {
-                    uploadedFileDiv.remove(); // Remove the uploaded file container
-                };
+            let errorMessages = [];
 
-                uploadedFileDiv.appendChild(image);
-                uploadedFileDiv.appendChild(deleteButton);
-                uploadedFilesDiv.appendChild(uploadedFileDiv);
-            };
-            fileReader.readAsDataURL(file);
-        }
-        // Clear the file input value after processing files to allow selecting the same file again
-        event.target.value = '';
-    });
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const fileExtension = file.name.split('.').pop().toLowerCase();
 
-    document.querySelector('.upload-label').addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent the default behavior of the label click event
-        document.getElementById('file').click();
-    });
+                // Check file size
+                if (file.size > maxSize) {
+                    errorMessages.push(`File ${file.name} exceeds the maximum size of 5MB`);
+                }else if(!allowedExtensions.includes(fileExtension)){
+                    errorMessages.push(`File ${file.name} has an invalid extension. Only txt, pdf, jpg, png, docs, docx are allowed.`);
 
-    document.addEventListener('DOMContentLoaded', function() {
+                } else {
+                    
+                    validFiles.push(file);
+                    const uploadedFileDiv = document.createElement('div');
+                    uploadedFileDiv.classList.add('uploaded-file');
+
+                    const fileNameSpan = document.createElement('span');
+                    fileNameSpan.textContent = file.name;
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.classList.add('delete-button');
+                    deleteButton.innerHTML = 'X';
+                    deleteButton.onclick = function() {
+                        const index = validFiles.indexOf(file);
+                        if (index > -1) {
+                            validFiles.splice(index, 1); 
+                        }
+                        uploadedFileDiv.remove(); 
+                    };
+
+                    uploadedFileDiv.appendChild(fileNameSpan);
+                    uploadedFileDiv.appendChild(deleteButton);
+                    uploadedFilesDiv.appendChild(uploadedFileDiv);
+                    
+                }
+            }
+            if (errorMessages.length > 0) {
+                errorsUploadingFiles.innerHTML = errorMessages.join('<br>');
+                errorsUploadingFiles.style.color = 'red';
+            }
+            event.target.value = ''; 
+        });
+
         const titleInput = document.getElementById('titleInput');
         const descriptionInput = document.getElementById('descriptionInput');
         const currencyInput = document.getElementById('currencyInput');
@@ -180,6 +197,7 @@
         const messageDiv = document.getElementById('message');
         const cityInput = document.getElementById('cityInput'); 
         let tagsFetched = false;
+        document.addEventListener('DOMContentLoaded', function() {
 
         // Function to fetch tags from server and populate datalist
         async function fetchTags(type) {
@@ -263,18 +281,20 @@
                 console.error('Error adding tag:', error);
             }
         });
+        });        
         projectForm.addEventListener('submit', async function(event) {
                 event.preventDefault();
+
                 const selectedTags = Array.from(document.querySelectorAll('.selected-tags div'))
                                   .map(tagDiv => tagDiv.textContent.replace('X', '').trim());
                 const requestBody = {
-                type: 'post_project',
-                title: titleInput.value,  //.value?
-                description: descriptionInput.value ,
-                tags: selectedTags,
-                budget:budgetInput.value,
-                currency:currencyInput.value,
-                city:cityInput.value 
+                    type: 'post_project',
+                    title: titleInput.value,  
+                    description: descriptionInput.value ,
+                    tags: selectedTags,
+                    budget:budgetInput.value,
+                    currency:currencyInput.value,
+                    city:cityInput.value 
                 };
                 console.log('Request Body:', requestBody);
                 try {
@@ -286,14 +306,46 @@
                     body: JSON.stringify(requestBody)
                     });
 
-                    const result = await response.text();
-                    console.log(result);
+                    const result = await response.json();
+                    console.log(result.project_id);
                     if (response.ok) {
                         messageDiv.textContent = 'Project posted successfully!';
-                        window.location.href = '/home/client_profile';
                         messageDiv.style.color = 'green';
                         projectForm.reset();
                         selectedTagsContainer.innerHTML = '';
+                        
+                        //uploading the files only if the project was successfully uploaded
+                        const formData = new FormData();
+                        validFiles.forEach(file => {
+                            formData.append('file[]', file);
+                        });
+                        formData.append('project_id', result.project_id);
+                        console.log(validFiles);
+                        formData.append('type', 'post_project');
+                        formData.append('type', 'post_project');
+                        formData.append('type', 'post_project');
+
+
+                        fetch('/PlaCo/backend/controllers/Uploads.php', {
+                            method: 'POST',
+                            body: formData,
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+                            if (data.message === 'Files successfully uploaded') {
+                                // Redirect to the client profile page with a success message
+                                window.location.href = '/home/client_profile?success=Project posted successfully';
+                            } else {
+                                const message = document.getElementById('uploadedFiles');
+                                message.textContent = data.message;
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+
+
                     } else {
                         messageDiv.textContent = 'Error posting project: ' + result.message;
                         messageDiv.style.color = 'red';
@@ -305,10 +357,6 @@
                     messageDiv.style.color = 'red';
                 }
             });
-
-    });
-
-    //currency and budget
         let selectedCurrency = '';
         let selectedBudget = '';
         let selectedCity = '';
