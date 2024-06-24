@@ -126,33 +126,7 @@
                 echo json_encode(["message" => "No user found"]);
             }
         }
-        // public function login($data){
-
-        //     $data = [
-        //         'email' => trim($data['email']),
-        //         'password' => trim($data['password'])
-        //     ];
-    
-        //     if(empty($data['email']) || empty($data['password'])){
-        //         http_response_code(400);
-        //         echo json_encode(["message" => "Please fill out all inputs"]);
-        //         return;
-        //     }
-        //         //Check for user/email
-        //     if($this->userModel->findUserByEmail($data['email'])){
-        //         $loggedInUser = $this->userModel->login($data['email'], $data['password']);
-        //         if($loggedInUser){
-        //             //Create session
-        //             $this->createUserSession($loggedInUser);
-        //         }else{
-        //             http_response_code(401);
-        //             echo json_encode(["message" => "Password Incorrect"]);
-        //         }
-        //     }else{
-        //         http_response_code(404);
-        //         echo json_encode(["message" => "No user found"]);
-        //     }
-        // }  
+        
         public function createUserSession($loggedInUser){
             session_start();
             $_SESSION['id'] = $loggedInUser->id;
@@ -231,33 +205,33 @@
         }
         public function updateProfile($data){
             if(!isset($_SESSION)){
-                 session_start();
+                session_start();
             }
-
+        
             if(!isset($_SESSION['id'])){
                 http_response_code(401);
                 echo json_encode(["message" => "Unauthorized"]);
                 return;
             }
+        
             $userId = $_SESSION['id'];
             $updatedData = [
                 'name' => trim($data['name']),
                 'phone_number' => trim($data['phone_number']),
                 'email' => trim($data['email']),
-                'address' => trim($data['address']), 
+                'address' => trim($data['address'])
             ];
-            // if($this->userModel->updateProfile($userId, $updatedData)){
-            //     echo json_encode(['message' => 'Profile updated successfully']);
-            // } else {
-            //     http_response_code(500);
-            //     echo json_encode(['message' => 'Failed to update profile']);
-            // }
+        
             if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
                 $file = $_FILES['profile_picture'];
+                $targetDir = $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/uploads/profilePics/';
+                $imageFileType = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+                $targetFile = $targetDir . $userId . '.' . $imageFileType;
         
-                $targetDir = __DIR__ . '/../data/images/';
-                $targetFile = $targetDir . basename($file['name']);
-                $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+                // Check if the directory exists, if not, create it
+                if (!file_exists($targetDir)) {
+                    mkdir($targetDir, 0777, true);
+                }
         
                 $check = getimagesize($file['tmp_name']);
                 if ($check !== false) {
@@ -268,7 +242,7 @@
                             // Move the uploaded file to the target directory
                             if (move_uploaded_file($file['tmp_name'], $targetFile)) {
                                 // Set the profile picture path in the data
-                                $updatedData['profile_picture'] = $targetFile;
+                                $updatedData['profile_picture'] = '/PlaCo/uploads/profilePics/' . $userId . '.' . $imageFileType;
                             } else {
                                 echo json_encode(['error' => 'Failed to move uploaded file']);
                                 return;
@@ -294,6 +268,71 @@
                 echo json_encode(['message' => 'Failed to update profile']);
             }
         }
+        // public function updateProfile($data){
+        //     if(!isset($_SESSION)){
+        //          session_start();
+        //     }
+
+        //     if(!isset($_SESSION['id'])){
+        //         http_response_code(401);
+        //         echo json_encode(["message" => "Unauthorized"]);
+        //         return;
+        //     }
+        //     $userId = $_SESSION['id'];
+        //     $updatedData = [
+        //         'name' => trim($data['name']),
+        //         'phone_number' => trim($data['phone_number']),
+        //         'email' => trim($data['email']),
+        //         'address' => trim($data['address']), 
+        //     ];
+        //     // if($this->userModel->updateProfile($userId, $updatedData)){
+        //     //     echo json_encode(['message' => 'Profile updated successfully']);
+        //     // } else {
+        //     //     http_response_code(500);
+        //     //     echo json_encode(['message' => 'Failed to update profile']);
+        //     // }
+        //     if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
+        //         $file = $_FILES['profile_picture'];
+        //         console_log($file);
+        //         // $targetDir = __DIR__ . '/../data/images/';
+        //         // $targetFile = $targetDir . basename($file['name']);
+        //         // $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+        
+        //         // $check = getimagesize($file['tmp_name']);
+        //         // if ($check !== false) {
+        //         //     // Check file size (example: 5MB max)
+        //         //     if ($file['size'] <= 5000000) {
+        //         //         $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+        //         //         if (in_array($imageFileType, $allowedTypes)) {
+        //         //             // Move the uploaded file to the target directory
+        //         //             if (move_uploaded_file($file['tmp_name'], $targetFile)) {
+        //         //                 // Set the profile picture path in the data
+        //         //                 $updatedData['profile_picture'] = $targetFile;
+        //         //             } else {
+        //         //                 echo json_encode(['error' => 'Failed to move uploaded file']);
+        //         //                 return;
+        //         //             }
+        //         //         } else {
+        //         //             echo json_encode(['error' => 'Only JPG, JPEG, PNG, and GIF files are allowed']);
+        //         //             return;
+        //         //         }
+        //         //     } else {
+        //         //         echo json_encode(['error' => 'File size exceeds the maximum limit']);
+        //         //         return;
+        //         //     }
+        //         } else {
+        //             echo json_encode(['error' => 'Uploaded file is not an image']);
+        //             return;
+        //         }
+        //     // }
+        
+        //     if ($this->userModel->updateProfile($userId, $updatedData)) {
+        //         echo json_encode(['message' => 'Profile updated successfully']);
+        //     } else {
+        //         http_response_code(500);
+        //         echo json_encode(['message' => 'Failed to update profile']);
+        //     }
+        // }
         public function deleteProfile(){
             if(!isset($_SESSION)){
                session_start();
@@ -370,11 +409,11 @@
             $title = isset($data['title']) ? trim($data['title']) : '';
             $description = isset($data['description']) ? trim($data['description']) : '';
             $skills = isset($data['skills']) ? $data['skills'] : [];
-            $uploadDir = '/PlaCo/backend/controllers/uploads2/';
+            // $uploadDir = '/PlaCo/backend/controllers/uploads2/';
     
-            if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0755, true);
-            }
+            // if (!is_dir($uploadDir)) {
+            //     mkdir($uploadDir, 0755, true);
+            // }
             
             
             $portfolioData = [
@@ -404,7 +443,16 @@
     switch($_SERVER['REQUEST_METHOD']) {
         case 'POST':
             header('Content-Type: application/json');
-            $data = json_decode(file_get_contents("php://input"), true);
+
+            if (strpos($_SERVER['CONTENT_TYPE'], 'multipart/form-data') !== false) {
+                $data = $_POST;
+                if (isset($_FILES['profile_picture'])) {
+                    $data['profile_picture'] = $_FILES['profile_picture'];
+                }
+            } else {
+                $data = json_decode(file_get_contents("php://input"), true);
+            }
+            // $data = json_decode(file_get_contents("php://input"), true);
             
             switch($data['type']){
                 case 'register':
@@ -414,12 +462,13 @@
                     $init->login($data);
                     break;
                 case 'post_project':
-                    // console_log($data);
                     $init->postProject($data);
                     break;
                 case 'post_portfolio':
-                    // console_log('sigur intra aici');
                     $init->postPortfolio($data);
+                    break;
+                case 'update_profile': 
+                    $init->updateProfile($data);
                     break;
                 default:
                     http_response_code(400);
@@ -427,7 +476,6 @@
                     break;
             }
             break;
-        case 'PUT':
             // $data = json_decode(file_get_contents("php://input"),true);
             // switch($data['type']){
             //     case 'update_profile':
@@ -439,6 +487,7 @@
             //         break;
             // }
             // break;
+        case 'PUT':
             parse_str(file_get_contents("php://input"), $_PUT);
             $data = $_PUT;
             if ($_SERVER['CONTENT_TYPE'] === 'multipart/form-data') {

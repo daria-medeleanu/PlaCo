@@ -131,7 +131,7 @@
         let validFiles = [];
 
         document.getElementById('file').addEventListener('change', function(event) {
-            const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+            const maxSize = 5 * 1024 * 1024; 
             const files = event.target.files;
             const uploadedFilesDiv = document.getElementById('uploadedFiles');
             const errorsUploadingFiles = document.getElementById('errorsUploadingFiles');
@@ -146,7 +146,6 @@
                 const file = files[i];
                 const fileExtension = file.name.split('.').pop().toLowerCase();
 
-                // Check file size
                 if (file.size > maxSize) {
                     errorMessages.push(`File ${file.name} exceeds the maximum size of 5MB`);
                 }else if(!allowedExtensions.includes(fileExtension)){
@@ -199,7 +198,7 @@
         let tagsFetched = false;
         document.addEventListener('DOMContentLoaded', function() {
 
-        // Function to fetch tags from server and populate datalist
+        
         async function fetchTags(type) {
             try {
                 const response = await fetch(`/PlaCo/backend/controllers/Tags.php?type=${type}`, {
@@ -225,16 +224,16 @@
         }
 
         tagsInput.addEventListener('click', function() {
-            if (!tagsFetched) { // Fetch tags only if not fetched before
+            if (!tagsFetched) { 
                 fetchTags('fetch_tags');
             }
         });
 
         addTagBtn.addEventListener('click', async function(event) {
-            event.preventDefault(); // Prevent form submission or default action
+            event.preventDefault(); 
 
             const selectedTagName = tagsInput.value.trim();
-            if (selectedTagName === '') return; // Don't add empty tags
+            if (selectedTagName === '') return; 
 
             const tagExists = document.querySelector(`#tagList option[value="${selectedTagName}"]`);
 
@@ -334,7 +333,7 @@
                         .then(data => {
                             console.log(data);
                             if (data.message === 'Files successfully uploaded') {
-                                // Redirect to the client profile page with a success message
+                                
                                 window.location.href = '/home/client_profile?success=Project posted successfully';
                             } else {
                                 const message = document.getElementById('uploadedFiles');
@@ -378,14 +377,14 @@
         });
 
         document.getElementById('currencyInput').addEventListener('input', function() {
-            selectedCurrency = this.value; // Store the selected currency
+            selectedCurrency = this.value; 
         });
 
         document.getElementById('budgetInput').addEventListener('input', function() {
-            selectedBudget = this.value; // Store the selected budget
+            selectedBudget = this.value; 
         });
         document.getElementById('cityInput').addEventListener('input', function() {
-            selectedCity = this.value; // Store the selected city
+            selectedCity = this.value; 
         });
     </script>
 </body>

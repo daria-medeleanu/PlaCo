@@ -42,7 +42,7 @@
     
     <section class="profile-info">
         <div class="profile-picture">
-            <img src="/PlaCo/frontend/FreelancerLoggedIn/freelancer_profile/img/profile-icon.png" alt="Add Profile Picture">
+            <img id="profilePicture" src="/PlaCo/frontend/FreelancerLoggedIn/freelancer_profile/img/profile-icon.png" alt="Add Profile Picture">
         </div>
         <div class="info-text">
             <h2>Professional areas:</h2>
@@ -99,7 +99,10 @@
                 document.getElementById('profileEmail').textContent = profileData.email ? profileData.email : 'N/A';
                 document.getElementById('profileAddress').textContent = profileData.address ? profileData.address : 'N/A';
                 document.getElementById('profileJoinDate').textContent = profileData.joining_date ? profileData.joining_date : 'N/A';
-
+                
+                if (profileData.profile_picture) {
+                    document.getElementById('profilePicture').src = profileData.profile_picture;
+                }
             } catch (error) {
                 console.error('Error fetching profile data:', error);
             }
