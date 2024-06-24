@@ -127,19 +127,20 @@
             formData.append('phone_number', document.getElementById('phoneInput').value);
             formData.append('email', document.getElementById('emailInput').value);
             formData.append('address', document.getElementById('addressInput').value);
-            // formData.append('profile_picture', document.getElementById('profilePictureInput').files[0]);
+            formData.append('profile_picture', document.getElementById('profilePictureInput').files[0]);
             
             console.log(formData);
             try {
                 const response = await fetch("/PlaCo/backend/controllers/User.php", {
-                    method: "PUT",
+                    method: "POST",
                     body: formData
                 });
 
                 const result = await response.text();
                 console.log(result);
                 if (response.ok) {
-                    window.location.href = "/home/freelancer_profile";
+                    // window.location.href = "/home/freelancer_profile";
+                    console.log('Success!');
                 } else {
                     console.error('Failed to update profile:', result.message);
                 }
@@ -275,6 +276,9 @@
                 document.getElementById('phoneInput').value = data.phone_number;
                 document.getElementById('emailInput').value = data.email;
                 document.getElementById('addressInput').value = data.address;
+                if (data.profile_picture) {
+                    document.getElementById('profilePicture').src = data.profile_picture;
+                }
             })
             .catch(error => console.error('Error fetching profile data:', error));
         }
