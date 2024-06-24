@@ -1,5 +1,4 @@
 <?php
-//include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/User.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
 ?>
@@ -127,13 +126,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
     <script>
     async function handleProfileUpdate(event) {
     event.preventDefault();
-    // const data = {
-    //     type: 'update_profile',
-    //     name: document.getElementById('nameInput').value,
-    //     phone_number: document.getElementById('phoneInput').value,
-    //     email: document.getElementById('emailInput').value,
-    //     address: document.getElementById('addressInput').value
-    // };
     const formData = new FormData();
             formData.append('type', 'update_profile');
             formData.append('name', document.getElementById('nameInput').value);
@@ -209,26 +201,22 @@ document.getElementById('deleteProfile').addEventListener('click', handleProfile
             document.getElementById('changePassword').style.display = 'none';
             document.getElementById('statistics').style.display = 'block';
         }
-        //tags
         document.getElementById('addTag').addEventListener('click', function() {
-        event.preventDefault(); //ca sa nu mai apara required-ul de la title input
+        event.preventDefault(); 
         const tagsInput = document.getElementById('tagsInput');
         const selectedTagsDiv = document.getElementById('selectedTags');
         
         let selectedTagName = tagsInput.value.trim();
-        if (selectedTagName === '') return; // fara empty tags
+        if (selectedTagName === '') return; 
 
-        // Check if the entered tag already exists among the predefined tags
         const tagExists = document.querySelector(`#tagList option[value="${selectedTagName}"]`);
         
         if (!tagExists) {
-            // Create a new option to select the entered tag in the future
             const newTagOption = document.createElement('option');
             newTagOption.value = selectedTagName;
             document.getElementById('tagList').appendChild(newTagOption);
         }
 
-        // Create the selected tag element
         const selectedTagDiv = document.createElement('div');
         selectedTagDiv.textContent = selectedTagName;
 
@@ -242,11 +230,9 @@ document.getElementById('deleteProfile').addEventListener('click', handleProfile
 
         selectedTagDiv.appendChild(removeButton);
         selectedTagsDiv.appendChild(selectedTagDiv);
-        // Clear the input field
         tagsInput.value = '';
     });
 
-    // Profile picture upload
     document.getElementById('profilePictureInput').addEventListener('change', function(event) {
         const file = event.target.files[0];
         const reader = new FileReader();
@@ -261,7 +247,6 @@ document.getElementById('deleteProfile').addEventListener('click', handleProfile
     <script>
                 const jwtToken = localStorage.getItem('jwt');
     document.addEventListener("DOMContentLoaded", function() {
-    // Function to get user profile data
     function getUserProfile() {
         fetch('/PlaCo/backend/controllers/User.php', {
             method: 'GET',
@@ -297,7 +282,6 @@ document.getElementById('deleteProfile').addEventListener('click', handleProfile
         .catch(error => console.error('Error fetching profile data:', error));
     }
 
-    // Call the function to get user profile data when the page loads
     getUserProfile();
 });
 </script>
