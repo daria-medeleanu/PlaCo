@@ -120,9 +120,31 @@
             <div class="tags-container">
             <input type="text" id="cityInput" list="cityList" placeholder="Select City" required>
             <datalist id="cityList">
-                <option value="New York">
-                <option value="Los Angeles">
-                <option value="London">
+            <option value="București">
+                <option value="Cluj-Napoca">
+                <option value="Timișoara">
+                <option value="Iași">
+                <option value="Constanța">
+                <option value="Craiova">
+                <option value="Brașov">
+                <option value="Galați">
+                <option value="Ploiești">
+                <option value="Oradea">
+                <option value="Brăila">
+                <option value="Arad">
+                <option value="Pitești">
+                <option value="Sibiu">
+                <option value="Bacău">
+                <option value="Târgu Mureș">
+                <option value="Baia Mare">
+                <option value="Buzău">
+                <option value="Botoșani">
+                <option value="Satu Mare">
+                <option value="Râmnicu Vâlcea">
+                <option value="Suceava">
+                <option value="Piatra Neamț">
+                <option value="Drobeta-Turnu Severin">
+                <option value="Târgu Jiu">
             </datalist>
             </div>
 

@@ -28,7 +28,7 @@
                 <input type="checkbox" id="profile-toggle">
                 <label for="profile-toggle" >Profile</label>
                 <div class="menu" id="profile-menu">
-                    <button onclick="window.location.href='#'">My Profile</button>
+                    <button onclick="window.location.href='/home/client_profile'">My Profile</button>
                     <button onclick="window.location.href='/home/active_projects'">Active Projects</button>
                     <button onclick="window.location.href='/home/finished_projects'">Finished Projects</button>
                     <button onclick="window.location.href='/home/home'">Log Out</button>
