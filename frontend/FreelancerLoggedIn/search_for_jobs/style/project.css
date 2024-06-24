@@ -12,6 +12,7 @@ body {
     margin: 20px auto;
     max-width: 800px;
     border-radius: 8px;
+    margin-top:65px;
 }
 
 .project-details h1 {
@@ -30,7 +31,7 @@ body {
 #apply-button {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #fca311;
     color: #fff;
     text-align: center;
     border: none;
@@ -40,7 +41,7 @@ body {
 }
 
 #apply-button:hover {
-    background-color: #0056b3;
+    background-color: #14213d;
 }
 
 #application-form {
@@ -68,7 +69,7 @@ body {
 
 #application-form button[type="submit"] {
     padding: 10px 20px;
-    background-color: #28a745;
+    background-color: #14213d;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -77,5 +78,5 @@ body {
 }
 
 #application-form button[type="submit"]:hover {
-    background-color: #218838;
+    background-color: #fecc11;
 }

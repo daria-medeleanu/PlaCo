@@ -100,13 +100,26 @@
                 return false;
             }
         }
-        public function saveUpload($data){
+        public function saveUploadProject($data){
             $this->db->query('INSERT INTO images_projects (project_item_id, image_path) 
                               VALUES (:project_item_id, :image_path)');
             
             $this->db->bind(':project_item_id', $data['project_item_id']);
             $this->db->bind(':image_path', $data['image_path']);
     
+            if ($this->db->execute()) {
+                return $this->db->lastInsertId(); 
+            } else {
+                return false; 
+            }
+        }
+        public function saveUploadPortfolio($data){
+            $this->db->query('INSERT INTO images_portfolios (portfolio_item_id, image_path) 
+                              VALUES (:portfolio_item_id, :image_path)');
+            
+            $this->db->bind(':portfolio_item_id', $data['portfolio_item_id']);
+            $this->db->bind(':image_path', $data['image_path']);
+            console_log($data);
             if ($this->db->execute()) {
                 return $this->db->lastInsertId(); 
             } else {
@@ -120,7 +133,6 @@
             
             $this->db->bind(':title', $data['title']);
             $this->db->bind(':description', $data['description']);
-            // $this->db->bind(':files', $data['files']);
             $this->db->bind(':currency', $data['currency']);
             $this->db->bind(':city', $data['city']);
             $this->db->bind(':budget', $data['budget']);
@@ -138,7 +150,6 @@
             
             $this->db->bind(':title', $data['title']);
             $this->db->bind(':description', $data['description']);
-            $this->db->bind(':files', $data['files']);
             $this->db->bind(':owner_id', $data['owner_id']);
     
             if ($this->db->execute()) {

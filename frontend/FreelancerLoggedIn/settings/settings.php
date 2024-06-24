@@ -127,8 +127,9 @@
             formData.append('phone_number', document.getElementById('phoneInput').value);
             formData.append('email', document.getElementById('emailInput').value);
             formData.append('address', document.getElementById('addressInput').value);
-            formData.append('profile_picture', document.getElementById('profilePictureInput').files[0]);
-
+            // formData.append('profile_picture', document.getElementById('profilePictureInput').files[0]);
+            
+            console.log(formData);
             try {
                 const response = await fetch("/PlaCo/backend/controllers/User.php", {
                     method: "PUT",
@@ -145,33 +146,7 @@
             } catch (error) {
                 console.error('Error:', error);
             }
-            // const data = {
-            //     type: 'update_profile',
-            //     name: document.getElementById('nameInput').value,
-            //     phone_number: document.getElementById('phoneInput').value,
-            //     email: document.getElementById('emailInput').value,
-            //     address: document.getElementById('addressInput').value,
-            //     profile_picture: document.getElementById('profilePictureInput').value
-            // };
-
-            // try {
-            //     const response = await fetch("/PlaCo/backend/controllers/User.php", {
-            //         method: "PUT",
-            //         headers: {
-            //             'Content-Type': 'application/json'
-            //         },
-            //         body: JSON.stringify(data)
-            //     });
-
-            //     const result = await response.json();
-            //     if (response.ok) {
-            //         window.location.href = "/home/freelancer_profile";
-            //     } else {
-            //         console.error('Failed to update profile:', result.message);
-            //     }
-            // } catch (error) {
-            //     console.error('Error:', error);
-            // }
+            
         }
 
         async function handleProfileDeletion(event) {
@@ -253,11 +228,9 @@
 
         selectedTagDiv.appendChild(removeButton);
         selectedTagsDiv.appendChild(selectedTagDiv);
-        // Clear the input field
         tagsInput.value = '';
         });
 
-        // Profile picture upload
         document.getElementById('profilePictureInput').addEventListener('change', function(event) {
             const file = event.target.files[0];
             const reader = new FileReader();
@@ -271,19 +244,24 @@
 
     </script>
     <script>
-
+        const jwtToken = localStorage.getItem('jwt');
     document.addEventListener("DOMContentLoaded", function() {
         // Function to get user profile data
         function getUserProfile() {
             fetch('/PlaCo/backend/controllers/User.php', {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwtToken}`
                 }
             })
             .then(response => {
                 if(!response.ok){
-                    throw new Error('Network response was not ok ' + response.statusText);
+                    if(response.status === 401){
+                        window.location.href = '/home/login';
+                    } else {
+                        throw new Error('Network response was not ok.');
+                    }
                 }
                 return response.json();
             })
