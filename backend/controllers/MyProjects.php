@@ -29,6 +29,17 @@ class MyProjects{
         $activeProjects = $this->userModel->getFinishedProjectsByUserId($userId);
         echo json_encode($activeProjects);
     }
+    public function getProjectsInProgress() {
+        if (!isset($_SESSION['id'])) {
+            http_response_code(401);
+            echo json_encode(['status' => 'error', 'message' => 'User not authenticated']);
+            return;
+        }
+        $userId = $_SESSION['id']; 
+        $projects = $this->userModel->getProjectsInProgress($userId);
+        echo json_encode($projects);
+    }
+
 }
 
 $projects = new MyProjects();
@@ -42,6 +53,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     break;
                 case 'finished_projects':
                     $projects->getFinishedProjects();
+                    break;
+                case 'projects_in_progress':
+                    $projects->getProjectsInProgress();
                     break;
                 default:
                     http_response_code(400);

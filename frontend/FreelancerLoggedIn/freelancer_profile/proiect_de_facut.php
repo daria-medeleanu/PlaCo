@@ -3,33 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project</title>
-    <link rel="stylesheet" href="/PlaCo/frontend/FreelancerLoggedIn/header/header.css"> 
+    <title>Project Activ</title>
+    <link rel="stylesheet" href="/PlaCo/frontend/ClientLoggedIn/header/header.css"> 
     <link rel="stylesheet" href="/PlaCo/frontend/FreelancerLoggedIn/search_for_jobs/style/project.css"> 
-    <link rel="shortcut icon" type="image/x-icon" href="/PlaCo/frontend/FreelancerLoggedIn/search_for_jobs/logo.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/PlaCo/frontend/ClientLoggedIn/search_for_jobs/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-    <div class="header">
+   
+<div class="header">
         <div class="nav-left">
             <a class="logo-pic" href="/home/home">
-                <img src="/PlaCo/frontend/FreelancerLoggedIn/search_for_jobs/logo.png" class="logo" alt="Logo">
+                <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/logo.png" class="logo" alt="Logo">
                 <div class="nav-btn-left">PlaCo</div>
             </a>
         </div>
         <div class="nav-right">
             <div class="options-nav-bar">
-                <a href="/home/search_for_jobs" class="nav-btn-left">Search for jobs</a>
+                <a href="/home/discover_freelancers" class="nav-btn-left">Discover Freelancers</a>
+                <a href="/home/post_a_project" class="nav-btn-left">Post a new Project</a>
             </div>
             <div class="menu-btn-right btn-dissapear">
                 <input type="checkbox" id="profile-toggle">
                 <label for="profile-toggle" >Profile</label>
                 <div class="menu" id="profile-menu">
-                    <button onclick="window.location.href='/home/freelancer_profile'">My Profile</button>
-                    <button onclick="window.location.href='/home/my_portfolio'">My Portfolio</button>
+                    <button onclick="window.location.href='#'">My Profile</button>
+                    <button onclick="window.location.href='/home/active_projects'">Active Projects</button>
+                    <button onclick="window.location.href='/home/finished_projects'">Finished Projects</button>
                     <button onclick="window.location.href='/home/home'">Log Out</button>
-                    <button onclick="window.location.href='/home/settings_freelancer'">Settings</button>
+                    <button onclick="window.location.href='/home/settings_client'">Settings</button>
                 </div>
             </div>
         </div>
@@ -37,7 +40,6 @@
             <i class="fa fa-bars"></i>
         </a>
     </div>
-
     <script>
         function toggleMenu() {
             var navRight = document.querySelector('.nav-right');
@@ -60,6 +62,8 @@
             profileMenu.style.display = this.checked ? 'block' : 'none';
             event.stopPropagation();
         });
+
+       
     </script>
 
     <section class="project-details">
@@ -71,21 +75,14 @@
                 <p><strong>Description:</strong></p>
                 <p id="project-description"></p>
             </div>
-            <button id="apply-button">Apply for this project</button>
-            <div id="application-form" style="display: none;">
-                <h2>Application Form</h2>
-                <form id="apply-form">
-                    <textarea id="motivation" placeholder="Write your motivation"></textarea>
-                    <input type="number" id="budget_offered" placeholder="Your budget">
-                    <button type="submit">Submit Application</button>
-                </form>
-            </div>
-            <p id="applied-message" style="display: none;">You applied to this project</p>
+            <button id="finish-button">I finished this project</button>
+            
+        <p id="finished-message" style="display: none;">Project finished</p>
         </div>
     </section>
 
     <script>
-        document.addEventListener('DOMContentLoaded', async function() {
+         document.addEventListener('DOMContentLoaded', async function() {
             const urlParams = new URLSearchParams(window.location.search);
             const projectId = urlParams.get('project_id');
 
@@ -93,56 +90,50 @@
                 alert('Project ID is required');
                 return;
             }
-            const response = await fetch(`/PlaCo/backend/controllers/ProjectDetails.php?type=project_details&project_id=${projectId}`);
+            const response = await fetch(`/PlaCo/backend/controllers/ProjectDetails.php?type=project_details_finishing&project_id=${projectId}`);
             const project = await response.json();
 
             document.getElementById('project-title').textContent = project.title;
             document.getElementById('project-city').textContent = project.city;
             document.getElementById('project-budget').textContent = project.budget;
             document.getElementById('project-description').textContent = project.description;
-
-            if (project.applied) {
-                document.getElementById('apply-button').style.display = 'none';
-                document.getElementById('applied-message').style.display = 'block';
+            if (project.state) {
+                document.getElementById('finish-button').style.display = 'none';
+                document.getElementById('finished-message').style.display = 'block';
             } else {
-                document.getElementById('apply-button').addEventListener('click', function() {
-                document.getElementById('application-form').style.display = 'block';
-                });
+                document.getElementById('finish-button').addEventListener('click', async function() {
+                try {
+                    const response = await fetch('/PlaCo/backend/controllers/ProjectDetails.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            type: 'finish_project',
+                            project_id: projectId
+                        })
+                    });
 
-                document.getElementById('apply-form').addEventListener('submit', async function(event) {
-                event.preventDefault();
+                    if (!response.ok) {
+                        throw new Error('Failed to mark project as finished');
+                    }
 
-                const motivation = document.getElementById('motivation').value;
-                const budget_offered = document.getElementById('budget_offered').value;
-                const offer = {
-                    type: 'save_offer',
-                    project_id: projectId,
-                    motivation: motivation,
-                    budget_offered: budget_offered
-                };
-                
-
-                const offerResponse = await fetch(`/PlaCo/backend/controllers/ProjectDetails.php`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(offer)
-                });
-
-                const offerResult = await offerResponse.json();
-
-                if (offerResult.status === 'success') {
-                    alert('Offer submitted successfully');
-                    document.getElementById('application-form').style.display = 'none';
-                    document.getElementById('apply-button').style.display = 'none';
-                    document.getElementById('applied-message').style.display = 'block';
-                } else {
-                    alert('Failed to submit offer');
+                    const responseData = await response.json();
+                    if (responseData.status === 'success') {
+                        document.getElementById('finish-button').style.display = 'none';
+                        document.getElementById('finished-message').style.display = 'block';
+                    } else {
+                        throw new Error('Failed to mark project as finished');
+                    }
+                } catch (error) {
+                    console.error('Error marking project as finished:', error);
+                    alert('Failed to mark project as finished');
                 }
             });
-        }
+
+            }
     });
+
     </script>
 </body>
 </html>

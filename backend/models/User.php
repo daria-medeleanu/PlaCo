@@ -288,6 +288,12 @@
             $this->db->bind(':user_id', $userId);
             return $this->db->resultSetAssoc();
         }
+        public function getProjectsInProgress($userId) {
+            $query = "SELECT id, title FROM project WHERE freelancer_chosen_id=:user_id";
+            $this->db->query($query);
+            $this->db->bind(':user_id', $userId);
+            return $this->db->resultSetAssoc();
+        }
         public function getFreelancers($city = null, $skills = null, $search = null) {
             $query = "SELECT * FROM user_profile WHERE user_type = 'freelancer'";
             $bindParams = [];
@@ -345,14 +351,49 @@
 
             return $projectDetails;
         }
+        public function getProjectDetailsState($projectId, $freelancerId) {
+            $query = "SELECT * FROM project WHERE id = :project_id";
+            $this->db->query($query);
+            $this->db->bind(':project_id', $projectId);
+            $projectDetails = $this->db->single();
+
+            $projectDetails->state = $this->hasFinished($projectId);
+
+            return $projectDetails;
+        }
+        public function hasFinished($projectId) {
+            $query = "SELECT state FROM project WHERE id = :project_id";
+            $this->db->query($query);
+            $this->db->bind(':project_id', $projectId);
+            $result = $this->db->single();
+        
+            if ($result) {
+                return $result->state === 'finished' ? true : false;
+            } else {
+                return false; 
+            }
+        }
+        public function finishProject($projectId) {
+            $query = "UPDATE project SET state = 'finished' WHERE id = :project_id";
+            $this->db->query($query);
+            $this->db->bind(':project_id', $projectId);
+            return $this->db->execute();
+        }
+
         public function getProjectDetailsClient($projectId) {
             $query = "SELECT * FROM project WHERE id = :project_id";
             $this->db->query($query);
             $this->db->bind(':project_id', $projectId);
             return $this->db->single();
         }
+        public function getChosenFreelancer($projectId) {
+            $query = "SELECT freelancer_chosen_id FROM project WHERE id = :project_id";
+            $this->db->query($query);
+            $this->db->bind(':project_id', $projectId);
+            return $this->db->single();
+        }
         public function getProjectOffers($projectId) {
-            $query = "SELECT o.budget_offered, o.motivation, u.name 
+            $query = "SELECT o.budget_offered, o.motivation, u.name, o.freelancer_id 
               FROM offers o
               INNER JOIN user_profile u ON o.freelancer_id = u.id
               WHERE o.project_id = :project_id";
@@ -370,17 +411,37 @@
             return $result->count > 0;
         }
     
-        public function saveOffer($data) {
+        public function saveOffer($freelancer_id, $projectId, $budget_offered, $motivation) {
             $query = "INSERT INTO offers (project_id, freelancer_id, budget_offered, motivation) 
                       VALUES (:project_id, :freelancer_id, :budget_offered, :motivation)";
             $this->db->query($query);
-            $this->db->bind(':project_id', $data['project_id']);
-            $this->db->bind(':freelancer_id', $data['freelancer_id']);
-            $this->db->bind(':budget_offered', $data['budget_offered']);
-            $this->db->bind(':motivation', $data['motivation']);
+            $this->db->bind(':project_id', $projectId);
+            $this->db->bind(':freelancer_id', $freelancer_id);
+            $this->db->bind(':budget_offered', $budget_offered);
+            $this->db->bind(':motivation', $motivation);
     
             return $this->db->execute();
         }
+        public function chooseFreelancer($projectId, $freelancerChosenId){
+            $query ="UPDATE project SET freelancer_chosen_id=:freelancer_id, progress=true WHERE id = :project_id ";
+            $this->db->query($query);
+            $this->db->bind(':freelancer_id', $freelancerChosenId);
+            $this->db->bind(':project_id', $projectId);
+            if ($this->db->execute()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        public function getProjectProgressStatus($projectId) {
+            $query = "SELECT progress FROM project WHERE id = :project_id";
+            $this->db->query($query);
+            $this->db->bind(':project_id', $projectId);
+            $result = $this->db->single();
+            return $result ? $result->progress : false;
+        }
+        
 
     }
 

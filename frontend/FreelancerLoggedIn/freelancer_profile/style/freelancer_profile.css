@@ -93,8 +93,18 @@ section {
     flex-direction: row;
     width: 50%;
 }
-
+.box .btn-projects{
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+}
 .box .btn-see-projects .boxBtn {
+    padding: 15px 40px;
+    background: #14213d;
+    font-family: Inter;
+    font-weight: bold;
+}
+.box .btn-projects .boxBtn {
     padding: 15px 40px;
     background: #14213d;
     font-family: Inter;

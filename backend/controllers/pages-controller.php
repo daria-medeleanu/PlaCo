@@ -9,6 +9,7 @@ class PagesController {
        'register'=> '/../../frontend/Login/SignUp.php',
        'add_to_portfolio'=> '/../../frontend/FreelancerLoggedIn/freelancer_profile/add_to_portfolio.php',
        'freelancer_profile'=>'/../../frontend/FreelancerLoggedIn/freelancer_profile/freelancer_profile.php',
+       'projects_in_progress'=>'/../../frontend/FreelancerLoggedIn/freelancer_profile/projects_in_progress.php',
        'my_portfolio'=>'/../../frontend/FreelancerLoggedIn/freelancer_profile/my_portfolio.php',
        'project'=>'/../../frontend/FreelancerLoggedIn/search_for_jobs/project.php',
        'search_for_jobs'=>'/../../frontend/FreelancerLoggedIn/search_for_jobs/search_for_jobs.php',

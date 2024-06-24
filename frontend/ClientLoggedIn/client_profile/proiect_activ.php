@@ -62,6 +62,46 @@
             profileMenu.style.display = this.checked ? 'block' : 'none';
             event.stopPropagation();
         });
+
+        async function chooseFreelancer(freelancerId, buttonElement) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const projectId = urlParams.get('project_id');
+            if (!projectId) {
+                alert('Project ID is required');
+                return;
+            }
+            try {
+                const response = await fetch('/PlaCo/backend/controllers/ProjectDetails.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        type: 'choose_freelancer',
+                        project_id: projectId,
+                        freelancer_chosen_id: freelancerId
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to choose freelancer');
+                }
+
+                const responseData = await response.json();
+                if (responseData.status === 'success') {
+                    // Hide all buttons and show the chosen message
+                    const allButtons = document.querySelectorAll('.offer-item button');
+                    allButtons.forEach(button => button.style.display = 'none');
+                    
+                    buttonElement.parentElement.innerHTML = '<p>Freelancer chosen for this project</p>';
+                } else {
+                    throw new Error('Failed to choose freelancer');
+                }
+            } catch (error) {
+                console.error('Error choosing freelancer:', error);
+                alert('Failed to choose freelancer');
+            }
+        }
     </script>
 
     <section class="project-details">
@@ -75,64 +115,68 @@
             </div>
         </div>
         <div class="offers-container">
-        <h2>Offers for This Project</h2>
-        <div id="offers-list"></div>
-    </div>
+            <h2>Offers for This Project</h2>
+            <div id="offers-list"></div>
+        </div>
     </section>
 
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
             const urlParams = new URLSearchParams(window.location.search);
             const projectId = urlParams.get('project_id');
-            console.log(projectId);
-
             if (!projectId) {
                 alert('Project ID is required');
                 return;
             }
-        try{
-            const response = await fetch(`/PlaCo/backend/controllers/ProjectDetails.php?type=project_details_client&project_id=${projectId}`);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const projectData = await response.json();
-           // console.log(projectData);
+            try {
+                const response = await fetch(`/PlaCo/backend/controllers/ProjectDetails.php?type=project_details_client&project_id=${projectId}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const projectData = await response.json();
+                if (!projectData || !projectData.projectDetails) {
+                    throw new Error('Empty or invalid project data received');
+                }
 
-            if (!projectData || !projectData.projectDetails) {
-                throw new Error('Empty or invalid project data received');
-            }
+                const projectDetails = projectData.projectDetails;
+                const projectOffers = projectData.projectOffers;
+                const progressStatus = projectData.progress;
+                const freelancerChosenId = projectData.freelancer.freelancer_chosen_id;
 
-           // console.log(projectData.projectDetails);
-            const projectDetails = projectData.projectDetails;
-            const projectOffers = projectData.projectOffers;
-            console.log('Project data received from backend:', projectDetails);
-            console.log('Project data received from backend:', projectOffers);
+                document.getElementById('project-title').textContent = projectDetails.title;
+                document.getElementById('project-city').textContent = projectDetails.city;
+                document.getElementById('project-budget').textContent = projectDetails.budget;
+                document.getElementById('project-description').textContent = projectDetails.description;
 
-            document.getElementById('project-title').textContent = projectDetails.title;
-            document.getElementById('project-city').textContent = projectDetails.city;
-            document.getElementById('project-budget').textContent = projectDetails.budget;
-            document.getElementById('project-description').textContent = projectDetails.description;
+                const offersList = document.getElementById('offers-list');
+                let chosenFreelancer = null;
+                if (projectOffers && projectOffers.length > 0) {
+                    projectOffers.forEach(offer => {
+                        const offerItem = document.createElement('div');
+                        offerItem.classList.add('offer-item');
+                        offerItem.innerHTML = `
+                            <p><strong>Freelancer:</strong> ${offer.name}</p>
+                            <p><strong>Budget:</strong> ${offer.budget_offered}</p>
+                            <p><strong>Motivation:</strong> ${offer.motivation}</p>
+                        `;
 
-             const offersList = document.getElementById('offers-list');
-             if (projectOffers && projectOffers.length > 0){
-                projectOffers.forEach(offer => {
-                const offerItem = document.createElement('div');
-                offerItem.classList.add('offer-item');
-                offerItem.innerHTML = `
-                
-                    <p><strong>Freelancer:</strong> ${offer.name}</p>
-                    <p><strong>Budget:</strong> ${offer.budget_offered}</p>
-                    <p><strong>Motivation:</strong> ${offer.motivation}</p>
-                `;
-                offersList.appendChild(offerItem);
-            });
-            }else {
-                offersList.innerHTML = '<p>No offers found for this project.</p>';
-            }
-        } catch (error) {
+                        if (progressStatus==0) {
+                            offerItem.innerHTML += `<button onclick="chooseFreelancer(${offer.freelancer_id}, this)">Choose this freelancer</button>`;
+                        } else if (freelancerChosenId && offer.freelancer_id == freelancerChosenId) {
+                            offerItem.innerHTML += '<p>You chose the freelancer: ' + offer.name + '</p>';
+                        chosenFreelancer = offer;
+                        }
+                        offersList.appendChild(offerItem);
+                        
+                    });
+                } else {
+                    offersList.innerHTML = '<p>No offers found for this project.</p>';
+                }
+               
+            } catch (error) {
                 console.error('Error fetching project data:', error);
             }
-    });
+        });
     </script>
 </body>
 </html>

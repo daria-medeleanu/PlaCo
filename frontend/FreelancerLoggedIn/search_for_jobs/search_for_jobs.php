@@ -98,21 +98,21 @@
 <script>
       async function fetchProjects() {
         const city = encodeURIComponent(document.getElementById('city').value);
-    const skills = encodeURIComponent(document.getElementById('skills').value);
-    const search = encodeURIComponent(document.querySelector('.search-container input').value);
+        const skills = encodeURIComponent(document.getElementById('skills').value);
+        const search = encodeURIComponent(document.querySelector('.search-container input').value);
 
-    console.log('Fetching projects with:', { city, skills, search });
 
-    const response = await fetch(`/PlaCo/backend/controllers/Projects.php?type=fetch_projects&city=${city}&skills=${skills}&search=${search}`);
+        const response = await fetch(`/PlaCo/backend/controllers/Projects.php?type=fetch_projects&city=${city}&skills=${skills}&search=${search}`);
     
             const projects = await response.json();
             displayProjects(projects);
         }
 
+
         function displayProjects(projects) {
             const projectsList = document.querySelector('.projects-list');
             projectsList.innerHTML = '';
-
+           // console.log(projects);
             projects.forEach(project => {
                 const projectBox = document.createElement('a');
                 projectBox.href = `/home/project?project_id=${project.id}`;

@@ -8,10 +8,6 @@ class ProjectsController {
         $this->userModel = new User();
     }
 
-    // public function getProjects() {
-    //     $projects = $this->userModel->getAllProjects();
-    //     echo json_encode($projects); // Echo the projects as JSON
-    // }
     public function getProjects() {
         $city = isset($_GET['city']) ? $_GET['city'] : null;
         $skills = isset($_GET['skills']) ? $_GET['skills'] : null;
