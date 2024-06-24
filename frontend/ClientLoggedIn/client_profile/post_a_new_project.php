@@ -90,7 +90,11 @@
                 </datalist>
                 <button type="button" id="addTag">Add</button>
             </div>
-            <div class="selected-tags" id="selectedTags"></div>
+            <div class="selected-tags-wrapper" style="display:flex; flex-direction:column  ">
+                <div class="selected-tags" id="selectedTags"></div>
+                <div id="message"></div>
+            </div>
+
 
             <label for="budget">What is your estimated budget?</label>
             <div class="budget-container">
@@ -230,10 +234,20 @@
         });
 
         addTagBtn.addEventListener('click', async function(event) {
+            messageDiv.textContent='';
             event.preventDefault(); 
 
             const selectedTagName = tagsInput.value.trim();
             if (selectedTagName === '') return; 
+
+            const existingTags = document.querySelectorAll('#selectedTags div');
+            for (let tag of existingTags) {
+                if (tag.textContent === selectedTagName + 'X') {
+                    messageDiv.textContent='This tag has already been added.';
+                    messageDiv.style.color = 'red';
+                    return;
+                }
+            }
 
             const tagExists = document.querySelector(`#tagList option[value="${selectedTagName}"]`);
 
@@ -242,7 +256,6 @@
                 newTagOption.value = selectedTagName;
                 tagList.appendChild(newTagOption);
             }
-
             const selectedTagDiv = document.createElement('div');
             selectedTagDiv.textContent = selectedTagName;
 
@@ -274,8 +287,7 @@
                 });
 
                 const data = await response.json();
-                console.log('Tag added successfully:', data);
-                // Handle success if needed
+                // console.log('Tag added successfully:', data);
             } catch (error) {
                 console.error('Error adding tag:', error);
             }
@@ -295,7 +307,7 @@
                     currency:currencyInput.value,
                     city:cityInput.value 
                 };
-                console.log('Request Body:', requestBody);
+                // console.log('Request Body:', requestBody);
                 try {
                     const response = await fetch('/PlaCo/backend/controllers/User.php', {
                         method: 'POST',
@@ -306,20 +318,18 @@
                     });
 
                     const result = await response.json();
-                    console.log(result);
                     if (response.ok) {
                         messageDiv.textContent = 'Project posted successfully!';
                         messageDiv.style.color = 'green';
                         projectForm.reset();
                         selectedTagsContainer.innerHTML = '';
                         
-                        //uploading the files only if the project was successfully uploaded
                         const formData = new FormData();
                         validFiles.forEach(file => {
                             formData.append('file[]', file);
                         });
                         formData.append('project_id', result.project_id);
-                        console.log(validFiles);
+
                         formData.append('type', 'post_project');
                         formData.append('type', 'post_project');
                         formData.append('type', 'post_project');
@@ -331,7 +341,6 @@
                         })
                         .then(response => response.json())
                         .then(data => {
-                            console.log(data);
                             if (data.message === 'Files successfully uploaded') {
                                 
                                 window.location.href = '/home/client_profile?success=Project posted successfully';
@@ -359,7 +368,6 @@
         let selectedCurrency = '';
         let selectedBudget = '';
         let selectedCity = '';
-        // Function to set the selected option as the input value
         function setInputValue(inputId, selectedOption) {
             document.getElementById(inputId).value = selectedOption;
         }
