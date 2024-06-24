@@ -192,6 +192,7 @@
             }
         }
         public function postProject($data) {
+            console_log('intra aici');
             if(!isset($_SESSION)){
                 session_start();
             }
@@ -244,29 +245,16 @@
             $title = isset($data['title']) ? trim($data['title']) : '';
             $description = isset($data['description']) ? trim($data['description']) : '';
             $skills = isset($data['skills']) ? $data['skills'] : [];
-            $files = [];
             $uploadDir = '/PlaCo/backend/controllers/uploads2/';
     
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0755, true);
             }
             
-            if (!empty($_FILES['file']['name'])) {
-                foreach ($_FILES['file']['tmp_name'] as $key => $tmp_name) {
-                    $filename = basename($_FILES['file']['name'][$key]);
-                    $targetFile = $uploadDir . $filename;
-    
-                    if (move_uploaded_file($tmp_name, $targetFile)) {
-                        $files[] = $targetFile;
-                    } else {
-                        error_log("Failed to move uploaded file: " . $filename);
-                    }
-                }
-            }
+            
             $portfolioData = [
                 'title' => $title,
                 'description' => $description,
-                'files' => implode(',', $files),
                 'owner_id' => $_SESSION['id']
             ];
             $portfolioId = $this->userModel->savePortfolio($portfolioData);
@@ -304,6 +292,7 @@
                     $init->postProject($data);
                     break;
                 case 'post_portfolio':
+                    console_log('sigur intra aici');
                     $init->postPortfolio($data);
                     break;
                 default:

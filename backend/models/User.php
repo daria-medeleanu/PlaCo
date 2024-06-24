@@ -117,8 +117,8 @@
             }
         }
         public function savePortfolio($data) {
-            $this->db->query('INSERT INTO portfolio_item (title, description, files, owner_id) 
-                              VALUES (:title, :description, :files, :owner_id)');
+            $this->db->query('INSERT INTO portfolio_item (title, description, owner_id) 
+                              VALUES (:title, :description, :owner_id)');
             
             $this->db->bind(':title', $data['title']);
             $this->db->bind(':description', $data['description']);
