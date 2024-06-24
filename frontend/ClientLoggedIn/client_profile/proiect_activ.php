@@ -74,26 +74,64 @@
                 <p id="project-description"></p>
             </div>
         </div>
+        <div class="offers-container">
+        <h2>Offers for This Project</h2>
+        <div id="offers-list"></div>
+    </div>
     </section>
 
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
             const urlParams = new URLSearchParams(window.location.search);
             const projectId = urlParams.get('project_id');
+            console.log(projectId);
 
             if (!projectId) {
                 alert('Project ID is required');
                 return;
             }
+        try{
+            const response = await fetch(`/PlaCo/backend/controllers/ProjectDetails.php?type=project_details_client&project_id=${projectId}`);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const projectData = await response.json();
+           // console.log(projectData);
 
-            const response = await fetch(`/PlaCo/backend/controllers/ProjectDetails.php?project_id=${projectId}`);
-            const project = await response.json();
-            console.log('Project data received from backend:', project);
+            if (!projectData || !projectData.projectDetails) {
+                throw new Error('Empty or invalid project data received');
+            }
 
-            document.getElementById('project-title').textContent = project.title;
-            document.getElementById('project-city').textContent = project.city;
-            document.getElementById('project-budget').textContent = project.budget;
-            document.getElementById('project-description').textContent = project.description;
+           // console.log(projectData.projectDetails);
+            const projectDetails = projectData.projectDetails;
+            const projectOffers = projectData.projectOffers;
+            console.log('Project data received from backend:', projectDetails);
+            console.log('Project data received from backend:', projectOffers);
+
+            document.getElementById('project-title').textContent = projectDetails.title;
+            document.getElementById('project-city').textContent = projectDetails.city;
+            document.getElementById('project-budget').textContent = projectDetails.budget;
+            document.getElementById('project-description').textContent = projectDetails.description;
+
+             const offersList = document.getElementById('offers-list');
+             if (projectOffers && projectOffers.length > 0){
+                projectOffers.forEach(offer => {
+                const offerItem = document.createElement('div');
+                offerItem.classList.add('offer-item');
+                offerItem.innerHTML = `
+                
+                    <p><strong>Freelancer:</strong> ${offer.name}</p>
+                    <p><strong>Budget:</strong> ${offer.budget_offered}</p>
+                    <p><strong>Motivation:</strong> ${offer.motivation}</p>
+                `;
+                offersList.appendChild(offerItem);
+            });
+            }else {
+                offersList.innerHTML = '<p>No offers found for this project.</p>';
+            }
+        } catch (error) {
+                console.error('Error fetching project data:', error);
+            }
     });
     </script>
 </body>

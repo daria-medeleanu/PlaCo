@@ -76,6 +76,7 @@
             activeProjects.forEach(item => {
                 const projectBox = document.createElement('div');
                 projectBox.classList.add('project');
+                console.log(item.id);
 
                 const projectLink = document.createElement('a');
                 projectLink.href = `/PlaCo/frontend/ClientLoggedIn/client_profile/proiect_activ.php?project_id=${item.id}`;
@@ -106,14 +107,7 @@
     </script>
 
     <div class="project-container" id="projectContainer">
-        <!-- <div class="project" id="project1">
-            <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/project.jpg" alt="Project 1" class="project-image">
-            <div class="project-title">Project 1</div>
-        </div>
-        <a href="/home/post_a_project" class="add-project">
-            <div class="add-symbol">+</div>
-            <div class="add-text">Add a new project</div>
-        </a> -->
+    
     </div>
 
 

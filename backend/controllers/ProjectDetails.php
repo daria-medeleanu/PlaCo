@@ -30,7 +30,15 @@ class ProjectDetails {
 
         $projectId = $_GET['project_id'];
         $projectDetails = $this->userModel->getProjectDetailsClient($projectId);
-        echo json_encode($projectDetails);
+        $projectOffers = $this->userModel->getProjectOffers($projectId);
+    
+    $projectData = [
+        'projectDetails' => $projectDetails,
+        'projectOffers' => $projectOffers
+    ];
+
+   // console_log($projectData);
+    echo  json_encode($projectData);
     }
 
     public function saveOffer() {
@@ -63,7 +71,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     break;
                 case 'project_details_client':
                     $project->getProjectDetailsClient();
-                    break;default:
+                    break;
+                default:
                     http_response_code(400);
                     echo json_encode(['status' => 'error', 'message' => 'Invalid type']);
                     break;

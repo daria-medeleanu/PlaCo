@@ -247,13 +247,13 @@
             return $this->db->resultSetAssoc();
         }
         public function getActiveProjectsByUserId($userId) {
-            $query = "SELECT title FROM project WHERE owner_id = :user_id AND state = 'activ'";
+            $query = "SELECT id, title FROM project WHERE owner_id = :user_id AND state = 'activ'";
             $this->db->query($query);
             $this->db->bind(':user_id', $userId);
             return $this->db->resultSetAssoc();
         }
         public function getFinishedProjectsByUserId($userId) {
-            $query = "SELECT title FROM project WHERE owner_id = :user_id AND state = 'finished'";
+            $query = "SELECT id, title FROM project WHERE owner_id = :user_id AND state = 'finished'";
             $this->db->query($query);
             $this->db->bind(':user_id', $userId);
             return $this->db->resultSetAssoc();
@@ -315,6 +315,22 @@
 
             return $projectDetails;
         }
+        public function getProjectDetailsClient($projectId) {
+            $query = "SELECT * FROM project WHERE id = :project_id";
+            $this->db->query($query);
+            $this->db->bind(':project_id', $projectId);
+            return $this->db->single();
+        }
+        public function getProjectOffers($projectId) {
+            $query = "SELECT o.budget_offered, o.motivation, u.name 
+              FROM offers o
+              INNER JOIN user_profile u ON o.freelancer_id = u.id
+              WHERE o.project_id = :project_id";
+            $this->db->query($query);
+            $this->db->bind(':project_id', $projectId);
+            return $this->db->resultSetAssoc();
+        }
+        
         public function hasApplied($projectId, $freelancerId) {
             $query = "SELECT COUNT(*) as count FROM offers WHERE project_id = :project_id AND freelancer_id = :freelancer_id";
             $this->db->query($query);
