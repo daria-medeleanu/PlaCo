@@ -152,7 +152,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
 
         const result = await response.text();
         if (response.ok) {
-            // window.location.href = "/home/client_profile";
+            window.location.href = "/home/client_profile";
             console.log('Success');
         } else {
             console.error('Failed to update profile:', result.message);
@@ -277,8 +277,8 @@ document.getElementById('deleteProfile').addEventListener('click', handleProfile
                     } else {
                         throw new Error('Network response was not ok.');
                     }
-                }
-                return response.json();
+            }
+            return response.json();
         })
         .then(data => {
             // console.log(data);
