@@ -75,14 +75,17 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                 if (response.ok) {
                     // Store JWT in localStorage or sessionStorage
                     localStorage.setItem('jwt', textResponse.token);
+                    
                     // Redirect to appropriate profile page based on user type
                     if (textResponse.user_type === "client") {
                         window.location.href = '/home/client_profile';
                     } else if (textResponse.user_type === "freelancer") {
                         window.location.href = '/home/freelancer_profile';
+                    } else if(textResponse.user_type === "administrator"){
+                        window.location.href = '/home/admin';
                     }
                 } else {
-                    document.getElementById('message').textContent = responseData.message;
+                    document.getElementById('message').textContent = response.message;
                 }
 
             } catch (error) {

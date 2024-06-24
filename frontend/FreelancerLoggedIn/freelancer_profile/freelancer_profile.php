@@ -54,12 +54,10 @@
         </div>
     </section>
      <section class="box">
-        <div class="btn-see-projects">
-            <div class="boxBtn"><a href="/home/my_portfolio" > See Portfolio</a> </div>
-        </div>
-        <div class="btn-projects">
-            <div class="boxBtn"><a href="/home/projects_in_progress" > Projects in progress</a> </div>
-        </div>
+            <div class="btn-see-projects">
+                <div class="boxBtn"><a href="/home/my_portfolio" > See Portfolio</a> </div>
+                <div class="boxBtn"><a href="/home/projects_in_progress" > Projects in progress</a> </div>
+            </div>
         <div class="btn-edit-profile">
             <div class="boxBtn"><a href="/home/settings_freelancer" >Edit Profile</a> </div>
         </div>

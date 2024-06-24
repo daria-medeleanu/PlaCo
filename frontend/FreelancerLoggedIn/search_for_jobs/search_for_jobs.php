@@ -77,10 +77,32 @@
                 <div class="filter">
                     <label for="city">City:</label>
                     <select id="city">
-                        <option value="all">All</option>
-                        <option value="iasi">Iasi</option>
-                        <option value="timisoara">Timisoara</option>
-                        <option value="vaslui">Vaslui</option>
+                    <option value="all">All</option>
+                    <option value="București">București</option>
+                    <option value="Cluj-Napoca">Cluj-Napoca</option>
+                    <option value="Timișoara">Timișoara</option>
+                    <option value="Iași">Iași</option>
+                    <option value="Constanța">Constanța</option>
+                    <option value="Craiova">Craiova</option>
+                    <option value="Brașov">Brașov</option>
+                    <option value="Galați">Galați</option>
+                    <option value="Ploiești">Ploiești</option>
+                    <option value="Oradea">Oradea</option>
+                    <option value="Brăila">Brăila</option>
+                    <option value="Arad">Arad</option>
+                    <option value="Pitești">Pitești</option>
+                    <option value="Sibiu">Sibiu</option>
+                    <option value="Bacău">Bacău</option>
+                    <option value="Târgu Mureș">Târgu Mureș</option>
+                    <option value="Baia Mare">Baia Mare</option>
+                    <option value="Buzău">Buzău</option>
+                    <option value="Botoșani">Botoșani</option>
+                    <option value="Satu Mare">Satu Mare</option>
+                    <option value="Râmnicu Vâlcea">Râmnicu Vâlcea</option>
+                    <option value="Suceava">Suceava</option>
+                    <option value="Piatra Neamț">Piatra Neamț</option>
+                    <option value="Drobeta-Turnu Severin">Drobeta-Turnu Severin</option>
+                    <option value="Târgu Jiu">Târgu Jiu</option>
                     </select>
                 </div>
                 <div class="filter">

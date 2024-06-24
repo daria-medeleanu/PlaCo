@@ -90,7 +90,7 @@
 
             addProjectLink.innerHTML = `
                 <div class="add-symbol">+</div>
-                <div class="add-text">Add a new project</div>
+                <div class="add-text">Add a new portfolio item</div>
             `;
 
             projectContainer.appendChild(addProjectLink);

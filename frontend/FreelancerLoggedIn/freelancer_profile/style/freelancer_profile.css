@@ -8,6 +8,27 @@ section {
 	section {
 		padding: 80px 50px 30px 50px;
 	}
+    .box .btn-see-projects {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: normal;
+	}
+	
+	.box .btn-see-projects .boxBtn {
+		margin-right: 20px;
+		margin-top: 20px;
+		padding: 10px 15px;
+		background: #14213d;
+		font-family: Inter;
+		font-weight: bold;
+	}
+	
+	.box .btn-see-projects .boxBtn a {
+		color: #fff;
+		font-size: 16px;
+		font-style: bold;
+	}
 }
 @media (max-width: 600px) {
 	section {
@@ -85,18 +106,27 @@ section {
 	background-color: #fca311;
 	display: flex;
 	flex-direction: row;
+	flex-wrap: wrap;
 	justify-content: space-between;
+}
+.box .btn-wrapper{
+    display:flex;
+    flex-direction:row;
 }
 
 .box .btn-see-projects {
     display: flex;
-    flex-direction: row;
-    width: 50%;
+    margin-right: 10px;
+    /* flex-direction: row; */
+    /* width: 50%; */
+}
+.box .btn-edit-profile{
+    display:flex;
 }
 .box .btn-projects{
     display: flex;
-    flex-direction: row;
-    width: 50%;
+    /* flex-direction: row; */
+    /* width: 50%; */
 }
 .box .btn-see-projects .boxBtn {
     padding: 15px 40px;
@@ -110,6 +140,13 @@ section {
     font-family: Inter;
     font-weight: bold;
 }
+.box .btn-edit-profile .boxBtn {
+    padding: 15px 40px;
+    background: #14213d;
+    font-family: Inter;
+    font-weight: bold;
+}
+
 
 .box .btn-see-projects .boxBtn a {
     color: #fff;
@@ -117,20 +154,20 @@ section {
     font-style: bold;
 }
 
-@media (max-width: 600px){
+@media (max-width: 723px){
 	
 	.box .btn-see-projects {
-		display: flex;
+		/* display: flex;
 		flex-direction: row;
-		width: 50%;
+		width: 50%; */
 	}
 	
 	.box .btn-see-projects .boxBtn {
-		padding: 10px 15px;
+		/* padding: 10px 15px; */
 	}
 	
 	.box .btn-see-projects .boxBtn a {
-		font-size: 16px;
+		/* font-size: 16px; */
 	}
 	
 }
@@ -174,6 +211,129 @@ section {
 		flex-direction: column;
 		margin-bottom: 20px;
 	}
+}
+
+@media (max-width: 455px){
+	.box{
+		align-content: center;
+		display: flex;
+		flex-direction: column;
+	}
+}
+
+.box .btn-see-projects {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+}
+
+.box .btn-see-projects .boxBtn {
+    padding: 15px 15px;
+	margin-right: 20px;
+    background: #14213d;
+    font-family: Inter;
+    font-weight: bold;
+}
+
+.box .btn-see-projects .boxBtn a {
+    color: #fff;
+    font-size: 20px;
+    font-style: bold;
+}
+@media (max-width: 1000px){
+
+	.box .btn-see-projects {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: normal;
+	}
+	
+	.box .btn-see-projects .boxBtn {
+		margin-right: 20px;
+		margin-top: 20px;
+		padding: 10px 15px;
+		background: #14213d;
+		font-family: Inter;
+		font-weight: bold;
+	}
+	
+	.box .btn-see-projects .boxBtn a {
+		color: #fff;
+		font-size: 16px;
+		font-style: bold;
+	}
+}
+@media (max-width: 455px){
+	.box .btn-see-projects {
+		align-items: center;
+		flex-direction: column;
+	}
+	.box .btn-see-projects .boxBtn {
+        margin-right: 0px;
+	}
+}
+
+.box .btn-edit-profile {
+    display: flex;
+    flex-direction: row;
+}
+
+.box .btn-edit-profile .boxBtn {
+    padding: 15px 15px;
+    background: #14213d;
+    font-family: Inter;
+    font-weight: bold;
+}
+
+.box .btn-edit-profile .boxBtn a {
+    color: #fff;
+    font-size: 20px;
+    font-style: bold;
+}
+@media (max-width: 1000px){
+	.box .btn-edit-profile {
+		display: flex;
+		flex-direction: row;
+		margin-top: 20px;
+	}
+	
+	.box .btn-edit-profile .boxBtn {
+		padding: 10px 15px;
+		background: #14213d;
+		font-family: Inter;
+		font-weight: bold;
+	}
+	
+	.box .btn-edit-profile .boxBtn a {
+		color: #fff;
+		font-size: 16px;
+		font-style: bold;
+	}
+}
+@media (max-width: 455px){
+    .box{
+        width: 100%;
+    }
+    .box .btn-edit-profile {
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+    }
+    .box .btn-edit-profile .boxBtn{
+        width: 100%;
+        text-align:center;
+    }
+    .box .btn-see-projects {
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+    }
+    .box .btn-see-projects .boxBtn{
+        width: 100%;
+        text-align:center;
+    }
 }
 .review {
     padding-top: 30px;

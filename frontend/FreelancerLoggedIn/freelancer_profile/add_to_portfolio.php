@@ -87,9 +87,9 @@
                 <button type="button" id="addTag">Add</button>
             </div>
             <div class="selected-tags" id="selectedTags"></div>
+            <div id="message"></div>
             
             <button type="submit">Save</button>
-            <div id="message"></div>
         </form>
     </div>
 
@@ -194,10 +194,18 @@
 
         addSkillBtn.addEventListener('click', async function(event) {
             event.preventDefault(); 
+            messageDiv.textContent = '';
 
             const selectedSkillName = skillsInput.value.trim();
             if (selectedSkillName === '') return;
-
+            const existingSkills = document.querySelectorAll('#selectedTags div');
+            for (let tag of existingSkills) {
+                if (tag.textContent === selectedSkillName + 'X') {
+                    messageDiv.textContent='This skill has already been added.';
+                    messageDiv.style.color = 'red';
+                    return;
+                }
+            }
             const skillExists = document.querySelector(`#skillList option[value="${selectedSkillName}"]`);
 
             if (!skillExists) {
@@ -290,12 +298,11 @@
                             method: 'POST',
                             body: formData,
                         })
-                        .then(response => response.text())
+                        .then(response1 => response1.json())
                         .then(data => {
-                            console.log(data);
-                            if (data.message === 'Files successfully uploaded') {
-                                
-                                window.location.href = '/home/client_profile?success=Project posted successfully';
+                            console.log('data', data);
+                            if (data.message == "Files successfully uploaded") {
+                                window.location.href = '/home/freelancer_profile?success=Project posted successfully';
                             } else {
                                 const message = document.getElementById('uploadedFiles');
                                 message.textContent = data.message;
