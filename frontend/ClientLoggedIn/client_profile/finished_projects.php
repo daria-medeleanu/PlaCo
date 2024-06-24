@@ -45,26 +45,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
         </a>
     </div>
     <div class="project-container" id="projectContainer">
-        <div class="project" id="project1">
-            <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/project.jpg" alt="Project 1" class="project-image">
-            <div class="project-title">Project 1</div>
-        </div>
-        <div class="project">
-            <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/project.jpg" alt="Project 2" class="project-image">
-            <div class="project-title">Project 2</div>
-        </div>
-        <div class="project" >
-            <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/project.jpg" alt="Project 3" class="project-image">
-            <div class="project-title">Project 3</div>
-        </div>
-        <div class="project" >
-            <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/project.jpg" alt="Project 4" class="project-image">
-            <div class="project-title">Project 4</div>
-        </div>
-        <div class="project" >
-            <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/project.jpg" alt="Project 5" class="project-image">
-            <div class="project-title">Project 5</div>
-        </div>
     </div>
 
     <script>
@@ -89,6 +69,31 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
             profileMenu.style.display = this.checked ? 'block' : 'none';
             event.stopPropagation();
         });
+        async function fetchFinishedProjects() {
+            const response = await fetch(`/PlaCo/backend/controllers/MyProjects.php?type=finished_projects`);
+            const finishedProjects = await response.json();
+            displayFinishedProjects(finishedProjects);
+        }
+
+        function displayFinishedProjects(finishedProjects) {
+            const projectContainer = document.getElementById('projectContainer');
+            projectContainer.innerHTML = '';
+
+            finishedProjects.forEach(item => {
+                const projectBox = document.createElement('div');
+                projectBox.classList.add('project');
+
+                projectBox.innerHTML = `
+                    <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/project.jpg" alt="${item.title}" class="project-image">
+                    <div class="project-title">${item.title}</div>
+                `;
+
+                projectContainer.appendChild(projectBox);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchFinishedProjects);
+
     </script>
 </body>
 </html>

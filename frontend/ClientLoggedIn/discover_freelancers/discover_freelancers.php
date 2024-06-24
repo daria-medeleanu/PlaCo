@@ -1,8 +1,4 @@
-<?php 
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/User.php';
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
-    ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,8 +64,8 @@
             profileMenu.style.display = this.checked ? 'block' : 'none';
             event.stopPropagation();
         });
-    </script>
-    <section>
+        </script>
+        <section>
         <div class="sidebar">
             <form class="search-container">
                 <input type="text" placeholder="Search...">
@@ -79,13 +75,6 @@
             </form>
             <div class="filters-box">
                 <h2>Filters</h2>
-                <div class="filter">
-                    <label for="country">Country:</label>
-                    <select id="country">
-                        <option value="all">All</option>
-                        <option value="romania">Romania</option>
-                    </select>
-                </div>
                 <div class="filter">
                     <label for="city">City:</label>
                     <select id="city">
@@ -104,54 +93,67 @@
         </div>
         <div class="main-content">
             <div class="freelancers-list">
-                <div onclick="myhref('/home/freelancer_profile');"  class="freelancer-box">
-                    <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/profile-icon.png" alt="img" />
-                    <div class="freelancer-text-input">
-                        <h2>NumeFreelancer</h2>
-                        <div class="text-container">
-                           <div class="title"><h3>Proffesional areas: </h3></div>
-                            <div class="content-tags">
-                                <p>light instalation</p>
-                                <p>window repair</p>
-                            </div>
-                        </div>
-                        <div class="text-container">
-                            <div class="title"><h3>Address: </h3></div>
-                             <div class="content"><p>blabla</p></div>
-                         </div>
-                        <div class="freelancer-hire-button">
-                            <div class="boxBtn"><a href="#" >Send Hire Request</a> </div>
-                        </div>
-                    </div>
-                </div>
-                <div onclick="myhref('/home/freelancer_profile');" class="freelancer-box">
-                    <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/profile-icon.png" alt="img"/>
-                    <div class="freelancer-text-input">
-                        <h2>NumeFreelancer</h2>
-                        <div class="text-container">
-                           <div class="title"><h3>Proffesional areas: </h3></div>
-                            <div class="content-tags">
-                                <p>wall painter</p>
-                                <p>floor instalation</p>
-                                <p>electrician</p>
-                                <p>electrician</p>
-                            </div>
-                        </div>
-                        <div class="text-container">
-                            <div class="title"><h3>Address: </h3></div>
-                             <div class="content"><p>blabla</p></div>
-                         </div>
-                        <div class="freelancer-hire-button">
-                            <div class="boxBtn"><a href="#" >Send Hire Request</a> </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
-    <script type="text/javascript">
-        function myhref(web){
-          window.location.href = web;}
+        <script>
+        async function fetchFreelancers() {
+            const city = encodeURIComponent(document.getElementById('city').value);
+            const skills = encodeURIComponent(document.getElementById('skills').value);
+            const search = encodeURIComponent(document.querySelector('.search-container input').value);
+
+            console.log('Fetching freelancers with:', { city, skills, search });
+
+            const response = await fetch(`/PlaCo/backend/controllers/Freelancers.php?city=${city}&skills=${skills}&search=${search}`);
+            const freelancers = await response.json();
+            displayFreelancers(freelancers);
+        }
+
+        function displayFreelancers(freelancers) {
+            const freelancersList = document.querySelector('.freelancers-list');
+            freelancersList.innerHTML = '';
+
+            freelancers.forEach(freelancer => {
+                const freelancerBox = document.createElement('div');
+                freelancerBox.classList.add('freelancer-box');
+                freelancerBox.setAttribute('onclick', `myhref('/home/freelancer_profile?id=${freelancer.id}')`);
+                const skillsHtml = freelancer.skills.map(skill => `<p>${skill}</p>`).join('');
+                freelancerBox.innerHTML = `
+                    <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/profile-icon.png" alt="img" />
+                    <div class="freelancer-text-input">
+                        <h2>${freelancer.name}</h2>
+                        <div class="text-container">
+                            <div class="title"><h3>Professional areas: </h3></div>
+                            <div class="content-tags">${skillsHtml}</div>
+                        </div>
+                        <div class="text-container">
+                            <div class="title"><h3>Address: </h3></div>
+                            <div class="content"><p>${freelancer.address}</p></div>
+                        </div>
+                        <div class="freelancer-hire-button">
+                            <div class="boxBtn"><a href="#">Send Hire Request</a></div>
+                        </div>
+                    </div>
+                `;
+
+                freelancersList.appendChild(freelancerBox);
+            });
+        }
+
+        document.querySelector('.search-container').addEventListener('submit', function(event) {
+            event.preventDefault();
+            fetchFreelancers();
+        });
+
+        document.querySelector('.apply-btn').addEventListener('click', function(event) {
+            event.preventDefault();
+            fetchFreelancers();
+        });
+
+        document.addEventListener('DOMContentLoaded', fetchFreelancers);
+        function myhref(web) {
+            window.location.href = web;
+        }
     </script>
 </body>
 </html>
