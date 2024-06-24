@@ -63,15 +63,15 @@
     </script>
     <div class="container">
         <h1>Portfolio Item Upload</h1>
-        <form id="portfolioForm" action="your_server_side_script" method="post" enctype="multipart/form-data">
-            
+        <form id="portfolioForm" enctype="multipart/form-data">
+            <input type="hidden" name="type" value="post_portfolio">
             <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required>
+            <input type="text" id="titleInput" name="title" required>
             
             <label for="description">Portfolio Item Description:</label>
-            <textarea id="description" name="description" rows="6" required></textarea>
+            <textarea id="descriptionInput" name="description" rows="6" required></textarea>
 
-            <input type="file" id="file" name="file" multiple style="display: none;">
+            <input type="file" id="file" name="file[]" multiple style="display: none;">
             <label for="file" class="upload-label">+ Upload Files</label>
             <div class="uploaded-files" id="uploadedFiles"></div>
 
@@ -79,16 +79,13 @@
             <div class="tags-container">
                 <input type="text" id="tagsInput" list="tagList" placeholder="Enter or select tag">
                 <datalist id="tagList">
-                    <option>Tag 1</option>
-                    <option>Tag 2</option>
-                    <option>Tag 3</option>
-                    <option>Tag 4</option>
                 </datalist>
-                <button id="addTag">Add</button>
+                <button type="button" id="addTag">Add</button>
             </div>
             <div class="selected-tags" id="selectedTags"></div>
             
             <button type="submit">Save</button>
+            <div id="message"></div>
         </form>
     </div>
 
@@ -112,7 +109,7 @@
                 deleteButton.classList.add('delete-button');
                 deleteButton.innerHTML = 'X';
                 deleteButton.onclick = function() {
-                    uploadedFileDiv.remove(); // Remove the uploaded file container
+                    uploadedFileDiv.remove(); 
                 };
 
                 uploadedFileDiv.appendChild(image);
@@ -121,52 +118,151 @@
             };
             fileReader.readAsDataURL(file);
         }
-        // Clear the file input value after processing files to allow selecting the same file again
+        
         event.target.value = '';
     });
 
     document.querySelector('.upload-label').addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent the default behavior of the label click event
+        event.preventDefault(); 
         document.getElementById('file').click();
     });
-    </script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const titleInput = document.getElementById('titleInput');
+        const descriptionInput = document.getElementById('descriptionInput');
+        const skillsInput = document.getElementById('tagsInput');
+        const skillList = document.getElementById('tagList');
+        const addSkillBtn = document.getElementById('addTag');
+        const portfolioForm = document.getElementById('portfolioForm');
+        const selectedSkillsContainer = document.getElementById('selectedTags');
+        const messageDiv = document.getElementById('message');
+        let skillsFetched = false;
 
-    <script> //tags
-        document.getElementById('addTag').addEventListener('click', function() {
-        event.preventDefault(); //ca sa nu mai apara required-ul de la title input
-        const tagsInput = document.getElementById('tagsInput');
-        const selectedTagsDiv = document.getElementById('selectedTags');
         
-        let selectedTagName = tagsInput.value.trim();
-        if (selectedTagName === '') return; // fara empty tags
+        async function fetchSkills(type) {
+            try {
+                const response = await fetch(`/PlaCo/backend/controllers/Tags.php?type=${type}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
 
-        // Check if the entered tag already exists among the predefined tags
-        const tagExists = document.querySelector(`#tagList option[value="${selectedTagName}"]`);
-        
-        if (!tagExists) {
-            // Create a new option to select the entered tag in the future
-            const newTagOption = document.createElement('option');
-            newTagOption.value = selectedTagName;
-            document.getElementById('tagList').appendChild(newTagOption);
+                const skills = await response.json();
+
+                skillList.innerHTML = '';
+                skills.forEach(skill => {
+                    const option = document.createElement('option');
+                    option.value = skill.skill_name;
+                    skillList.appendChild(option);
+                });
+
+                skillsFetched = true;
+            } catch (error) {
+                console.error('Error fetching skills:', error);
+            }
         }
 
-        // Create the selected tag element
-        const selectedTagDiv = document.createElement('div');
-        selectedTagDiv.textContent = selectedTagName;
-
-        const removeButton = document.createElement('button');
-        removeButton.textContent = 'X';
-        removeButton.classList.add('remove-tag');
-        removeButton.addEventListener('click', function() {
-            selectedTagDiv.remove();
-            removeButton.remove();
+        skillsInput.addEventListener('click', function() {
+            if (!skillsFetched) { 
+                fetchSkills('fetch_skills');
+            }
         });
 
-        selectedTagDiv.appendChild(removeButton);
-        selectedTagsDiv.appendChild(selectedTagDiv);
-        // Clear the input field
-        tagsInput.value = '';
-    });
+        addSkillBtn.addEventListener('click', async function(event) {
+            event.preventDefault(); 
+
+            const selectedSkillName = skillsInput.value.trim();
+            if (selectedSkillName === '') return;
+
+            const skillExists = document.querySelector(`#skillList option[value="${selectedSkillName}"]`);
+
+            if (!skillExists) {
+                const newSkillOption = document.createElement('option');
+                newSkillOption.value = selectedSkillName;
+                skillList.appendChild(newSkillOption);
+            }
+
+            const selectedSkillDiv = document.createElement('div');
+            selectedSkillDiv.textContent = selectedSkillName;
+
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'X';
+            removeButton.classList.add('remove-tag');
+            removeButton.addEventListener('click', function() {
+                selectedSkillDiv.remove();
+                removeButton.remove();
+            });
+
+            selectedSkillDiv.appendChild(removeButton);
+            selectedSkillsContainer.appendChild(selectedSkillDiv);
+
+            skillsInput.value = '';
+
+            try {
+                const requestBody = {
+                    type: 'add_skill',
+                    skill_name: selectedSkillName
+                };
+
+                const response = await fetch('/PlaCo/backend/controllers/Tags.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody),
+                });
+
+                const data = await response.json();
+                console.log('Skill added successfully:', data);
+                
+            } catch (error) {
+                console.error('Error adding Skill:', error);
+            }
+        });
+        portfolioForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                const selectedSkills = Array.from(document.querySelectorAll('.selected-tags div'))
+                                  .map(skillDiv => skillDiv.textContent.replace('X', '').trim());
+                const requestBody = {
+                    type: 'post_portfolio',
+                    title: titleInput.value,  
+                    description: descriptionInput.value ,
+                    skills: selectedSkills,
+                };
+                console.log('Request Body:', requestBody);
+                try {
+                    const response = await fetch('/PlaCo/backend/controllers/User.php', {
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                    });
+
+                    const result = await response.text();
+                    console.log(result);
+                    if (response.ok) {
+                        messageDiv.textContent = 'Portfolio item posted successfully!';
+                     
+                        messageDiv.style.color = 'green';
+                        portfolioForm.reset();
+                        selectedSkillsContainer.innerHTML = '';
+                    } else {
+                        messageDiv.textContent = 'Error posting portfolio item: ' + result.message;
+                        messageDiv.style.color = 'red';
+                    }
+                    
+                } catch (error) {
+                    console.error('Error posting portfolio item:', error);
+                    messageDiv.textContent = 'Error posting portfolio item';
+                    messageDiv.style.color = 'red';
+                }
+            });
+        });
+       
+
     </script>
+
+   
 </body>
 </html>

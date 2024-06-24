@@ -37,10 +37,10 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                 <input type="password" id="password" name="password" placeholder="Enter password" required>
                 <a class="wrapper-link" href="/home/ForgotPassword">Forgot your password?</a>
                 <button class="login-btn" type="submit" >Login</button>            
-                <div class="remember-me">
+                <!-- <div class="remember-me">
                     <input type="checkbox" id="remember-checkbox" name="remember">
                     <label for="remember-checkbox" class="checkbox-label">Remember me</label>
-                </div>
+                </div> -->
                 
                 <a class="wrapper-link" href="/home/register">Sign Up</a>
                 

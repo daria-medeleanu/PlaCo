@@ -80,4 +80,11 @@ class Database {
     public function rowCount(){
         return $this->stmt->rowCount();
     }
+    public function lastInsertId(){
+        return $this->dbh->lastInsertId();
+    }
+    public function resultSetAssoc() {
+        $this->execute();
+        return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

@@ -316,19 +316,109 @@
                 echo json_encode(['message' => 'Failed to delete profile']);
             }
         }
+        public function postProject($data) {
+            console_log('intra aici');
+            if(!isset($_SESSION)){
+                session_start();
+            }
+
+           if(!isset($_SESSION['id'])){
+               http_response_code(401);
+               echo json_encode(["message" => "Unauthorized"]);
+               return;
+           }
+            $title = isset($data['title']) ? trim($data['title']) : '';
+            $description = isset($data['description']) ? trim($data['description']) : '';
+            $currency = isset($data['currency']) ? trim($data['currency']) : '';
+            $budget = isset($data['budget']) ? trim($data['budget']) : '';
+            $city = isset($data['city']) ? trim($data['city']) : '';
+            $tags = isset($data['tags']) ? $data['tags'] : [];
+            
+            $projectData = [
+                'title' => $title,
+                'description' => $description,
+                'currency' => $currency,
+                'budget' => $budget,
+                'city'=>$city,
+                'owner_id' => $_SESSION['id']
+            ];
+        
+            // Save project and link tags
+            $projectId = $this->userModel->saveProject($projectData);
+            if ($projectId) {
+                foreach ($tags as $tag) {
+                    $tagId = $this->userModel->getOrCreateTag($tag);
+                    $this->userModel->linkProjectTag($projectId, $tagId);
+                }
+                http_response_code(201);
+                echo json_encode(['status' => 'success', 'message' => 'Project posted successfully', 'project_id' => $projectId]);
+            } else {
+                http_response_code(500);
+                echo json_encode(['status' => 'error', 'message' => 'Something went wrong']);
+            }
+        }
+        public function postPortfolio($data) {
+            if(!isset($_SESSION)){
+                session_start();
+            }
+
+           if(!isset($_SESSION['id'])){
+               http_response_code(401);
+               echo json_encode(["message" => "Unauthorized"]);
+               return;
+           }
+            $title = isset($data['title']) ? trim($data['title']) : '';
+            $description = isset($data['description']) ? trim($data['description']) : '';
+            $skills = isset($data['skills']) ? $data['skills'] : [];
+            $uploadDir = '/PlaCo/backend/controllers/uploads2/';
+    
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            
+            
+            $portfolioData = [
+                'title' => $title,
+                'description' => $description,
+                'owner_id' => $_SESSION['id']
+            ];
+            $portfolioId = $this->userModel->savePortfolio($portfolioData);
+            if ($portfolioId) {
+                foreach ($skills as $skill) {
+                    $skillId = $this->userModel->getOrCreateSkill($skill);
+                    $this->userModel->linkPortfolioSkill($portfolioId, $skillId);
+                }
+                http_response_code(201);
+                echo json_encode(['status' => 'success', 'message' => 'Portfolio item posted successfully', 'portfolio_id' => $portfolioId]);
+            } else {
+                http_response_code(500);
+                echo json_encode(['status' => 'error', 'message' => 'Something went wrong']);
+            }
+        }
+
+        
     }
+        
     $init = new Users;
     
     switch($_SERVER['REQUEST_METHOD']) {
         case 'POST':
             header('Content-Type: application/json');
             $data = json_decode(file_get_contents("php://input"), true);
+            
             switch($data['type']){
                 case 'register':
                     $init->register($data);
                     break;
                 case 'login':
                     $init->login($data);
+                    break;
+                case 'post_project':
+                    $init->postProject($data);
+                    break;
+                case 'post_portfolio':
+                    console_log('sigur intra aici');
+                    $init->postPortfolio($data);
                     break;
                 default:
                     http_response_code(400);

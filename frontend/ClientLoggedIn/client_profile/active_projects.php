@@ -1,7 +1,3 @@
-<?php 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,33 +40,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
             <i class="fa fa-bars"></i>
         </a>
     </div>
-    <div class="project-container" id="projectContainer">
-        <div class="project" id="project1">
-            <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/project.jpg" alt="Project 1" class="project-image">
-            <div class="project-title">Project 1</div>
-        </div>
-        <div class="project">
-            <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/project.jpg" alt="Project 2" class="project-image">
-            <div class="project-title">Project 2</div>
-        </div>
-        <div class="project" >
-            <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/project.jpg" alt="Project 3" class="project-image">
-            <div class="project-title">Project 3</div>
-        </div>
-        <div class="project" >
-            <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/project.jpg" alt="Project 4" class="project-image">
-            <div class="project-title">Project 4</div>
-        </div>
-        <div class="project" >
-            <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/project.jpg" alt="Project 5" class="project-image">
-            <div class="project-title">Project 5</div>
-        </div>
-        <a href="/home/post_a_project" class="add-project">
-            <div class="add-symbol">+</div>
-            <div class="add-text">Add a new project</div>
-        </a>
-    </div>
-
     <script>
         function toggleMenu() {
             var navRight = document.querySelector('.nav-right');
@@ -93,6 +62,54 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
             profileMenu.style.display = this.checked ? 'block' : 'none';
             event.stopPropagation();
         });
+
+        async function fetchActiveProjects() {
+            const response = await fetch(`/PlaCo/backend/controllers/MyProjects.php?type=active_projects`);
+            const activeProjects = await response.json();
+            displayActiveProjects(activeProjects);
+        }
+
+        function displayActiveProjects(activeProjects) {
+            const projectContainer = document.getElementById('projectContainer');
+            projectContainer.innerHTML = '';
+
+            activeProjects.forEach(item => {
+                const projectBox = document.createElement('div');
+                projectBox.classList.add('project');
+                console.log(item.id);
+
+                const projectLink = document.createElement('a');
+                projectLink.href = `/PlaCo/frontend/ClientLoggedIn/client_profile/proiect_activ.php?project_id=${item.id}`;
+                projectLink.classList.add('project-link');
+
+                projectBox.innerHTML = `
+                    <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/project.jpg" alt="${item.title}" class="project-image">
+                    <div class="project-title">${item.title}</div>
+                `;
+                projectLink.appendChild(projectBox);
+                projectContainer.appendChild(projectLink);
+            });
+
+            const addProjectLink = document.createElement('a');
+            addProjectLink.href = "/home/post_a_project";
+            addProjectLink.classList.add('add-project');
+
+            addProjectLink.innerHTML = `
+                <div class="add-symbol">+</div>
+                <div class="add-text">Add a new project</div>
+            `;
+
+            projectContainer.appendChild(addProjectLink);
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchActiveProjects);
+
     </script>
+
+    <div class="project-container" id="projectContainer">
+    
+    </div>
+
+
 </body>
 </html>

@@ -19,6 +19,7 @@ class PagesController {
         'post_a_project'=>'/../../frontend/ClientLoggedIn/client_profile/post_a_new_project.php',
         'discover_freelancers'=>'/../../frontend/ClientLoggedIn/discover_freelancers/discover_freelancers.php',
         'settings_client'=>'/../../frontend/ClientLoggedIn/settings/settings.php',
+        'proiect_activ'=>'/../../frontend/ClientLoggedIn/client_profile/proiect_activ.php',
     ];
 
     public function handleRequest() {
