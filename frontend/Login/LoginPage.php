@@ -70,31 +70,19 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
                     body: JSON.stringify(requestBody)
                 });
 
-                const textResponse = await response.text();
+                const textResponse = await response.json();
                 console.log('Raw Response:', textResponse);
-
-                try {
-                    const result = JSON.parse(textResponse);
-                    console.log('Parsed JSON Response:', result);
-
-                    const messageDiv = document.getElementById('message');
-                    if (response.ok) {
-                        messageDiv.textContent = result.message;
-                        messageDiv.style.color = '#14213d';
-                        if(messageDiv.textContent === "client"){
-                            window.location.href = '/home/client_profile';
-                        } else if (messageDiv.textContent === "freelancer"){
-                            window.location.href = '/home/freelancer_profile';
-                        }
-                    } else {
-                        messageDiv.textContent = result.message;
-                        messageDiv.style.color = 'red';
+                if (response.ok) {
+                    // Store JWT in localStorage or sessionStorage
+                    localStorage.setItem('jwt', textResponse.token);
+                    // Redirect to appropriate profile page based on user type
+                    if (textResponse.user_type === "client") {
+                        window.location.href = '/home/client_profile';
+                    } else if (textResponse.user_type === "freelancer") {
+                        window.location.href = '/home/freelancer_profile';
                     }
-                } catch (jsonError) {
-                    console.error('JSON Parse Error:', jsonError);
-                    const messageDiv = document.getElementById('message');
-                    messageDiv.textContent = 'An unexpected error occurred. Please try again.';
-                    messageDiv.style.color = 'red';
+                } else {
+                    document.getElementById('message').textContent = responseData.message;
                 }
 
             } catch (error) {

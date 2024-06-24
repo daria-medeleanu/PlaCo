@@ -1,7 +1,7 @@
 <?php
 require_once './backend/controllers/pages-controller.php';
 
-// Creăm o instanță a controllerului și gestionăm cererea
+// Cream o instanță a controllerului și gestionăm cererea
 $controller = new PagesController();
 $view = new View();
 

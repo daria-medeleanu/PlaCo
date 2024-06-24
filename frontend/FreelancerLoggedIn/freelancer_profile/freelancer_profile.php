@@ -1,8 +1,5 @@
 <?php 
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/models/User.php';
-    
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,7 +31,7 @@
                 <div class="menu" id="profile-menu">
                     <button onclick="window.location.href='#'">My Profile</button>
                     <button onclick="window.location.href='/home/my_portfolio'">My Portfolio</button>
-                    <button onclick="window.location.href='/home/home'">Log Out</button>
+                    <button id="logoutButton" onclick="logout()">Log Out</button>
                     <button onclick="window.location.href='/home/settings_freelancer'">Settings</button>
                 </div>
             </div>
@@ -44,29 +41,7 @@
         </a>
     </div>
 
-    <script>
-        function toggleMenu() {
-            var navRight = document.querySelector('.nav-right');
-            navRight.classList.toggle('collapsed');
-        }    
     
-        document.addEventListener('click', function(event) {
-            var profileToggle = document.getElementById('profile-toggle');
-            var profileMenu = document.getElementById('profile-menu');
-            var target = event.target;
-            
-            if (!target.closest('.menu-btn-right')) {
-                profileMenu.style.display = 'none';
-                profileToggle.checked = false;
-            }
-        });
-
-        document.getElementById('profile-toggle').addEventListener('click', function(event) {
-            var profileMenu = document.getElementById('profile-menu');
-            profileMenu.style.display = this.checked ? 'block' : 'none';
-            event.stopPropagation();
-        });
-    </script>
     <section class="profile-info">
         <div class="profile-picture">
             <img src="/PlaCo/frontend/FreelancerLoggedIn/freelancer_profile/img/profile-icon.png" alt="Add Profile Picture">
@@ -96,17 +71,23 @@
         <p> mi-a stricat gresia din baie</p>
     </section>
     <script>
+        const jwtToken = localStorage.getItem('jwt');
         document.addEventListener('DOMContentLoaded', async function() {
             try{
                 const response = await fetch('/PlaCo/backend/controllers/User.php', {
                     method: 'GET',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${jwtToken}`
                     }
                 });
 
                 if (!response.ok) {
-                    throw new Error('Network response was not ok.');
+                    if(response.status === 401){
+                        window.location.href = '/home/login';
+                    } else {
+                        throw new Error('Network response was not ok.');
+                    }
                 }
 
                 const profileData = await response.json();
@@ -121,6 +102,36 @@
             } catch (error) {
                 console.error('Error fetching profile data:', error);
             }
+        });
+    </script>
+    <script>
+        function logout() {
+            localStorage.removeItem('jwt');
+            
+            window.location.href = '/home/login';
+        }
+    </script>
+    <script>
+        function toggleMenu() {
+            var navRight = document.querySelector('.nav-right');
+            navRight.classList.toggle('collapsed');
+        }    
+    
+        document.addEventListener('click', function(event) {
+            var profileToggle = document.getElementById('profile-toggle');
+            var profileMenu = document.getElementById('profile-menu');
+            var target = event.target;
+            
+            if (!target.closest('.menu-btn-right')) {
+                profileMenu.style.display = 'none';
+                profileToggle.checked = false;
+            }
+        });
+
+        document.getElementById('profile-toggle').addEventListener('click', function(event) {
+            var profileMenu = document.getElementById('profile-menu');
+            profileMenu.style.display = this.checked ? 'block' : 'none';
+            event.stopPropagation();
         });
     </script>
 </body>

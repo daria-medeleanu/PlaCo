@@ -1,6 +1,4 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
 
 ?>
 <!DOCTYPE html>
@@ -120,60 +118,86 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
         </div>
     </div>
     <script>
-    async function handleProfileUpdate(event) {
-    event.preventDefault();
-    const data = {
-        type: 'update_profile',
-        name: document.getElementById('nameInput').value,
-        phone_number: document.getElementById('phoneInput').value,
-        email: document.getElementById('emailInput').value,
-        address: document.getElementById('addressInput').value
-    };
+        async function handleProfileUpdate(event) {
+            event.preventDefault();
 
-    try {
-        const response = await fetch("/PlaCo/backend/controllers/User.php", {
-            method: "PUT",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
+            const formData = new FormData();
+            formData.append('type', 'update_profile');
+            formData.append('name', document.getElementById('nameInput').value);
+            formData.append('phone_number', document.getElementById('phoneInput').value);
+            formData.append('email', document.getElementById('emailInput').value);
+            formData.append('address', document.getElementById('addressInput').value);
+            formData.append('profile_picture', document.getElementById('profilePictureInput').files[0]);
 
-        const result = await response.json();
-        if (response.ok) {
-            window.location.href = "/home/freelancer_profile";
-        } else {
-            console.error('Failed to update profile:', result.message);
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
+            try {
+                const response = await fetch("/PlaCo/backend/controllers/User.php", {
+                    method: "PUT",
+                    body: formData
+                });
 
-async function handleProfileDeletion(event) {
-    if (confirm('Are you sure you want to delete your profile? This action cannot be undone.')) {
-        try {
-            const response = await fetch("/PlaCo/backend/controllers/User.php", {
-                method: "DELETE",
-                headers: {
-                    'Content-Type': 'application/json'
+                const result = await response.text();
+                console.log(result);
+                if (response.ok) {
+                    window.location.href = "/home/freelancer_profile";
+                } else {
+                    console.error('Failed to update profile:', result.message);
                 }
-            });
-
-            const result = await response.json();
-            if (response.ok) {
-                window.location.href = "/home/home";
-            } else {
-                console.error('Failed to delete profile:', result.message);
+            } catch (error) {
+                console.error('Error:', error);
             }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
-}
+            // const data = {
+            //     type: 'update_profile',
+            //     name: document.getElementById('nameInput').value,
+            //     phone_number: document.getElementById('phoneInput').value,
+            //     email: document.getElementById('emailInput').value,
+            //     address: document.getElementById('addressInput').value,
+            //     profile_picture: document.getElementById('profilePictureInput').value
+            // };
 
-document.getElementById('saveChangesButton').addEventListener('click', handleProfileUpdate);
-document.getElementById('deleteProfile').addEventListener('click', handleProfileDeletion);
+            // try {
+            //     const response = await fetch("/PlaCo/backend/controllers/User.php", {
+            //         method: "PUT",
+            //         headers: {
+            //             'Content-Type': 'application/json'
+            //         },
+            //         body: JSON.stringify(data)
+            //     });
+
+            //     const result = await response.json();
+            //     if (response.ok) {
+            //         window.location.href = "/home/freelancer_profile";
+            //     } else {
+            //         console.error('Failed to update profile:', result.message);
+            //     }
+            // } catch (error) {
+            //     console.error('Error:', error);
+            // }
+        }
+
+        async function handleProfileDeletion(event) {
+            if (confirm('Are you sure you want to delete your profile? This action cannot be undone.')) {
+                try {
+                    const response = await fetch("/PlaCo/backend/controllers/User.php", {
+                        method: "DELETE",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    const result = await response.json();
+                    if (response.ok) {
+                        window.location.href = "/home/home";
+                    } else {
+                        console.error('Failed to delete profile:', result.message);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
+        }
+
+        document.getElementById('saveChangesButton').addEventListener('click', handleProfileUpdate);
+        document.getElementById('deleteProfile').addEventListener('click', handleProfileDeletion);
     </script>
     <script> 
         //deschide intai edit profile ca default page pt settings

@@ -63,11 +63,27 @@
             return $this->db->single();
         }
         public function updateProfile($id, $data){
-            $this->db->query('UPDATE user_profile SET name = :name, phone_number = :phone_number, email = :email, address = :address WHERE id = :id');
+            // $this->db->query('UPDATE user_profile SET name = :name, phone_number = :phone_number, email = :email, address = :address WHERE id = :id');
+            // $this->db->bind(':name', $data['name']);
+            // $this->db->bind(':phone_number', $data['phone_number']);
+            // $this->db->bind(':email', $data['email']);
+            // $this->db->bind(':address', $data['address']);
+            // $this->db->bind(':id', $id);
+            // return $this->db->execute();
+            $sql = 'UPDATE user_profile SET name = :name, phone_number = :phone_number, email = :email, address = :address';
+            if (isset($data['profile_picture'])) {
+                $sql .= ', profile_picture = :profile_picture';
+            }
+            $sql .= ' WHERE id = :id';
+            
+            $this->db->query($sql);
             $this->db->bind(':name', $data['name']);
             $this->db->bind(':phone_number', $data['phone_number']);
             $this->db->bind(':email', $data['email']);
             $this->db->bind(':address', $data['address']);
+            if (isset($data['profile_picture'])) {
+                $this->db->bind(':profile_picture', $data['profile_picture']);
+            }
             $this->db->bind(':id', $id);
             return $this->db->execute();
         }

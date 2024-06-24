@@ -37,7 +37,7 @@
                     <button onclick="window.location.href='#'">My Profile</button>
                     <button onclick="window.location.href='/home/active_projects'">Active Projects</button>
                     <button onclick="window.location.href='/home/finished_projects'">Finished Projects</button>
-                    <button onclick="window.location.href='/home/home'">Log Out</button>
+                    <button id="logoutButton" onclick="logout()">Log Out</button>
                     <button onclick="window.location.href='/home/settings_client'">Settings</button>
                 </div>
             </div>
@@ -70,7 +70,13 @@
             event.stopPropagation();
         });
     </script>
-
+    <script>
+        function logout() {
+            localStorage.removeItem('jwt');
+            
+            window.location.href = '/home/login';
+        }
+    </script>
     <section class="profile-info">
         <div class="profile-picture">
         <img src="/PlaCo/frontend/ClientLoggedIn/client_profile//img/profile-icon.png" alt="Add Profile Picture">
@@ -101,17 +107,23 @@
         <p> mi-a stricat gresia din baie</p>
     </section>
     <script>
+        const jwtToken = localStorage.getItem('jwt');
         document.addEventListener('DOMContentLoaded', async function() {
             try{
                 const response = await fetch('/PlaCo/backend/controllers/User.php', {
                     method: 'GET',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${jwtToken}`
                     }
                 });
 
                 if (!response.ok) {
-                    throw new Error('Network response was not ok.');
+                    if(response.status === 401){
+                        window.location.href = '/home/login';
+                    } else {
+                        throw new Error('Network response was not ok.');
+                    }
                 }
 
                 const profileData = await response.json();
