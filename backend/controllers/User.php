@@ -317,7 +317,6 @@
             }
         }
         public function postProject($data) {
-            console_log('intra aici');
             if(!isset($_SESSION)){
                 session_start();
             }
@@ -417,7 +416,6 @@
                     $init->postProject($data);
                     break;
                 case 'post_portfolio':
-                    console_log('sigur intra aici');
                     $init->postPortfolio($data);
                     break;
                 default:
@@ -427,24 +425,12 @@
             }
             break;
         case 'PUT':
-            // $data = json_decode(file_get_contents("php://input"),true);
-            // switch($data['type']){
-            //     case 'update_profile':
-            //         $init->updateProfile($data);
-            //         break;
-            //     default:
-            //         http_response_code(400);
-            //         echo json_encode(["message" => "Invalid data"]);
-            //         break;
-            // }
-            // break;
             parse_str(file_get_contents("php://input"), $_PUT);
             $data = $_PUT;
             if ($_SERVER['CONTENT_TYPE'] === 'multipart/form-data') {
                 $data = array_merge($data, $_POST);
                 $data['profile_picture'] = $_FILES['profile_picture'];
             }
-            console.log($data);
 
             switch($data['type']){
                 case 'update_profile':

@@ -1,6 +1,4 @@
 <?php 
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/helpers/session_helper.php';
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-controller.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -307,7 +305,6 @@
                     });
 
                     const result = await response.json();
-                    console.log(result.project_id);
                     if (response.ok) {
                         messageDiv.textContent = 'Project posted successfully!';
                         messageDiv.style.color = 'green';
