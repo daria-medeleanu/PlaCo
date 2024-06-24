@@ -325,13 +325,15 @@
             if ($skills) {
                 $skillsArray = explode(',', $skills);
                 $freelancers = array_filter($freelancers, function($freelancer) use ($skillsArray) {
-                    return !array_diff($skillsArray, $freelancer['skills']);
+                    $projectSkills = array_column($freelancer['skills'], 'skill_name');
+                    return !array_diff($skillsArray, $projectSkills);
                 });
             }
     
             return $freelancers;
         }
     
+
         private function getFreelancerSkills($freelancerId) {
             $query = "SELECT DISTINCT s.skill_name 
                       FROM skills s 

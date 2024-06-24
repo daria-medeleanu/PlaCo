@@ -1,0 +1,126 @@
+
+        // async function fetchProjects() {
+        //     const response = await fetch('/PlaCo/backend/controllers/Projects.php?type=fetch_projects');
+        //     const projects = await response.json();
+        //     displayProjects(projects);
+        // }
+
+        // function displayProjects(projects) {
+        //     const projectsList = document.querySelector('.projects-list');
+        //     projectsList.innerHTML = '';
+
+        //     projects.forEach(project => {
+        //         const projectBox = document.createElement('a');
+        //         projectBox.href = '/home/project';
+        //         projectBox.classList.add('project-box');
+        //         //const tags = project.tags.map(tag => `<p>${tag.tag_name}</p>`).join('');
+        //         const tags = project.tags.split(',').map(tag => `<p>${tag}</p>`).join('');
+        //         projectBox.innerHTML = `
+        //             <div class="project-text-input">
+        //                 <h2>${project.title}</h2>
+        //                 <div class="text-container">
+        //                        <div class="title"><h3>Professional areas: </h3></div>
+        //                        <div class="content-tags">${tags}</div>
+        //                 </div>
+                        
+        //                  <div class="text-container">
+        //                     <div class="title"><h3>Address: </h3></div>
+        //                     <div class="content"><p>${project.city}</p></div>
+        //                 </div>
+        //                 <div class="text-container">
+        //                     <div class="title"><h3>Description </h3></div>
+        //                     <div class="content"><p>${project.description}</p></div>
+        //                 </div>
+        //             </div>
+        //         `;
+
+        //         projectsList.appendChild(projectBox);
+        //     });
+        // }
+
+       // document.addEventListener('DOMContentLoaded', fetchProjects);
+
+
+
+
+
+
+    <!-- <section>
+        <div class="sidebar">
+            <form class="search-container">
+                <input type="text" placeholder="Search...">
+                <button type="submit">
+                    <img src="/PlaCo/frontend/ClientLoggedIn/discover_freelancers/search2.png" alt="Search">
+                </button>
+            </form>
+            <div class="filters-box">
+                <h2>Filters</h2>
+                <div class="filter">
+                    <label for="city">City:</label>
+                    <select id="city">
+                        <option value="all">All</option>
+                        <option value="iasi">Iasi</option>
+                        <option value="timisoara">Timisoara</option>
+                        <option value="vaslui">Vaslui</option>
+                    </select>
+                </div>
+                <div class="filter">
+                    <label for="skills">Skills:</label>
+                    <input type="text" id="skills" placeholder="Enter skills">
+                </div>
+                <button class="apply-btn">Apply</button>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="freelancers-list">
+                <div onclick="myhref('/home/freelancer_profile');"  class="freelancer-box">
+                    <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/profile-icon.png" alt="img" />
+                    <div class="freelancer-text-input">
+                        <h2>NumeFreelancer</h2>
+                        <div class="text-container">
+                            <div class="title"><h3>Proffesional areas: </h3></div>
+                            <div class="content-tags">
+                                <p>light instalation</p>
+                                <p>window repair</p>
+                            </div> 
+                        </div>
+                        <div class="text-container">
+                            <div class="title"><h3>Address: </h3></div>
+                             <div class="content"><p>blabla</p></div>
+                         </div>
+                        <div class="freelancer-hire-button">
+                            <div class="boxBtn"><a href="#" >Send Hire Request</a> </div>
+                        </div>
+                    </div>
+                </div>
+                <div onclick="myhref('/home/freelancer_profile');" class="freelancer-box">
+                    <img src="/PlaCo/frontend/ClientLoggedIn/client_profile/img/profile-icon.png" alt="img"/>
+                    <div class="freelancer-text-input">
+                        <h2>NumeFreelancer</h2>
+                         <div class="text-container">
+                           <div class="title"><h3>Proffesional areas: </h3></div>
+                            <div class="content-tags">
+                                <p>wall painter</p>
+                                <p>floor instalation</p>
+                                <p>electrician</p>
+                                <p>electrician</p>
+                            </div>
+                        </div> 
+                        <div class="text-container">
+                            <div class="title"><h3>Address: </h3></div>
+                             <div class="content"><p>blabla</p></div>
+                         </div>
+                        <div class="freelancer-hire-button">
+                            <div class="boxBtn"><a href="#" >Send Hire Request</a> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script type="text/javascript">
+        function myhref(web){
+          window.location.href = web;}
+    </script>
+</body>
+</html> -->
