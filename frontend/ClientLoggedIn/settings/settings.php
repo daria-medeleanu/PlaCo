@@ -127,26 +127,33 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
     <script>
     async function handleProfileUpdate(event) {
     event.preventDefault();
-    const data = {
-        type: 'update_profile',
-        name: document.getElementById('nameInput').value,
-        phone_number: document.getElementById('phoneInput').value,
-        email: document.getElementById('emailInput').value,
-        address: document.getElementById('addressInput').value
-    };
+    // const data = {
+    //     type: 'update_profile',
+    //     name: document.getElementById('nameInput').value,
+    //     phone_number: document.getElementById('phoneInput').value,
+    //     email: document.getElementById('emailInput').value,
+    //     address: document.getElementById('addressInput').value
+    // };
+    const formData = new FormData();
+            formData.append('type', 'update_profile');
+            formData.append('name', document.getElementById('nameInput').value);
+            formData.append('phone_number', document.getElementById('phoneInput').value);
+            formData.append('email', document.getElementById('emailInput').value);
+            formData.append('address', document.getElementById('addressInput').value);
+            formData.append('profile_picture', document.getElementById('profilePictureInput').files[0]);
+            
+            console.log(formData);
 
     try {
         const response = await fetch("/PlaCo/backend/controllers/User.php", {
-            method: "PUT",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
+            method: "POST",
+            body: formData
         });
 
-        const result = await response.json();
+        const result = await response.text();
         if (response.ok) {
-            window.location.href = "/home/client_profile";
+            // window.location.href = "/home/client_profile";
+            console.log('Success');
         } else {
             console.error('Failed to update profile:', result.message);
         }
@@ -183,7 +190,7 @@ document.getElementById('deleteProfile').addEventListener('click', handleProfile
 </script>
     <script>
         window.onload = function() {
-        showEditProfile();
+            showEditProfile();
         };
         function showEditProfile() {
             document.getElementById('editProfile').style.display = 'block';
@@ -252,21 +259,26 @@ document.getElementById('deleteProfile').addEventListener('click', handleProfile
     });
     </script>
     <script>
-
-document.addEventListener("DOMContentLoaded", function() {
+                const jwtToken = localStorage.getItem('jwt');
+    document.addEventListener("DOMContentLoaded", function() {
     // Function to get user profile data
     function getUserProfile() {
         fetch('/PlaCo/backend/controllers/User.php', {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}`
             }
         })
         .then(response => {
             if(!response.ok){
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-            return response.json();
+                    if(response.status === 401){
+                        window.location.href = '/home/login';
+                    } else {
+                        throw new Error('Network response was not ok.');
+                    }
+                }
+                return response.json();
         })
         .then(data => {
             // console.log(data);
@@ -278,6 +290,9 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('phoneInput').value = data.phone_number;
             document.getElementById('emailInput').value = data.email;
             document.getElementById('addressInput').value = data.address;
+            if (data.profile_picture) {
+                document.getElementById('profilePicture').src = data.profile_picture;
+            }
         })
         .catch(error => console.error('Error fetching profile data:', error));
     }
