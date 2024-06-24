@@ -307,7 +307,7 @@
                     });
 
                     const result = await response.json();
-                    console.log(result.project_id);
+                    console.log(result);
                     if (response.ok) {
                         messageDiv.textContent = 'Project posted successfully!';
                         messageDiv.style.color = 'green';

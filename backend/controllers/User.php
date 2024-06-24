@@ -317,7 +317,7 @@
             }
         }
         public function postProject($data) {
-            console_log('intra aici');
+            // console_log('intra aici');
             if(!isset($_SESSION)){
                 session_start();
             }
@@ -414,10 +414,11 @@
                     $init->login($data);
                     break;
                 case 'post_project':
+                    // console_log($data);
                     $init->postProject($data);
                     break;
                 case 'post_portfolio':
-                    console_log('sigur intra aici');
+                    // console_log('sigur intra aici');
                     $init->postPortfolio($data);
                     break;
                 default:
@@ -444,7 +445,7 @@
                 $data = array_merge($data, $_POST);
                 $data['profile_picture'] = $_FILES['profile_picture'];
             }
-            console.log($data);
+            // console.log($data);
 
             switch($data['type']){
                 case 'update_profile':

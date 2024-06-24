@@ -38,10 +38,14 @@
             $targetFile = $userDir . basename($fileName);
             if (move_uploaded_file($fileTmpName, $targetFile)) {
                 $uploadedFiles[] = $fileName;
-                $this->userModel->saveUpload([
+                if($this->userModel->saveUpload([
                     'project_item_id' => $project_id, 
                     'image_path' => $targetFile
-                ]);
+                ])) {
+                    return true;
+                }else { 
+                    return false;
+                }
             }
         }
 
