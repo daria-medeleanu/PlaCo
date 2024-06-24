@@ -94,7 +94,7 @@
                 return;
             }
 
-            const response = await fetch(`/PlaCo/backend/controllers/ProjectDetails.php?project_id=${projectId}`);
+            const response = await fetch(`/PlaCo/backend/controllers/ProjectDetails.php?type=project_details&project_id=${projectId}`);
             const project = await response.json();
 
             document.getElementById('project-title').textContent = project.title;

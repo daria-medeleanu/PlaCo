@@ -21,6 +21,17 @@ class ProjectDetails {
         $projectDetails = $this->userModel->getProjectDetails($projectId, $freelancerId);
         echo json_encode($projectDetails);
     }
+    public function getProjectDetailsClient() {
+        if (!isset($_GET['project_id'])) {
+            http_response_code(400);
+            echo json_encode(['status' => 'error', 'message' => 'Project ID is required here']);
+            return;
+        }
+
+        $projectId = $_GET['project_id'];
+        $projectDetails = $this->userModel->getProjectDetailsClient($projectId);
+        echo json_encode($projectDetails);
+    }
 
     public function saveOffer() {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -41,13 +52,29 @@ class ProjectDetails {
     }
 }
 
-$projectController = new ProjectDetails();
+$project = new ProjectDetails();
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
-        $projectController->getProjectDetails();
-        break;
+        header('Content-Type: application/json');
+        if (isset($_GET['type'])) {
+            switch ($_GET['type']) {
+                case 'project_details':
+                    $project->getProjectDetails();
+                    break;
+                case 'project_details_client':
+                    $project->getProjectDetailsClient();
+                    break;default:
+                    http_response_code(400);
+                    echo json_encode(['status' => 'error', 'message' => 'Invalid type']);
+                    break;
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode(['status' => 'error', 'message' => 'Type is required']);
+        }
+    break;
     case 'POST':
-        $projectController->saveOffer();
+        $project->saveOffer();
         break;
     default:
         http_response_code(405);

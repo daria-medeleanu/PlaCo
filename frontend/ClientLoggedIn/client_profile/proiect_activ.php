@@ -88,6 +88,7 @@
 
             const response = await fetch(`/PlaCo/backend/controllers/ProjectDetails.php?project_id=${projectId}`);
             const project = await response.json();
+            console.log('Project data received from backend:', project);
 
             document.getElementById('project-title').textContent = project.title;
             document.getElementById('project-city').textContent = project.city;
