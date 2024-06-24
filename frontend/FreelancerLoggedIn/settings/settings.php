@@ -140,6 +140,8 @@
                 console.log(result);
                 if (response.ok) {
                     // window.location.href = "/home/freelancer_profile";
+                    localStorage.setItem('profileUpdateMessage', 'Profile successfully updated!');
+                    window.location.href = "/home/freelancer_profile";
                     console.log('Success!');
                 } else {
                     console.error('Failed to update profile:', result.message);
