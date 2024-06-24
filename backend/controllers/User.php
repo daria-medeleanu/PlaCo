@@ -51,7 +51,7 @@
 
             if(strlen($data['password_hash']) < 6){
                 http_response_code(400);
-                echo json_encode(["message" => "Invalid password"]);
+                echo json_encode(["message" => "Password must have at least 6 characters"]);
                 return; 
             } else if($data['password_hash'] !== $data['psw-conf']){
                 http_response_code(400);
