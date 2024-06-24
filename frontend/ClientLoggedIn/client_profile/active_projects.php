@@ -93,6 +93,8 @@
             const addProjectLink = document.createElement('a');
             addProjectLink.href = "/home/post_a_project";
             addProjectLink.classList.add('add-project');
+            // addProjectLink.classList.add('project-link');
+
 
             addProjectLink.innerHTML = `
                 <div class="add-symbol">+</div>
