@@ -23,7 +23,6 @@
             ];
 
 
-            //validare inputuri 
             if(empty($data['prenume']) || empty($data['nume']) || empty($data['email']) || empty($data['password_hash']) || empty($data['psw-conf']) ){
                 http_response_code(400);
                 echo json_encode(["message" => "Please fill out all inputs"]);
@@ -67,7 +66,6 @@
 
             $data['password_hash'] = password_hash($data['password_hash'], PASSWORD_DEFAULT);
 
-            // all tests have passed
             if($this->userModel->register($data)){
                 http_response_code(201);
                 echo json_encode(["message" => "User registered successfully. Please login to start using your account"]);
@@ -88,15 +86,13 @@
                 return;
             }
 
-            // Check for user/email
             if($this->userModel->findUserByEmail($data['email'])){
                 $loggedInUser = $this->userModel->login($data['email'], $data['password']);
                 if($loggedInUser){
-                    // Generate JWT token        
-                    $key = "Aceasta este o cheie supersecreta"; // Replace with your secret key
+                    $key = "Aceasta este o cheie supersecreta";
                     $issuedAt = time();
-                    $expirationTime = $issuedAt + 3600;  // jwt valid for 1 hour
-                    $issuer = 'http://localhost'; // Adjust issuer as per your setup
+                    $expirationTime = $issuedAt + 3600;  
+                    $issuer = 'http://localhost'; 
         
                     $payload = [
                         'iss' => $issuer,
@@ -109,14 +105,12 @@
         
                     $jwt = JWT::encode($payload, $key, 'HS256');
         
-                    // Respond with the JWT
                     $this->createUserSession($loggedInUser);
                     http_response_code(200);
                     echo json_encode([
                         "message" => "Login successful",
                         "token" => $jwt,
-                        "user_type" => $loggedInUser->user_type,
-                        "user_id" => $loggedInUser->id
+                        "user_type" => $loggedInUser->user_type
                     ]);
                 } else {
                     http_response_code(401);
@@ -139,8 +133,6 @@
             if ($loggedInUser->user_type == "freelancer") {
                 $userType = "freelancer";
             } 
-            // http_response_code(200);
-            // echo json_encode(["message" => $userType]);
         }  
         public function logout(){
             unset($_SESSION['id']);
@@ -162,7 +154,6 @@
             $authHeader = $headers['Authorization'];
             $token = null;
             
-            // Extract JWT token from Authorization header (Bearer token)
             if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
                 $token = $matches[1];
             }
@@ -174,17 +165,14 @@
             }
         
             try {
-                // Decode and verify JWT token
                 $publicKey = "Aceasta este o cheie supersecreta";
                 $decoded = JWT::decode($token, new Key($publicKey, 'HS256'));
-                // Check if the decoded token contains necessary information (like user ID)
                 if (!isset($decoded->user_id)) {
                     http_response_code(401);
                     echo json_encode(["message" => "Unauthorized"]);
                     return;
                 }
-        
-                // Retrieve user profile using user ID from decoded token
+                
                 $userProfile = $this->userModel->getUserProfileById($decoded->user_id);
         
                 if (!$userProfile) {
@@ -193,7 +181,6 @@
                     return;
                 }
         
-                // Return user profile as JSON response
                 http_response_code(200);
                 echo json_encode($userProfile);
                 return;
@@ -204,6 +191,8 @@
                 return;
             }
         }
+
+        
         public function updateProfile($data){
             if(!isset($_SESSION)){
                 session_start();
@@ -229,20 +218,16 @@
                 $imageFileType = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
                 $targetFile = $targetDir . $userId . '.' . $imageFileType;
         
-                // Check if the directory exists, if not, create it
                 if (!file_exists($targetDir)) {
                     mkdir($targetDir, 0777, true);
                 }
         
                 $check = getimagesize($file['tmp_name']);
                 if ($check !== false) {
-                    // Check file size (example: 5MB max)
                     if ($file['size'] <= 5000000) {
                         $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
                         if (in_array($imageFileType, $allowedTypes)) {
-                            // Move the uploaded file to the target directory
                             if (move_uploaded_file($file['tmp_name'], $targetFile)) {
-                                // Set the profile picture path in the data
                                 $updatedData['profile_picture'] = '/PlaCo/uploads/profilePics/' . $userId . '.' . $imageFileType;
                             } else {
                                 echo json_encode(['error' => 'Failed to move uploaded file']);
@@ -269,7 +254,6 @@
                 echo json_encode(['message' => 'Failed to update profile']);
             }
         }
-        
         public function deleteProfile(){
             if(!isset($_SESSION)){
                session_start();
@@ -288,12 +272,10 @@
                 echo json_encode(['message' => 'Profile deleted successfully']);
             } else {
                 http_response_code(500);
-                // header('Content-Type: application/json');
                 echo json_encode(['message' => 'Failed to delete profile']);
             }
         }
         public function postProject($data) {
-            // console_log('intra aici');
             if(!isset($_SESSION)){
                 session_start();
             }
@@ -319,7 +301,6 @@
                 'owner_id' => $_SESSION['id']
             ];
         
-            // Save project and link tags
             $projectId = $this->userModel->saveProject($projectData);
             if ($projectId) {
                 foreach ($tags as $tag) {
@@ -346,11 +327,6 @@
             $title = isset($data['title']) ? trim($data['title']) : '';
             $description = isset($data['description']) ? trim($data['description']) : '';
             $skills = isset($data['skills']) ? $data['skills'] : [];
-            // $uploadDir = '/PlaCo/backend/controllers/uploads2/';
-    
-            // if (!is_dir($uploadDir)) {
-            //     mkdir($uploadDir, 0755, true);
-            // }
             
             
             $portfolioData = [
@@ -389,7 +365,6 @@
             } else {
                 $data = json_decode(file_get_contents("php://input"), true);
             }
-            // $data = json_decode(file_get_contents("php://input"), true);
             
             switch($data['type']){
                 case 'register':
@@ -413,17 +388,6 @@
                     break;
             }
             break;
-            // $data = json_decode(file_get_contents("php://input"),true);
-            // switch($data['type']){
-            //     case 'update_profile':
-            //         $init->updateProfile($data);
-            //         break;
-            //     default:
-            //         http_response_code(400);
-            //         echo json_encode(["message" => "Invalid data"]);
-            //         break;
-            // }
-            // break;
         case 'PUT':
             parse_str(file_get_contents("php://input"), $_PUT);
             $data = $_PUT;
@@ -431,7 +395,6 @@
                 $data = array_merge($data, $_POST);
                 $data['profile_picture'] = $_FILES['profile_picture'];
             }
-            // console.log($data);
 
             switch($data['type']){
                 case 'update_profile':

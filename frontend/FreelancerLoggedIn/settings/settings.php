@@ -139,7 +139,6 @@
                 const result = await response.text();
                 console.log(result);
                 if (response.ok) {
-                    // window.location.href = "/home/freelancer_profile";
                     localStorage.setItem('profileUpdateMessage', 'Profile successfully updated!');
                     window.location.href = "/home/freelancer_profile";
                     console.log('Success!');
@@ -178,7 +177,6 @@
         document.getElementById('deleteProfile').addEventListener('click', handleProfileDeletion);
     </script>
     <script> 
-        //deschide intai edit profile ca default page pt settings
         window.onload = showEditProfile;
         function showEditProfile() {
             document.getElementById('editProfile').style.display = 'block';
@@ -198,26 +196,23 @@
             document.getElementById('statistics').style.display = 'block';
         }
 
-        //tags
+        
         document.getElementById('addTag').addEventListener('click', function() {
-        event.preventDefault(); //ca sa nu mai apara required-ul de la title input
+        event.preventDefault(); 
         const tagsInput = document.getElementById('tagsInput');
         const selectedTagsDiv = document.getElementById('selectedTags');
         
         let selectedTagName = tagsInput.value.trim();
-        if (selectedTagName === '') return; // fara empty tags
+        if (selectedTagName === '') return; 
 
-        // Check if the entered tag already exists among the predefined tags
         const tagExists = document.querySelector(`#tagList option[value="${selectedTagName}"]`);
         
         if (!tagExists) {
-            // Create a new option to select the entered tag in the future
             const newTagOption = document.createElement('option');
             newTagOption.value = selectedTagName;
             document.getElementById('tagList').appendChild(newTagOption);
         }
 
-        // Create the selected tag element
         const selectedTagDiv = document.createElement('div');
         selectedTagDiv.textContent = selectedTagName;
 
@@ -249,7 +244,6 @@
     <script>
         const jwtToken = localStorage.getItem('jwt');
     document.addEventListener("DOMContentLoaded", function() {
-        // Function to get user profile data
         function getUserProfile() {
             fetch('/PlaCo/backend/controllers/User.php', {
                 method: 'GET',
@@ -285,7 +279,6 @@
             .catch(error => console.error('Error fetching profile data:', error));
         }
 
-        // Call the function to get user profile data when the page loads
         getUserProfile();
     });
     </script>
