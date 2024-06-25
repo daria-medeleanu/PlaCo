@@ -21,6 +21,7 @@ class PagesController {
         'discover_freelancers'=>'/../../frontend/ClientLoggedIn/discover_freelancers/discover_freelancers.php',
         'settings_client'=>'/../../frontend/ClientLoggedIn/settings/settings.php',
         'proiect_activ'=>'/../../frontend/ClientLoggedIn/client_profile/proiect_activ.php',
+        'admin' => '/../../frontend/Admin/admin.php',
     ];
 
     public function handleRequest() {

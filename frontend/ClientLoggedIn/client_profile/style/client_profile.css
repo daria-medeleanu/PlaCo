@@ -184,10 +184,27 @@ section {
 	}
 }
 @media (max-width: 455px){
-.box .btn-edit-profile {
-	align-items: center;
-	flex-direction: column;
-}
+	.box{
+        width: 100%;
+    }
+    .box .btn-edit-profile {
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+    }
+    .box .btn-edit-profile .boxBtn{
+        width: 100%;
+        text-align:center;
+    }
+    .box .btn-see-projects {
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+    }
+    .box .btn-see-projects .boxBtn{
+        width: 100%;
+        text-align:center;
+    }
 }
 .review{
 	padding-top:30px;

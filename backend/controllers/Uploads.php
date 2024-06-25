@@ -132,9 +132,8 @@
                     }
                 }
             } else if($project_id == null && $portfolio_id !== null){
-                console_log('intra la portfolio');
                 $files = isset($_FILES['file']) ? $_FILES['file'] : null;
-                console_log($files);
+                // console_log($files);
                 if ($files || isset($files['name'][0]) || !empty($files['name'][0])) {
                     if (isset($_SESSION['id'])) {
                         $userId = $_SESSION['id'];

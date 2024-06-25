@@ -111,7 +111,7 @@
             
             $this->db->bind(':portfolio_item_id', $data['portfolio_item_id']);
             $this->db->bind(':image_path', $data['image_path']);
-            console_log($data);
+            // console_log($data);
             if ($this->db->execute()) {
                 return $this->db->lastInsertId(); 
             } else {

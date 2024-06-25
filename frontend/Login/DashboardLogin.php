@@ -34,9 +34,8 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
     <section class="box">
         <video src="/PlaCo/frontend/Login/video-start.mp4" autoplay muted loop></video>
         <h3>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit,sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum 
-            dolore eu fugiat nulla pariatur.
+
+        Welcome to PlaCo, a platform connecting construction professionals with potential clients. Whether you're looking for interior finishes, structural work, or a general contractor who can manage subcontractors, we have a wide range of professionals to meet your needs.
         </h3>
         <div class="btn-cr-acc-menu">
             <div class="boxBtn"><a href="/home/register" > Hire a freelancer</a> </div>
@@ -53,66 +52,31 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/PlaCo/backend/controllers/pages-contr
     </script>
 
     <section class="info">
-        <h2>Statistics</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
+        <h2>Features</h2>
+        <p>PlaCo allows you to find and hire construction firms based on your project needs. You can browse through company profiles, view their past work, and read client reviews. 
+            Our platform supports various construction specialties including interior finishes, structural work, and general contracting 
         </p>
-        <h2>Statistics</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
+        <p>Our platform provides detailed company profiles that include contact information, geographic areas of service, professional areas, and a portfolio of completed works. 
+            Clients can view images of past projects to gauge the quality of work. After project completion, clients can rate the companies and leave comments, which help maintain the quality and reliability of our service providers.
         </p>
-        <h2>Statistics</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
+
+        <p>PlaCo offers a comprehensive platform where clients can seamlessly connect with a diverse array of construction firms.
+             Our services cater to a wide range of professional specialties, including but not limited to, interior finishes, structural works, and general contracting.
+              We enable clients to browse detailed profiles of construction companies, view extensive portfolios of completed projects, and read authentic reviews from previous clients. 
+            This ensures that you make well-informed decisions when selecting a professional for your project.
         </p>
-        <h2>Statistics</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
-        </p>
+        
+       
+        <h2>How It Works</h2>
+        <p>Our platform simplifies the process of hiring construction professionals. Clients can easily upload their technical project plans, work estimates, or detailed descriptions of the tasks they need to complete. Upon submission, they receive competitive price quotes from a variety of construction firms. PlaCo also supports the organization of auctions for specific project stages, allowing clients to select the best offer. Furthermore, if your project requires specialized expertise across different areas, you can choose different companies for each specific task, ensuring that you get the best professional for every aspect of your project.</p>
+        
+        
         <h2>Reviews</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
+        <p>Client feedback is crucial for maintaining the quality of services on PlaCo. 
+            After completing a project, clients can rate their experience and provide comments. 
+            These reviews help other clients make informed decisions and allow companies to improve their services based on constructive feedback.
         </p>
-        <h2>Reviews</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel exercitationem quos excepturi asperiores,
-            labore accusantium odit qui nesciunt. Est deserunt consequuntur perferendis aliquid earum ipsam aut quis, facere modi obcaecati!
-        </p>
+        
     </section>
 </body>
 </html>
