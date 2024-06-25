@@ -80,7 +80,7 @@
                     <button type="submit">Submit Application</button>
                 </form>
             </div>
-            <p id="applied-message" style="display: none;">You applied to this project</p>
+            <p id="applied-message" style="display: none; ">You applied to this project</p>
         </div>
     </section>
 
@@ -104,6 +104,7 @@
             if (project.applied) {
                 document.getElementById('apply-button').style.display = 'none';
                 document.getElementById('applied-message').style.display = 'block';
+                document.getElementById('applied-message').style.color = 'green';
             } else {
                 document.getElementById('apply-button').addEventListener('click', function() {
                 document.getElementById('application-form').style.display = 'block';

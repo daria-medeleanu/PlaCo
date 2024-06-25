@@ -31,7 +31,7 @@
                     <button onclick="window.location.href='/home/freelancer_profile'">My Profile</button>
                     <button onclick="window.location.href='#'">My Portfolio</button>
                     <button onclick="window.location.href='/home/home'">Log Out</button>
-                    <button onclick="window.location.href='/home/settings'">Settings</button>
+                    <button onclick="window.location.href='/home/settings_freelancer'">Settings</button>
                 </div>
             </div>
         </div>

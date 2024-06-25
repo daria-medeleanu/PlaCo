@@ -101,6 +101,8 @@
                     <button type="button" id="saveChangesButton" class="button-submit">Save Changes</button>
                     <button type="button" id="deleteProfile" class="button-submit">Delete Profile</button>
                 </form>
+            </div>
+           
             <div id="changePassword">
                 <h2>Change Password</h2>
                 <input type="password" class="form-input" placeholder="Current Password">
@@ -116,7 +118,6 @@
                 </div>
             </div>
         </div>
-    </div>
     <script>
         async function handleProfileUpdate(event) {
             event.preventDefault();

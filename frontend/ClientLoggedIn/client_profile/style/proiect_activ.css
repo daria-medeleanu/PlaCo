@@ -27,3 +27,21 @@ body {
 .project-info p {
     margin: 10px 0;
 }
+.offers-container{
+    border: 1px solid black;
+    padding: 10px;
+}
+.choose-freelancer{
+    border: 2px solid #fca311;
+    padding: 5px;
+    background-color: #fca311;
+    margin-top: 10px;
+    cursor:pointer;
+}
+#project-description {
+    word-wrap: break-word; 
+    white-space: pre-wrap; 
+    overflow-wrap: break-word;
+    width: 100%; 
+    box-sizing: border-box;
+}

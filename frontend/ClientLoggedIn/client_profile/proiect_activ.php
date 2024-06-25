@@ -161,7 +161,7 @@
                         `;
 
                         if (progressStatus==0) {
-                            offerItem.innerHTML += `<button onclick="chooseFreelancer(${offer.freelancer_id}, this)">Choose this freelancer</button>`;
+                            offerItem.innerHTML += `<button class='choose-freelancer' onclick="chooseFreelancer(${offer.freelancer_id}, this)">Choose this freelancer</button>`;
                         } else if (freelancerChosenId && offer.freelancer_id == freelancerChosenId) {
                             offerItem.innerHTML += '<p>You chose the freelancer: ' + offer.name + '</p>';
                         chosenFreelancer = offer;
