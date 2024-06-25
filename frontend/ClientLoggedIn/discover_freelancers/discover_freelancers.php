@@ -130,9 +130,6 @@
                             <div class="title"><h3>Address: </h3></div>
                             <div class="content"><p>${freelancer.address}</p></div>
                         </div>
-                        <div class="freelancer-hire-button">
-                            <div class="boxBtn"><a href="#">Send Hire Request</a></div>
-                        </div>
                     </div>
                 `;
 
